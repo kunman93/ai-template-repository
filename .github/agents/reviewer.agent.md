@@ -41,13 +41,7 @@ Check, in this order:
 4. **Test quality, not just presence.** For each new or changed test, ask what it would actually catch. Would it still pass if the implementation were wrong? A test file existing is not coverage. Flag as a finding any test that only checks wiring (a prop passed through, a mock called, call counts), pixel diffs or magic numbers, or that depends on timing; a test that fails intermittently is a MAJOR finding, never load noise. Apply the three checks under "Quality level" in `AGENTS.md`.
 5. **Performance and resource use.** Blocking work on the wrong thread, N+1 queries, unbounded loops or collections, repeated remote calls per user action, obvious hot-path waste.
 6. **Conventions.** Does the change follow the project's existing patterns, layering, naming, and dependency-management rules? Flag deviations, not personal style preferences. Also flag a violation of the Engineering Principles in `AGENTS.md#engineering-principles`, such as an abstraction, pattern or dependency that does not make the code simpler to change, test or read.
-7. **Verification.** Run the tests and linter yourself; do not trust a reported result. These commands must not modify tracked files (ignored build artifacts like `target/` or coverage output are fine).
-   ```bash
-   npm test
-   npm run test:bdd
-   npm run lint
-   npm run format:check
-   ```
+7. **Verification.** Run the commands in the Commands section of `AGENTS.md` yourself; do not trust a reported result. Commands that are not configured are reported as such, not run. These commands must not modify tracked files (ignored build artifacts like `target/` or coverage output are fine).
    If you doubt a specific test's rigor, do the mutation check **on paper, not in the working tree**: name the exact change to the production code that would break the behavior (for example, flipping a condition or returning an empty list), then read the test and state whether its assertions would actually fail. If they would not, that is a finding — report it with the mutation that survives.
 8. **Hygiene.** Leftover TODOs, commented-out code, empty catch blocks, disabled or ignored tests, debug logging, secrets or credentials in the diff, hardcoded values that should be configuration.
 9. **Documentation freshness.** If the change alters behavior, configuration, or architecture, the related docs must change in the same diff. A doc that now misdescribes the code is a finding, and so is a PR description that misdescribes the diff.
@@ -55,7 +49,7 @@ Check, in this order:
 ## Project checks
 
 10. **AI instructions freshness.** If the diff changes commands, conventions, file layout, workflow or tooling that `AGENTS.md`, `.agents/skills/`, `.github/skills/`, `.github/agents/` or `.github/prompts/` describe, those files must change in the same diff. If they were not updated, that is a finding.
-    - Instructions that now misdescribe the repo (wrong command, stale path, removed step) are **MAJOR**, consistent with check 9. Instructions that are only incomplete (for example, a new npm script nobody mentions) are **MINOR**.
+    - Instructions that now misdescribe the repo (wrong command, stale path, removed step) are **MAJOR**, consistent with check 9. Instructions that are only incomplete (for example, a new script nobody mentions) are **MINOR**.
     - For the OpenSpec-generated files (`.github/skills/openspec-*` and `.github/prompts/opsx-*`), suggest regenerating them with `openspec update` instead of editing them by hand, because the next update would overwrite hand edits.
     - Stay read-only: report the needed update with `file:line` and a suggested direction, and do not edit anything. Fixes go back to the Implement step of the workflow skill in use.
 

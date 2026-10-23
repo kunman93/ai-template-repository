@@ -22,9 +22,9 @@ What you see, and what you expected to happen instead.
 2. Enter '...'
 3. See error
 
-### What browsers are you seeing the problem on?
+### Environment
 
-Firefox, Chrome
+Version 1.2.3 on Ubuntu 24.04
 
 ### Relevant log output
 
@@ -34,7 +34,6 @@ Firefox, Chrome
 - Fill the required fields of the form (currently `What happened?` and `Steps to reproduce`) always. If `bug_report.yml` changed, follow it over the example above.
 - For an empty optional field, keep the heading and write `_No response_`, as GitHub does for forms. For empty logs, write `_No response_` as plain text, not in a code block.
 - Render non-empty `Relevant log output` as a fenced `shell` code block, because the form sets `render: shell`.
-- Use only the browser options listed in the form.
 - Make the steps reproducible with the exact input data and the order of steps, so a failing test can be written from them.
 - Report one bug per issue.
 

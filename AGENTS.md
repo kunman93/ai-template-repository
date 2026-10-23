@@ -10,17 +10,19 @@ Read the [README.md](README.md) to understand what the repo is about.
 - Be direct, concise, and honest. Call out bad ideas plainly.
 - If something's unclear, ask the user instead of guessing. Never assume.
 - Prefix every message that needs the user's action or decision with 🙋, and use 🙋 for nothing else.
-- Each subagent named here prefixes every message it sends with its emoji: 🔍 for `reviewer`, ⚛️ for `react-developer`.
+- Each subagent named here prefixes every message it sends with its emoji: 🔍 for `reviewer`.
 - Ask for permission before modifying anything outside the repository.
 
 ---
 
 ## Commands
 
-- Install: `npm ci`
-- Build: `npm run build`
-- Test: `npm test` (unit) and `npm run test:bdd` (BDD)
-- Lint/format: `npm run lint` and `npm run format:check`
+Fill in the commands of this repository. While a command is not configured, say so instead of running it.
+
+- Install: _not configured_
+- Build: _not configured_
+- Test: _not configured_
+- Lint/format: _not configured_
 
 ---
 
@@ -75,23 +77,23 @@ Apply to everyone who writes code or config here: the main session and every cus
 ### Quality level
 
 - TDD, and prove behavior with executable validation before declaring work done. Test behavior, not implementation, and keep the test pyramid: many unit tests, few end-to-end tests.
-  Do not write tests that are fragile and bring no value: no assertions on the exact state of an animation at one
-  instant (for example a blink phase or an opacity of exactly 0 or 1 mid-loop) and no fixed waits to reach a state:
+  Do not write tests that are fragile and bring no value: no assertions on a transient intermediate state (for example
+  a blink phase or an opacity of exactly 0 or 1 mid-loop) and no fixed waits to reach a state:
   poll for it instead. A fixed window is allowed only to prove that something does not change, and must be a named
-  constant. Leave the animation detail to a unit test of its config or to manual review.
+  constant. Leave the detail of such transient behavior to a unit test of its config or to manual review.
   Prefer fewer tests that each catch a real regression over many that raise coverage.
   Before keeping any new test, check three things, and delete the test if one fails:
   1. It fails when the behavior it names breaks. Break the production code on purpose (flip a condition, drop a
      guard) and see it fail. A test that still passes proves nothing.
   2. It asserts an outcome a user or caller can observe, not how the code is wired: no assertions that a prop or
      object is passed through, that a mock was called, or on call counts, pixel diffs, or magic numbers.
-  3. It passes every time: run it at least 10 times (for Playwright, `--repeat-each=10`) and under load. Fix the
+  3. It passes every time: run it at least 10 times and under load. Fix the
      cause of a failure; never dismiss it as flakiness.
 - Boy Scout rule, limited to code you are already touching.
 - Minimal dependencies: justify every new package.
 - Secure by default: never introduce secrets, tokens, or credentials into the repository, sanitize input, use least privilege.
 
-Language- and framework-specific readings of these principles live in skills, for example `.agents/skills/react-ui`.
+Language- and framework-specific readings of these principles live in skills that a repository adds under `.agents/skills`.
 
 ---
 
