@@ -20,9 +20,9 @@
 
 ## 3. Verification
 
-- [ ] 3.1 Review every added or changed markdown file except `adr-template.md` against the Markdown Guide basic syntax
+- [x] 3.1 Review every added or changed markdown file except `adr-template.md` against the Markdown Guide basic syntax
   best practices (blank lines around headings and lists, one list delimiter per list), and re-run the `diff` from 1.1
-- [ ] 3.2 Run `openspec validate initialize-adrs-with-madr --strict` and verify it passes
+- [x] 3.2 Run `openspec validate initialize-adrs-with-madr --strict` and verify it passes
 
 ## Workflow follow-up
 
