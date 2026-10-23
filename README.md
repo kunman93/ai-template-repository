@@ -9,6 +9,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
 - `.github/workflows/ci.yml`: a CI skeleton with the job `ci`.
+- `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
 - `openspec/`, `.github/skills/openspec-*` and `.github/prompts/opsx-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
 
 ## Prerequisites
@@ -35,6 +36,7 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 
 - **OpenSpec:** upgrade the OpenSpec CLI, then run `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`, so never edit those by hand.
 - **Vendored skills:** copied unchanged from upstream, so never edit them locally. Each records its source in the `metadata` of its own `SKILL.md`; re-copy it from there (see `.agents/skills/VENDORED.md`).
+- **Decision record template:** `docs/decisions/adr-template.md` is copied unchanged from MADR; never edit it locally. The source and upgrade steps are in `docs/decisions/README.md`.
 
 ### Syncing a project with the template
 
@@ -45,5 +47,6 @@ The template is the source of truth for everything generic (workflow skills, rev
   2. `git fetch template`, then `git checkout template/main -- <paths>`.
   3. Review with `git diff --staged`, because the checkout stages what it copies. Files the template removed are not deleted for you.
 - If you improved a generic file in a project first, keep that change in its own commit, then port it with `git format-patch -1 <sha>` in the project and `git am -3 <patch-file>` in a clone of the template, through a `chore/` PR. `-3` only helps when the template's file changed; if `am` reports missing history, apply the patch by hand with `git apply --reject <patch-file>`.
-- Before starting a Story, run `git fetch template` and check for drift with `git diff template/main -- AGENTS.md .agents .github`. Expect permanent differences in `ci.yml`, `ISSUE_TEMPLATE/config.yml` and your stack skills.
+- Before starting a Story, run `git fetch template` and check for drift with `git diff template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md`. Expect permanent differences in `ci.yml`, `ISSUE_TEMPLATE/config.yml` and your stack skills.
+- Copy only `docs/decisions/adr-template.md` and `docs/decisions/README.md` from `docs/decisions/`. The records in it are your project's own decisions.
 - Never copy `AGENTS.md`, `ci.yml` or `ISSUE_TEMPLATE/config.yml` wholesale: they mix generic content with your project's, so merge them by hand.
