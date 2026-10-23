@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@custom-variant short (@media (max-height: 540px));
+
+@theme {
+  --color-night: #2a1215;
+  --color-plum: #3d1c20;
+  --color-cream: #fff4e6;
+  --color-blush: #f4c9a8;
+  --color-sun: #ffd166;
+  --color-tangerine: #ffb663;
+  --color-ember: #ff6b5b;
+  --color-glow: #4a1c18;
+  --color-cork: #4b2e1a;
+  --color-cork-frame: #6b4423;
+
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-body: 'Nunito Variable', system-ui, sans-serif;
+
+  --animate-hint-in: hint-in 1s ease-out 2.5s both;
+  --animate-halo-pulse: halo-pulse 3.2s ease-in-out infinite;
+
+  @keyframes hint-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes halo-pulse {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(0.96);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-night);
+    color: var(--color-cream);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}
