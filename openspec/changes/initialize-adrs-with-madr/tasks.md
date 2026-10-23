@@ -4,10 +4,10 @@
 
 - [x] 1.1 Download `template/adr-template.md` from the MADR `4.0.0` tag to `docs/decisions/adr-template.md` and verify
   `diff` against `https://raw.githubusercontent.com/adr/madr/4.0.0/template/adr-template.md` reports no difference
-- [ ] 1.2 Write `docs/decisions/README.md`: what an ADR is for, file naming `NNNN-<title-in-kebab-case>.md`, how to
+- [x] 1.2 Write `docs/decisions/README.md`: what an ADR is for, file naming `NNNN-<title-in-kebab-case>.md`, how to
   start a new record by copying `adr-template.md`, and the template's source (MADR 4.0.0, `template/adr-template.md`),
   license (CC0-1.0) and Markdown Guide exception; verify each point of the "Source is documented" scenario is present
-- [ ] 1.3 Write `docs/decisions/0000-use-markdown-architectural-decision-records.md` adapted from MADR's own `0000`, with
+- [x] 1.3 Write `docs/decisions/0000-use-markdown-architectural-decision-records.md` adapted from MADR's own `0000`, with
   front matter `status: accepted` and today's date, the considered options and the reasons; verify it matches the
   "First record" scenario
 
