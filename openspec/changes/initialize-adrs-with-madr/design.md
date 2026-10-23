@@ -38,14 +38,13 @@ Markdown Guide.
   date as front matter, uses `-` list markers like the rest of the repository, and follows the Markdown Guide.
 - **The when-to-write rule lives in `AGENTS.md`.** Agents always read it, so the rule is applied without loading extra
   files. The rule: write an ADR for a significant decision that outlives a single change and is costly to reverse
-  (stack, architecture, cross-cutting conventions); change-scoped design choices stay in the OpenSpec `design.md`. A
-  `design.md` may link to an ADR it creates or relies on.
+  (stack, architecture, cross-cutting conventions); change-scoped design choices stay in the OpenSpec `design.md`.
 
 ## Risks / Trade-offs
 
 - [Vendored template breaks the Markdown Guide rule] → The exception is stated in the spec and in
   `docs/decisions/README.md`, so reviewers do not flag it.
 - [Agents write ADRs for minor choices or skip them for major ones] → The rule in `AGENTS.md` names concrete examples and
-  the ADR versus `design.md` boundary. The reviewer checks against it.
+  the ADR versus `design.md` boundary. The reviewer's general conventions check covers it.
 - [Byte-identity drifts through editor settings] → `.editorconfig` would not alter the upstream file's content, and
   verification compares it against the tagged upstream file with `diff`.
