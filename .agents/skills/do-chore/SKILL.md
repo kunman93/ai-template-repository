@@ -32,7 +32,6 @@ Runs on Sonnet 5.5. Run all commands in the Commands section of `AGENTS.md`.
 Runs on Sonnet 5.5 in the main session.
 
 - Implement the chore, applying TDD where code changes. Make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`.
-- Frontend work (UI, styling, animation, 3D) is always done by the `react-developer` agent ([.github/agents/react-developer.agent.md](../../../.github/agents/react-developer.agent.md)), run as a custom subagent. It loads the `react-ui` skill, the relevant `gsap-*` skills and the `threejs` skill (`.agents/skills/`) itself. The main session does all other work, such as tests that do not touch UI code, tooling and docs, and reviews and commits the agent's result.
 - When done, verify the work with all commands in the Commands section of `AGENTS.md`.
 - Then continue directly with step 4 (Review) without asking the user.
 

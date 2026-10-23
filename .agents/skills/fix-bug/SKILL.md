@@ -34,7 +34,6 @@ Runs on Sonnet 5.5 in the main session.
 
 - Reproduce and find the root cause directly. If the fix requires changing an OpenSpec spec (`openspec/specs/`), stop and tell the user: it is a change, not a bug, and needs a Story (the `write-story` skill can create one).
 - Write a failing test that reproduces the bug (TDD), then fix it. Make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`.
-- Frontend work (UI, styling, animation, 3D) is always done by the `react-developer` agent ([.github/agents/react-developer.agent.md](../../../.github/agents/react-developer.agent.md)), run as a custom subagent. It loads the `react-ui` skill, the relevant `gsap-*` skills and the `threejs` skill (`.agents/skills/`) itself. The main session does all other work, such as tests that do not touch UI code, tooling and docs, and reviews and commits the agent's result.
 - When done, verify the work with all commands in the Commands section of `AGENTS.md`.
 - Then continue directly with step 4 (Review) without asking the user.
 
