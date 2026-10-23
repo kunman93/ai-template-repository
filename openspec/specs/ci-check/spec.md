@@ -1,11 +1,10 @@
-# Spec Delta
+# ci-check Specification
 
 ## Purpose
-
 Provides the status check named `ci` that the branch ruleset on `main` requires, so pull requests can only merge after
 it passes, whatever stack the repository uses.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: A check named ci runs on main
 Every pull request to `main` and every push to `main` SHALL run a status check named `ci`.
