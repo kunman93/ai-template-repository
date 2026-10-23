@@ -116,3 +116,6 @@ Stories and bug reports are created only with the `write-story` and `write-bug-r
 - Do not create a `.md` file that merely restates or describes an existing
   config/source file. The original file is the documentation; only add prose docs
   when they convey information not already evident from the file itself.
+- Record a significant decision that outlives a single change and is costly to reverse (stack, architecture,
+  cross-cutting conventions) as an ADR in [docs/decisions](docs/decisions/), following its README. Choices that only
+  concern one change stay in that change's OpenSpec `design.md`.

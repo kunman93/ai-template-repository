@@ -13,7 +13,7 @@
 
 ## 2. Discoverability
 
-- [ ] 2.1 Extend the Documentation section of `AGENTS.md` with a link to `docs/decisions/` and the rule for when to write
+- [x] 2.1 Extend the Documentation section of `AGENTS.md` with a link to `docs/decisions/` and the rule for when to write
   an ADR versus an OpenSpec `design.md`; verify it matches the "Agent looks for guidance" scenario
 - [ ] 2.2 List `docs/decisions/` under "What is included" in `README.md`; verify it matches the "Human looks at what is
   included" scenario
