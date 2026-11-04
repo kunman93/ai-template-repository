@@ -9,7 +9,7 @@
   and `.github/agents/reviewer.agent.md`, leaving "main session" untouched; verify with
   `git grep -nwE "main" -- AGENTS.md .agents/skills/implement-story .agents/skills/fix-bug .agents/skills/do-chore .agents/skills/finish-work .github/agents`
   that the only branch match left is the value in the Repository section
-- [ ] 1.3 Make `.github/workflows/ci.yml` trigger on `pull_request` and `push` without branch filters and add
+- [x] 1.3 Make `.github/workflows/ci.yml` trigger on `pull_request` and `push` without branch filters and add
   `if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch` to the `ci`
   job; verify `ci.yml` no longer names a branch and that `ci` runs on this Story's PR
 - [x] 1.4 Update the Purpose of `openspec/specs/ci-check/spec.md` from "the branch ruleset on `main`" to "the branch
