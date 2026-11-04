@@ -17,6 +17,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
 - [GitHub CLI](https://cli.github.com) (`gh`), signed in
+- [Git](https://git-scm.com) 2.56 or later, because the `git-commit` skill stages resolved merge conflicts with `git add --resolved`
 - [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec)
 
 ## Adopting the template
@@ -91,7 +92,7 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 ### Maintaining the template
 
 - **OpenSpec:** upgrade the OpenSpec CLI, then run `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`, so never edit those by hand.
-- **Vendored skills:** copied unchanged from upstream, so never edit them locally. Each records its source in the `metadata` of its own `SKILL.md`; re-copy it from there (see `.agents/skills/VENDORED.md`).
+- **Vendored skills:** copied unchanged from upstream, so never edit them locally. Update them with `gh skill update --all --dir .agents/skills`, which reads the source from the `metadata` of each `SKILL.md` (see `.agents/skills/VENDORED.md`). `--dir` keeps it from touching skills installed outside the repository. The warnings about skills without GitHub metadata are expected: the template's own workflow skills are not vendored.
 - **Decision record template:** `docs/decisions/adr-template.md` is copied unchanged from MADR; never edit it locally. The source and upgrade steps are in `docs/decisions/README.md`.
 
 ### Syncing a project with the template
