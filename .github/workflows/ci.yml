@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main] # TODO: set to your default branch
   push:
-    branches: [main]
+    branches: [main] # TODO: set to your default branch
 
 permissions:
   contents: read
