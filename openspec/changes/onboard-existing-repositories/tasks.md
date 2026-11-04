@@ -9,13 +9,16 @@
   and `.github/agents/reviewer.agent.md`, leaving "main session" untouched; verify with
   `git grep -nwE "main" -- AGENTS.md .agents/skills/implement-story .agents/skills/fix-bug .agents/skills/do-chore .agents/skills/finish-work .github/agents`
   that the only branch match left is the value in the Repository section
-- [x] 1.3 Make `.github/workflows/ci.yml` trigger on `pull_request` and `push` without branch filters and add
-  `if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch` to the `ci`
-  job; verify `ci.yml` no longer names a branch and that `ci` runs on this Story's PR
+- [x] 1.3 In `.github/workflows/ci.yml`, give `pull_request` and `push` the filter `branches: [main]` with a `TODO`
+  comment to set the default branch, and remove the `if:` from the `ci` job; verify that this Story's PR shows exactly
+  one `ci` check, and that it passes
 - [x] 1.4 Update the Purpose of `openspec/specs/ci-check/spec.md` from "the branch ruleset on `main`" to "the branch
   ruleset on the default branch"; verify `openspec validate --specs --strict` passes
 - [x] 1.5 Record the decision as `docs/decisions/0001-declare-the-default-branch-in-agents-md.md` from
   `adr-template.md`, with the options from design.md; verify it follows `docs/decisions/README.md`
+- [x] 1.6 Add to the Repository section of `AGENTS.md` that the branch filters of `.github/workflows/ci.yml` name the
+  default branch too, and make README Setup tell the maintainer to set it there; verify against the "Template value"
+  and "Default branch step" scenarios, and update ADR 0001 to the decision in design.md
 
 ## 2. Commands work before they are documented
 
@@ -34,7 +37,8 @@
   if it is not `main`); verify against the "Two adoption paths" and "Ruleset step" scenarios
 - [x] 3.2 Write the "Existing repository" steps: commit or stash, add and fetch the `template` remote, list existing
   files, copy missing files, decide per existing file with the three commands (merge by hand for `AGENTS.md`, `ci.yml`
-  and `ISSUE_TEMPLATE/config.yml`), set the default branch in `AGENTS.md`, review `git diff --staged` and commit on a
+  and `ISSUE_TEMPLATE/config.yml`), set the default branch in `AGENTS.md` and in the `ci.yml` filters before the PR
+  is opened, review `git diff --staged` and commit on a
   `chore/` branch cut from the default branch, and a note to copy vendored and OpenSpec files rather than reinstall them
   with `gh skill install` or `openspec init`; verify every scenario of `template-onboarding` except "Sync after
   onboarding" is covered by the text and the commands match those proven in group 2
@@ -48,11 +52,14 @@
 - [x] 4.1 Ask the maintainer for permission to change `kunman93/git-sandbox`, then follow the "Existing repository"
   steps literally from the README in `../git-sandbox`, keeping its default branch `master` and setting it in
   `AGENTS.md`; fix any step that is unclear or wrong in the README and repeat until it runs as written
-- [x] 4.2 Push the onboarding as a `chore/` branch and open a PR against `master` in git-sandbox; verify its `ci` check
-  runs and passes, and record the commands, the listed existing files and the decisions taken for the PR of this change
-- [x] 4.3 Run `openspec validate onboard-existing-repositories --strict` and verify it passes
+- [x] 4.2 Push the onboarding as a `chore/` branch and open a PR against `master` in git-sandbox; record the commands, the listed existing files and the decisions taken for
+  the PR of this change (the `ci` check is verified in 4.3 with the final `ci.yml`)
+- [x] 4.3 In git-sandbox, on a `chore/` branch from `master`, take the revised `ci.yml`, set both branch filters to
+  `master` and open a PR against `master`; verify it shows exactly one `ci` check and that it passes, then close the
+  PR and delete the branch
+- [x] 4.4 Run `openspec validate onboard-existing-repositories --strict` and verify it passes
 
 ## Workflow follow-up
 
-- Put the git-sandbox evidence from 4.2 into the Testing steps and Screenshots / evidence sections of this Story's PR.
+- Put the git-sandbox evidence from 4.2 and 4.3 into the Testing steps and Screenshots / evidence sections of this Story's PR.
 - Archive the change after the user approves the PR, with the `finish-work` skill.

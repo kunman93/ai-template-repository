@@ -60,10 +60,10 @@ For each listed file the README gives the command for each choice: keep (do noth
 `AGENTS.md`, `ci.yml` and `ISSUE_TEMPLATE/config.yml` are called out as merge-by-hand, matching the existing rule in
 "Syncing a project with the template".
 
-### Declare the default branch once in AGENTS.md
+### Declare the default branch in AGENTS.md
 
 `AGENTS.md` gets a Repository section with `Default branch: main` and the rule that `<default-branch>` in any skill or
-agent file stands for that value. The workflow skills, the reviewer and the Git Workflow section replace `main` with
+agent file stands for that value, plus a note that `ci.yml` names it too (see below). The workflow skills, the reviewer and the Git Workflow section replace `main` with
 `<default-branch>` (for example `origin/<default-branch>`, `gh pr create --base <default-branch>`). `AGENTS.md` is
 already the file every agent reads first and already holds the project-specific Commands, and it is merged by hand on
 sync, so the value survives syncs. Alternatives considered: renaming the default branch to `main` (breaks clones,
@@ -73,24 +73,27 @@ repositories on `master` or `develop`). OpenSpec's "main spec" and the vendored 
 sense or are not ours to edit, so they stay untouched. Because this is a cross-cutting convention that later skills
 must follow, it is recorded as an ADR.
 
-### ci.yml without a branch name
+### ci.yml names the default branch
 
-GitHub reads `ci.yml`, not `AGENTS.md`, and `on:` filters cannot use expressions. So the workflow triggers on
-`pull_request` and `push` without branch filters, and the `ci` job has
-`if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch`. Pushes to other
-branches start a run whose job is skipped, which costs no runner time. On a PR branch that skipped run shows up as a
-second, passing check named `ci` next to the real one. It does not weaken the required check: in git-sandbox, with a
-ruleset requiring `ci`, a PR whose real `ci` failed stayed blocked while that run was pending, after it failed, and
-after the skipped run was re-run so that it was the newest `ci`.
-Alternatives considered: keeping `branches: [main]` as a documented second place to edit (two sources of truth, easy to
-forget), dropping the `if:` (every PR branch runs `ci` twice), and naming the skipped job differently with an expression
-in `name:` (relies on undocumented display behavior for skipped jobs).
+GitHub reads `ci.yml`, not `AGENTS.md`, and `on:` filters cannot use expressions. So `ci.yml` names the default branch
+itself: `pull_request` and `push` both have `branches: [main]` with a `TODO` comment telling the maintainer to set their
+default branch, and the `ci` job has no condition. Every PR to the default branch shows exactly one `ci` check. The
+Repository section of `AGENTS.md` says that `ci.yml` names the branch too, and so do step 5 of "Existing repository"
+(before the onboarding PR is opened) and Setup. If a maintainer forgets, `ci` never
+runs on their PRs and a ruleset that requires it keeps every PR pending, so the mistake shows on the first PR.
+
+Alternatives considered: triggering without branch filters and skipping the job with
+`if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch` (keeps the name
+out of `ci.yml`, but every push to a PR branch adds a second, skipped `ci` check next to the real one, which the
+maintainer found confusing; a ruleset test in git-sandbox showed it still blocks a PR whose real `ci` fails), and
+naming the skipped job differently with an expression in `name:` (relies on undocumented display behavior for skipped
+jobs).
 
 ### Structure of "Adopting the template"
 
 Three subsections: "New repository" (create from the template), "Existing repository" (the onboarding steps above) and
-"Setup" (today's steps 2 to 7, plus a first step that sets the default branch in `AGENTS.md`, and the ruleset step
-now names the default branch instead of `main`). "Syncing a project with the template" keeps its `git remote add template`
+"Setup" (today's steps 2 to 7, plus a first step that sets the default branch in `AGENTS.md` and in the branch
+filters of `ci.yml`, and the ruleset step now names the default branch instead of `main`). "Syncing a project with the template" keeps its `git remote add template`
 line, and the onboarding step uses the same remote name, so a later sync needs no extra setup.
 
 ### Verification on git-sandbox
@@ -99,15 +102,19 @@ line, and the onboarding step uses the same remote name, so a later sync needs n
 exercises the default branch setting, the existing-file listing (`.gitignore`), the never-copied `README.md` and the
 copy of everything else. It stays on `master`. The steps are followed literally from the README, except that
 `template/feature/onboard-existing-repositories` stands in for `template/main` until this change is merged. The
-onboarding is pushed as a `chore/` PR in git-sandbox against `master`, and the commands and outcomes, including the
-`ci` run, go into this change's PR. Any unclear or broken step is fixed in the README before the PR.
+onboarding is pushed as a `chore/` PR in git-sandbox against `master`, and the commands and outcomes go into this
+change's PR. The `ci` check is verified separately, with the final `ci.yml` and both filters set to `master`, because
+the onboarding itself ran before the filters existed. Any unclear or broken step is fixed in the README before the PR.
 
 ## Risks / Trade-offs
 
 - [The listing and the copy run against different states if the maintainer edits files in between] → The README says to
   commit or stash first and to run the steps in order; `git diff --staged` before committing shows exactly what came in.
-- [Renaming the default branch would break clones, pipelines and links] → Avoided: the branch keeps its name and only
-  `AGENTS.md` declares it.
+- [Renaming the default branch would break clones, pipelines and links] → Avoided: the branch keeps its name, and
+  `AGENTS.md` and the branch filters of `ci.yml` declare it.
+- [The maintainer sets the branch in `AGENTS.md` but not in `ci.yml`] → The Repository section, step 5 of "Existing
+  repository" and Setup all point at `ci.yml`, and the `TODO` comment sits next to the value. If it is missed, the required `ci` check never runs and the
+  first PR stays pending.
 - [An agent uses a literal `main` instead of resolving `<default-branch>`] → The Repository section states the rule
   next to the value, and a grep check in the tasks ensures no workflow file still names `main` as a branch.
 - [Files the template later removes or adds] → Out of scope; covered by "Syncing a project with the template" and the

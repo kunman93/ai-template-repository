@@ -13,7 +13,8 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
   README).
 - The existing-repository path is a sequence of documented git commands, run once in the existing repository:
   - commit or stash local work, add the `template` remote and fetch it;
-  - set the repository's existing default branch in the new Repository section of `AGENTS.md` instead of renaming it;
+  - set the repository's existing default branch in the new Repository section of `AGENTS.md` and in the branch
+    filters of `ci.yml` instead of renaming it;
   - list the template files the repository already has, before anything is copied;
   - copy only the template files the repository does not have yet;
   - for each file it already has, decide explicitly: keep it, take the template's version or merge by hand;
@@ -23,11 +24,12 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
   - review the staged result and commit it on a `chore/` branch.
 - The `template` remote is the same one "Syncing a project with the template" uses, so later syncs work unchanged.
 - The workflow no longer assumes the default branch is `main`, so a repository keeps its branch name:
-  - `AGENTS.md` gets a Repository section that declares the default branch once (`main` in the template);
+  - `AGENTS.md` gets a Repository section that declares the default branch (`main` in the template) and says that
+    `ci.yml` names it too;
   - `implement-story`, `fix-bug`, `do-chore`, `finish-work`, the reviewer agent and the Git Workflow section of
     `AGENTS.md` write `<default-branch>` instead of `main`;
-  - `.github/workflows/ci.yml` runs on every pull request and on pushes to the repository's default branch without
-    naming it;
+  - `.github/workflows/ci.yml` keeps its `branches: [main]` filters, marked with a `TODO` to set the default branch,
+    and README Setup has a step for it;
   - the README ruleset step targets the default branch;
   - the convention is recorded as an ADR in `docs/decisions/`.
 - Verify the steps by onboarding `kunman93/git-sandbox` (default branch `master`, with its own `README.md` and
@@ -39,13 +41,13 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
 
 - `template-onboarding`: how a maintainer adopts the template's workflow in a repository that already exists, without
   overwriting the repository's files without an explicit decision.
-- `default-branch`: the repository's default branch is declared once in `AGENTS.md` and the workflow files refer to it
-  instead of hard-coding `main`.
+- `default-branch`: the repository's default branch is declared in `AGENTS.md` and the workflow skills and agents refer
+  to it instead of hard-coding `main`.
 
 ### Modified Capabilities
 
-- `ci-check`: the `ci` check runs on pull requests and pushes to the default branch, whatever its name, instead of on
-  `main`.
+- `ci-check`: the `ci` check runs on pull requests and pushes to the default branch, which `ci.yml` names in its branch
+  filters, instead of always on `main`.
 
 ## Impact
 

@@ -55,12 +55,14 @@ than record 0000, because they describe the template itself.
 
 ### Requirement: The default branch is declared, not renamed
 The existing-repository path SHALL keep the repository's default branch name and SHALL tell the maintainer to set it in
-the Repository section of `AGENTS.md`. Onboarding SHALL NOT rename the default branch.
+the Repository section of `AGENTS.md` and in the branch filters of `.github/workflows/ci.yml`, before the onboarding
+PR is opened. Onboarding SHALL NOT rename the default branch.
 
 #### Scenario: Repository on master
 - **WHEN** a maintainer onboards a repository whose default branch is `master`
-- **THEN** the branch stays `master`, the README tells the maintainer to set the default branch in `AGENTS.md` to
-  `master`, and the onboarding `chore/` branch is cut from `master`
+- **THEN** the branch stays `master`, the README tells the maintainer to set the default branch to `master` in
+  `AGENTS.md` and in both branch filters of `ci.yml` before the PR is opened, and the onboarding `chore/` branch is cut
+  from `master`
 
 ### Requirement: Onboarding prepares later syncs
 The existing-repository path SHALL add the template as the git remote named `template`, the same remote that "Syncing a
