@@ -1,7 +1,7 @@
 # ci-check Specification
 
 ## Purpose
-Provides the status check named `ci` that the branch ruleset on `main` requires, so pull requests can only merge after
+Provides the status check named `ci` that the branch ruleset on the default branch requires, so pull requests can only merge after
 it passes, whatever stack the repository uses.
 
 ## Requirements
