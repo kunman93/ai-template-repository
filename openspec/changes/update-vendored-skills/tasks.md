@@ -2,8 +2,8 @@
 
 ## 1. Update the vendored git-commit skill
 
-- [ ] 1.1 Run `gh skill update git-commit` and verify `gh skill update git-commit --dry-run` reports no available update
-- [ ] 1.2 Verify `.agents/skills/git-commit/SKILL.md` below the frontmatter is byte-identical to upstream
+- [x] 1.1 Run `gh skill update git-commit` and verify `gh skill update git-commit --dry-run` reports no available update
+- [x] 1.2 Verify `.agents/skills/git-commit/SKILL.md` below the frontmatter is byte-identical to upstream
   `skills/git-commit/SKILL.md` on `main` (diff against `gh api` content), and that the frontmatter differs only in the
   metadata `gh` writes
 
