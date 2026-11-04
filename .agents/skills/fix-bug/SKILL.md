@@ -21,8 +21,8 @@ The whole workflow runs on Sonnet 5.5 in the main session. Step 4 runs the `revi
 
 Runs on Sonnet 5.5.
 
-- Fetch `main` from origin.
-- Create a branch `fix/<branch-name-based-on-issue>` based on `origin/main`.
+- Fetch `<default-branch>` from origin.
+- Create a branch `fix/<branch-name-based-on-issue>` based on `origin/<default-branch>`.
 
 ## 2. Verify clean state
 

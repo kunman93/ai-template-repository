@@ -22,12 +22,12 @@ Act like a human reviewer whose name goes on the approval, not a linter running 
 
 ## Your job
 
-Review the feature branch's changes against `main`:
+Review the feature branch's changes against `<default-branch>`:
 
 ```bash
-git fetch origin main
-git diff origin/main...HEAD
-git log origin/main..HEAD --oneline
+git fetch origin <default-branch>
+git diff origin/<default-branch>...HEAD
+git log origin/<default-branch>..HEAD --oneline
 ```
 
 State in your report which ref you compared against. If the log shows commits that belong to a
@@ -85,7 +85,7 @@ If you are torn between two levels, state both and say why; do not silently pick
 
 ## Report back
 
-1. The verdict, and the ref you reviewed against (`<branch> vs origin/main`).
+1. The verdict, and the ref you reviewed against (`<branch> vs origin/<default-branch>`).
 2. Findings ordered by severity (CRITICAL / MAJOR / MINOR).
 3. A summary of the test and lint output, plus any surviving mutations you identified by inspection.
 4. One paragraph of overall assessment stating your actual confidence level and what, if anything, a human should double-check.

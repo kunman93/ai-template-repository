@@ -1,6 +1,6 @@
 ---
 name: finish-work
-description: 'Finish a Story, bug fix or chore after its implementation is reviewed: clean up history and create the PR, wait for CI, read PR review findings, finalize history (autosquash and rebase on origin/main), archive the OpenSpec change if the branch has one, and merge. Use when it is time to push, open or update the PR, finalize, archive, or merge.'
+description: 'Finish a Story, bug fix or chore after its implementation is reviewed: clean up history and create the PR, wait for CI, read PR review findings, finalize history (autosquash and rebase on origin/<default-branch>), archive the OpenSpec change if the branch has one, and merge. Use when it is time to push, open or update the PR, finalize, archive, or merge.'
 ---
 
 # Finish a Story, Bug Fix or Chore
@@ -17,11 +17,11 @@ Before creating the PR, clean up the history into atomic commits:
    If it is not, run `git reset --hard backup/<branch>` and retry.
 4. Delete the backup: `git branch -D backup/<branch>`.
 
-Then push the feature branch and create a PR targeting `main`. If the branch was already pushed, push with
+Then push the feature branch and create a PR targeting `<default-branch>`. If the branch was already pushed, push with
 `git push --force-with-lease --force-if-includes`.
 
 Fill out `.github/pull_request_template.md` and use it as the PR body. `gh pr create` ignores the template when given
-a body, so read the file, fill it out and pass it on stdin with `gh pr create --base main --title "<title>" --body-file -`:
+a body, so read the file, fill it out and pass it on stdin with `gh pr create --base <default-branch> --title "<title>" --body-file -`:
 
 - Fill every section from the branch's commits, diff and linked issue. Write `n/a` in a section that does not apply,
   for example Screenshots / evidence for a change without visible output, or Related issues for a chore without an
@@ -79,16 +79,16 @@ tell the user and wait for their next review report. Do not finalize or archive 
 
 ## Finalize history
 
-Squashes the fixups and rebases the branch on `origin/main`. Sub-step 4 archives only if the branch has an unarchived
+Squashes the fixups and rebases the branch on `origin/<default-branch>`. Sub-step 4 archives only if the branch has an unarchived
 OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat run find nothing to archive.
 
 1. Create a backup: `git branch -f backup/<branch>` (`-f` so a stale backup never blocks).
-2. Squash the fixups: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $(git merge-base HEAD origin/main)`.
+2. Squash the fixups: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $(git merge-base HEAD origin/<default-branch>)`.
    If it stops on a conflict, run `git rebase --abort` and `git reset --hard backup/<branch>`, and ask the user how to
    proceed. Otherwise verify `git diff backup/<branch> HEAD` is empty. If it is not, run
    `git reset --hard backup/<branch>` and ask the user how to proceed. Keep the backup until the user decides;
    delete it if finalizing is abandoned.
-3. Run `git fetch origin main` and `git rebase origin/main`. If it stops on conflicts, resolve them commit by commit
+3. Run `git fetch origin <default-branch>` and `git rebase origin/<default-branch>`. If it stops on conflicts, resolve them commit by commit
    and continue with `git rebase --continue`:
    - A conflict is non-trivial if it touches logic, behavior or specs, or if one side must win. This overrides the
      trivial examples below. Ask the user how to resolve it.
@@ -98,11 +98,11 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
      it the conflicted files, the commit being replayed, the change name (if any), and these two definitions. It either
      resolves the conflict, or makes no edits and reports it as non-trivial, in which case ask the user.
 
-   If `main` brought in changes, run all commands in the Commands section of `AGENTS.md` and tell the user. If there
+   If `<default-branch>` brought in changes, run all commands in the Commands section of `AGENTS.md` and tell the user. If there
    were conflicts, also run the Review step of the workflow skill in use, push with
    `git push --force-with-lease --force-if-includes`, tell the user, and wait for their re-approval before continuing.
 4. Check for an unarchived change:
-   `git diff --name-only --diff-filter=A origin/main...HEAD -- openspec/changes ':!openspec/changes/archive'`.
+   `git diff --name-only --diff-filter=A origin/<default-branch>...HEAD -- openspec/changes ':!openspec/changes/archive'`.
    If it lists files, archive the completed change on the feature branch with the `openspec-archive-change` skill
    (`/opsx-archive`) and commit. The archive moves the change to `openspec/changes/archive/`, so update any path to it
    in the PR description. If it lists nothing, skip this sub-step. If it lists nothing during the Archive step of
@@ -122,8 +122,8 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
 
 1. Only when `ci` is green and the user has approved, merge the PR with a merge commit and delete the feature branch:
    `gh pr merge --merge --delete-branch`. Then run `git fetch --prune` to remove the stale remote-tracking branch.
-   Run `git rev-list --left-right --count main...origin/main` and report to the user whether local `main` matches
-   `origin/main` (`0 0`); never assume it, and ask before changing it.
-2. If GitHub refuses because `main` moved since the Archive or Finalize step, run [Finalize history](#finalize-history)
+   Run `git rev-list --left-right --count <default-branch>...origin/<default-branch>` and report to the user whether local `<default-branch>` matches
+   `origin/<default-branch>` (`0 0`); never assume it, and ask before changing it.
+2. If GitHub refuses because `<default-branch>` moved since the Archive or Finalize step, run [Finalize history](#finalize-history)
    (this includes the Commands section checks; handle `ci` failures as described there), and tell the user.
 3. Never merge without the user's approval.
