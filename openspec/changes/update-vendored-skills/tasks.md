@@ -9,21 +9,21 @@
 
 ## 2. Keep the workflow authorized under the new safety rules
 
-- [ ] 2.1 Reword the history-rewrite exemption in the Git Workflow section of `AGENTS.md` to name pushes, rebases,
+- [x] 2.1 Reword the history-rewrite exemption in the Git Workflow section of `AGENTS.md` to name pushes, rebases,
   `git reset --hard` and force pushes as explicitly requested by the `finish-work` procedures. Verify by reading the
   updated `git-commit` Safety Rules next to `AGENTS.md`, `finish-work`, `implement-story`, `fix-bug`, `do-chore` and
   `.github/agents/reviewer.agent.md`: no rule on push, history rewrite or interactive staging contradicts another
 
 ## 3. Document Git and the update procedure
 
-- [ ] 3.1 Add Git 2.56 or later, with the reason (`git add --resolved`), to Prerequisites in `README.md` and verify it
+- [x] 3.1 Add Git 2.56 or later, with the reason (`git add --resolved`), to Prerequisites in `README.md` and verify it
   matches the `compatibility` field of the updated skill
-- [ ] 3.2 Replace "re-copy it from there" for vendored skills in "Maintaining the template" in `README.md` with
-  `gh skill update --all` and verify the flag exists with `gh skill update --help`
+- [x] 3.2 Replace "re-copy it from there" for vendored skills in "Maintaining the template" in `README.md` with
+  `gh skill update --all --dir .agents/skills` and verify the flags exist with `gh skill update --help`
 
 ## 4. Verify OpenSpec
 
-- [ ] 4.1 Verify `openspec --version` is the latest release (`npm view @fission-ai/openspec version`) and
+- [x] 4.1 Verify `openspec --version` is the latest release (`npm view @fission-ai/openspec version`) and
   `openspec update --dry-run` reports no changes
 
 ## Workflow follow-up

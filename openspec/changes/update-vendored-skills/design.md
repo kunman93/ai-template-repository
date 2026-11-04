@@ -25,8 +25,11 @@ forbid `git rebase`, any history change and any push unless the user asks.
 
 - **Update with `gh skill update git-commit`, not a manual copy.** It writes the new tree SHA into the metadata, so the
   next `--dry-run` is accurate. A manual copy would leave a stale SHA, or need the SHA edited by hand. The README
-  maintenance step names `gh skill update --all`, so it covers every vendored skill without a list to keep current.
-- **No update script.** The vendored sources update with two commands, `gh skill update --all` and `openspec update`,
+  maintenance step names `gh skill update --all --dir .agents/skills`, so it covers every vendored skill without a list
+  to keep current. `--dir` scopes it to the repository, because `--all` alone also updates user-scope skills without
+  asking.
+- **No update script.** The vendored sources update with two commands, `gh skill update --all --dir .agents/skills` and
+  `openspec update`,
   and both produce diffs that need review anyway. A script would chain them and add code to maintain.
 - **Widen the exemption in `AGENTS.md`, not in each workflow skill.** `AGENTS.md` already holds the one sentence that
   overrides `git-commit`'s safety rules. Naming pushes, rebases, `git reset --hard` and force pushes there keeps a single

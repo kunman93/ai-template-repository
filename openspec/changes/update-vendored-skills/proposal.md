@@ -18,7 +18,7 @@ pushes of `finish-work` would no longer be covered.
 - Add Git 2.56 or later to the prerequisites in `README.md`, because the updated skill uses `git add --resolved` after
   merge conflicts, which `finish-work` resolves during rebases.
 - Replace "re-copy it from there" for vendored skills in "Maintaining the template" in `README.md` with
-  `gh skill update --all`, which updates every vendored skill at once.
+  `gh skill update --all --dir .agents/skills`, which updates every vendored skill without touching skills installed outside the repository.
 - OpenSpec: no file change. OpenSpec CLI 1.16.0 is the latest release, and `openspec update --dry-run` reports no
   changes.
 
@@ -38,6 +38,6 @@ the wording that authorizes those steps change, so the change sets `skip_specs: 
 - `.agents/skills/git-commit/SKILL.md` (vendored, replaced from upstream)
 - `AGENTS.md` (Git Workflow section)
 - `README.md` (Prerequisites, Maintaining the template)
-- Maintainers and onboarded repositories need Git 2.56 or later. Apple Git on macOS currently ships 2.54, so macOS
-  users need a newer Git, for example from Homebrew.
+- Maintainers need Git 2.56 or later. Apple Git on macOS currently ships 2.54, so macOS users need a newer Git, for
+  example from Homebrew. The vendored skill's `compatibility` field states the same minimum for onboarded repositories.
 - Onboarded repositories pick up the update through "Syncing a project with the template".
