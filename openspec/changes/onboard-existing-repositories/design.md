@@ -56,7 +56,7 @@ workflow references (`openspec-update-change`, `openspec-sync-specs`). The copie
 ### Three options per existing file
 
 For each listed file the README gives the command for each choice: keep (do nothing), take the template's version
-(`git checkout template/main -- <file>`), or merge by hand after comparing (`git diff HEAD template/main -- <file>`).
+(`git checkout template/main -- <file>`), or merge by hand after comparing (`git diff template/main -- <file>`).
 `AGENTS.md`, `ci.yml` and `ISSUE_TEMPLATE/config.yml` are called out as merge-by-hand, matching the existing rule in
 "Syncing a project with the template".
 
@@ -78,13 +78,18 @@ must follow, it is recorded as an ADR.
 GitHub reads `ci.yml`, not `AGENTS.md`, and `on:` filters cannot use expressions. So the workflow triggers on
 `pull_request` and `push` without branch filters, and the `ci` job has
 `if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch`. Pushes to other
-branches start a run whose job is skipped, which costs no runner time; the ruleset only looks at PRs. Alternative
-considered: keeping `branches: [main]` as a documented second place to edit (two sources of truth, easy to forget).
+branches start a run whose job is skipped, which costs no runner time. On a PR branch that skipped run shows up as a
+second, passing check named `ci` next to the real one. It does not weaken the required check: in git-sandbox, with a
+ruleset requiring `ci`, a PR whose real `ci` failed stayed blocked, both while that run was pending and after it failed.
+Alternatives considered: keeping `branches: [main]` as a documented second place to edit (two sources of truth, easy to
+forget), dropping the `if:` (every PR branch runs `ci` twice), and naming the skipped job differently with an expression
+in `name:` (relies on undocumented display behavior for skipped jobs).
 
 ### Structure of "Adopting the template"
 
 Three subsections: "New repository" (create from the template), "Existing repository" (the onboarding steps above) and
-"Setup" (today's steps 2 to 7, unchanged). "Syncing a project with the template" keeps its `git remote add template`
+"Setup" (today's steps 2 to 7, plus a first step that sets the default branch in `AGENTS.md`, and the ruleset step
+now names the default branch instead of `main`). "Syncing a project with the template" keeps its `git remote add template`
 line, and the onboarding step uses the same remote name, so a later sync needs no extra setup.
 
 ### Verification on git-sandbox

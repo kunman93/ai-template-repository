@@ -29,7 +29,9 @@ agent reads first, survives syncs (`AGENTS.md` is merged by hand) and forces no 
 - Good, because a repository on `master` changes one line, and no other workflow file needs editing.
 - Good, because the value is explicit and reviewable in a PR.
 - Bad, because `ci.yml` cannot read `AGENTS.md`; it triggers on every pull request and push and skips the job unless the
-  ref is the repository's default branch, so pushes to other branches start a run that is skipped.
+  ref is the repository's default branch, so pushes to other branches start a run that is skipped. On a PR branch the
+  skipped run shows as a second, passing `ci` check; a ruleset requiring `ci` still blocks the PR while the real run is
+  pending or failing (tested in `kunman93/git-sandbox`).
 - Bad, because contributors must write `<default-branch>` and not `main` in new workflow files. The Repository section of
   `AGENTS.md` states the rule.
 
