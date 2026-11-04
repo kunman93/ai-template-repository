@@ -19,7 +19,8 @@ Read the [README.md](README.md) to understand what the repo is about.
 
 - Default branch: `main`
 
-`<default-branch>` in any skill or agent file stands for the branch named here. This is the only place that names it.
+`<default-branch>` in any skill or agent file stands for the branch named here. The branch filters of
+`.github/workflows/ci.yml` name it too and must match; they cannot read this file.
 
 ---
 
