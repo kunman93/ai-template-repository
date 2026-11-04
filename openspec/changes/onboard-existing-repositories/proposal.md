@@ -13,8 +13,7 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
   README).
 - The existing-repository path is a sequence of documented git commands, run once in the existing repository:
   - commit or stash local work, add the `template` remote and fetch it;
-  - rename the default branch to `main` if it is not `main` yet, because the workflow, `ci.yml` and the ruleset assume
-    `main`;
+  - set the repository's existing default branch in the new Repository section of `AGENTS.md` instead of renaming it;
   - list the template files the repository already has, before anything is copied;
   - copy only the template files the repository does not have yet;
   - for each file it already has, decide explicitly: keep it, take the template's version or merge by hand;
@@ -23,8 +22,16 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
   - never copy the template's `README.md`, `openspec/specs/` or `openspec/changes/`, which describe the template itself;
   - review the staged result and commit it on a `chore/` branch.
 - The `template` remote is the same one "Syncing a project with the template" uses, so later syncs work unchanged.
+- The workflow no longer assumes the default branch is `main`, so a repository keeps its branch name:
+  - `AGENTS.md` gets a Repository section that declares the default branch once (`main` in the template);
+  - `implement-story`, `fix-bug`, `do-chore`, `finish-work`, the reviewer agent and the Git Workflow section of
+    `AGENTS.md` write `<default-branch>` instead of `main`;
+  - `.github/workflows/ci.yml` runs on every pull request and on pushes to the repository's default branch without
+    naming it;
+  - the README ruleset step targets the default branch;
+  - the convention is recorded as an ADR in `docs/decisions/`.
 - Verify the steps by onboarding `kunman93/git-sandbox` (default branch `master`, with its own `README.md` and
-  `.gitignore`) and record the result in the PR.
+  `.gitignore`), keeping it on `master`, and record the result in the PR.
 
 ## Capabilities
 
@@ -32,16 +39,23 @@ template" (`git checkout template/main -- <paths>`) silently overwrites files th
 
 - `template-onboarding`: how a maintainer adopts the template's workflow in a repository that already exists, without
   overwriting the repository's files without an explicit decision.
+- `default-branch`: the repository's default branch is declared once in `AGENTS.md` and the workflow files refer to it
+  instead of hard-coding `main`.
 
 ### Modified Capabilities
 
-None.
+- `ci-check`: the `ci` check runs on pull requests and pushes to the default branch, whatever its name, instead of on
+  `main`.
 
 ## Impact
 
-- Changed file: `README.md` ("Adopting the template").
-- No new scripts, skills, CI steps or dependencies. Repositories created from the template inherit only the extra
-  README section.
-- Verification changes `kunman93/git-sandbox` (a branch rename and an onboarding PR), outside this repository; it is
-  done only with the maintainer's permission.
+- Changed files: `README.md` ("Adopting the template", "Syncing a project with the template"), `AGENTS.md`,
+  `.agents/skills/{implement-story,fix-bug,do-chore,finish-work}/SKILL.md`, `.github/agents/reviewer.agent.md`,
+  `.github/workflows/ci.yml`, the Purpose of `openspec/specs/ci-check/spec.md`.
+- New file: an ADR in `docs/decisions/` for declaring the default branch in `AGENTS.md`.
+- No new scripts, skills or dependencies. Vendored skills (`git-commit`) and OpenSpec-generated files are not touched.
+- Repositories already created from the template pick up the setting with their next sync; their `AGENTS.md` needs the
+  Repository section merged by hand.
+- Verification changes `kunman93/git-sandbox` (an onboarding PR), outside this repository; it is done only with the
+  maintainer's permission. Its default branch is not renamed.
 - Keeping onboarded repositories in sync with later template changes stays out of scope (separate Story).

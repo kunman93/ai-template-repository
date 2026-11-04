@@ -18,7 +18,7 @@ ruleset) hard-codes the branch name `main`.
 **Non-Goals:**
 
 - Automating the merge of `AGENTS.md`, `ci.yml` or other mixed files.
-- Making the branch name configurable.
+- Renaming an existing repository's default branch.
 - Windows shells (PowerShell, cmd).
 
 ## Decisions
@@ -51,12 +51,26 @@ For each listed file the README gives the command for each choice: keep (do noth
 `AGENTS.md`, `ci.yml` and `ISSUE_TEMPLATE/config.yml` are called out as merge-by-hand, matching the existing rule in
 "Syncing a project with the template".
 
-### Rename the default branch first
+### Declare the default branch once in AGENTS.md
 
-Renaming comes before the copy so the onboarding `chore/` branch is cut from `main`. On GitHub the rename uses
-`gh api -X POST repos/<owner>/<repo>/branches/<old>/rename -f new_name=main`, which also retargets open PRs and branch
-protection; locally `git branch -m <old> main`, `git fetch origin`, `git branch -u origin/main main` and
-`git remote set-head origin -a`.
+`AGENTS.md` gets a Repository section with `Default branch: main` and the rule that `<default-branch>` in any skill or
+agent file stands for that value. The workflow skills, the reviewer and the Git Workflow section replace `main` with
+`<default-branch>` (for example `origin/<default-branch>`, `gh pr create --base <default-branch>`). `AGENTS.md` is
+already the file every agent reads first and already holds the project-specific Commands, and it is merged by hand on
+sync, so the value survives syncs. Alternatives considered: renaming the default branch to `main` (breaks clones,
+pipelines and links outside our control), detecting it at run time with `gh repo view --json defaultBranchRef` or
+`origin/HEAD` (implicit, and `origin/HEAD` is often unset in clones), and keeping `main` as a hard requirement (excludes
+repositories on `master` or `develop`). OpenSpec's "main spec" and the vendored `git-commit` skill use "main" in another
+sense or are not ours to edit, so they stay untouched. Because this is a cross-cutting convention that later skills
+must follow, it is recorded as an ADR.
+
+### ci.yml without a branch name
+
+GitHub reads `ci.yml`, not `AGENTS.md`, and `on:` filters cannot use expressions. So the workflow triggers on
+`pull_request` and `push` without branch filters, and the `ci` job has
+`if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch`. Pushes to other
+branches start a run whose job is skipped, which costs no runner time; the ruleset only looks at PRs. Alternative
+considered: keeping `branches: [main]` as a documented second place to edit (two sources of truth, easy to forget).
 
 ### Structure of "Adopting the template"
 
@@ -67,16 +81,20 @@ line, and the onboarding step uses the same remote name, so a later sync needs n
 ### Verification on git-sandbox
 
 `kunman93/git-sandbox` has default branch `master`, its own `README.md` and `.gitignore`, and nothing else, so it
-exercises the rename, the existing-file listing (`.gitignore`), the never-copied `README.md` and the copy of everything
-else. The steps are followed literally from the README, the onboarding is pushed as a `chore/` PR in git-sandbox, and
-the commands and outcomes go into this change's PR. Any unclear or broken step is fixed in the README before the PR.
+exercises the default branch setting, the existing-file listing (`.gitignore`), the never-copied `README.md` and the
+copy of everything else. It stays on `master`. The steps are followed literally from the README, except that
+`template/feature/onboard-existing-repositories` stands in for `template/main` until this change is merged. The
+onboarding is pushed as a `chore/` PR in git-sandbox against `master`, and the commands and outcomes, including the
+`ci` run, go into this change's PR. Any unclear or broken step is fixed in the README before the PR.
 
 ## Risks / Trade-offs
 
 - [The listing and the copy run against different states if the maintainer edits files in between] → The README says to
   commit or stash first and to run the steps in order; `git diff --staged` before committing shows exactly what came in.
-- [Renaming the default branch breaks other people's clones and CI that hard-code `master`] → The README points to
-  GitHub's rename notice and the local commands for other clones; the maintainer decides when to run it.
+- [Renaming the default branch would break clones, pipelines and links] → Avoided: the branch keeps its name and only
+  `AGENTS.md` declares it.
+- [An agent uses a literal `main` instead of resolving `<default-branch>`] → The Repository section states the rule
+  next to the value, and a grep check in the tasks ensures no workflow file still names `main` as a branch.
 - [Files the template later removes or adds] → Out of scope; covered by "Syncing a project with the template" and the
   separate sync Story.
 - [Verification touches a repository outside this one] → Done only after the maintainer's explicit permission.
