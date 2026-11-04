@@ -26,6 +26,11 @@ request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.github/ski
 - **WHEN** a maintainer onboards a repository that has none of these files
 - **THEN** all of them are copied unchanged from `template/main` and staged
 
+#### Scenario: Vendored and OpenSpec files match the template
+- **WHEN** a maintainer onboards a repository
+- **THEN** the README tells them to copy the vendored skills and the OpenSpec skills and prompts from the template
+  rather than reinstall them with `gh skill install` or `openspec init`, so their versions and set match the template
+
 ### Requirement: Existing files are never overwritten without a decision
 Before copying, onboarding SHALL list every template file that already exists in the repository. Onboarding SHALL copy
 only the files that do not exist yet, and SHALL leave each existing file unchanged until the maintainer decides to keep

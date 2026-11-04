@@ -44,6 +44,15 @@ Onboarding paths: `AGENTS.md`, `.agents`, `.github`, `docs/decisions/adr-templat
 `.editorconfig`. Record 0000 is included because the onboarded repository adopts MADR too; the template's other
 records, `README.md`, `openspec/specs/` and `openspec/changes/` describe the template and are left out.
 
+### Copy vendored and OpenSpec files, do not reinstall them
+
+Vendored skills (`git-commit`) and the OpenSpec skills and prompts are copied like every other template file.
+`gh skill install` would fetch upstream HEAD instead of the version the template tested, and `openspec init` generates a
+skill set that depends on the maintainer's global OpenSpec profile and CLI version, which can leave out skills the
+workflow references (`openspec-update-change`, `openspec-sync-specs`). The copies keep their source metadata, so
+`gh skill update` and `openspec update` still work later. Copying only `openspec/config.yaml` is enough for OpenSpec:
+`openspec list` finds the root and `openspec new change` creates `specs/` and `changes/` (checked with OpenSpec 1.16.0).
+
 ### Three options per existing file
 
 For each listed file the README gives the command for each choice: keep (do nothing), take the template's version

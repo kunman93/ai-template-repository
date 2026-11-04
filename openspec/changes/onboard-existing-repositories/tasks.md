@@ -35,7 +35,8 @@
 - [ ] 3.2 Write the "Existing repository" steps: commit or stash, add and fetch the `template` remote, list existing
   files, copy missing files, decide per existing file with the three commands (merge by hand for `AGENTS.md`, `ci.yml`
   and `ISSUE_TEMPLATE/config.yml`), set the default branch in `AGENTS.md`, review `git diff --staged` and commit on a
-  `chore/` branch cut from the default branch; verify every scenario of `template-onboarding` except "Sync after
+  `chore/` branch cut from the default branch, and a note to copy vendored and OpenSpec files rather than reinstall them
+  with `gh skill install` or `openspec init`; verify every scenario of `template-onboarding` except "Sync after
   onboarding" is covered by the text and the commands match those proven in group 2
 - [ ] 3.3 Make "Syncing a project with the template" refer to the remote added during onboarding and mention the
   Repository section among the project-specific content of `AGENTS.md`; verify the "Sync after onboarding" scenario
