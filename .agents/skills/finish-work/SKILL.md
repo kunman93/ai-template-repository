@@ -20,6 +20,19 @@ Before creating the PR, clean up the history into atomic commits:
 Then push the feature branch and create a PR targeting `main`. If the branch was already pushed, push with
 `git push --force-with-lease --force-if-includes`.
 
+Fill out `.github/pull_request_template.md` and use it as the PR body. `gh pr create` ignores the template when given
+a body, so read the file, fill it out and pass it on stdin with `gh pr create --base main --title "<title>" --body-file -`:
+
+- Fill every section from the branch's commits, diff and linked issue. Write `n/a` in a section that does not apply,
+  for example Screenshots / evidence for a change without visible output, or Related issues for a chore without an
+  issue.
+- Use `Closes #<number>` for the issue. For a Story, also name the OpenSpec change.
+- Tick a checkbox only if it is true for the branch. Leave an item that does not apply unticked and write `n/a` after
+  it. Under Testing steps, name the checks you ran. If no Commands are configured, leave the Commands item unticked
+  with `n/a` and say so under Testing steps.
+- Remove every HTML comment. Before creating the PR, check the body for `<!--` and for placeholders such as
+  `<number>`.
+
 Whenever you create a PR, always give the user its URL in this form: `🔀 PR: <url>`.
 
 After the first push, do not rewrite the history during review. Fix CI failures and review findings with
@@ -27,6 +40,9 @@ After the first push, do not rewrite the history during review. Fix CI failures 
 review incremental changes. They are squashed in [Finalize history](#finalize-history). Never reword `fixup!` subjects
 (autosquash matches on them). A finding that is a new logical change, not belonging to an existing commit, gets a normal
 atomic commit with the `git-commit` skill instead.
+
+After every push, check the PR description against the branch. If a section is no longer accurate, update it with
+`gh pr edit <n> --body-file -`, following the same rules as above.
 
 ### Wait for CI
 
@@ -88,7 +104,8 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
 4. Check for an unarchived change:
    `git diff --name-only --diff-filter=A origin/main...HEAD -- openspec/changes ':!openspec/changes/archive'`.
    If it lists files, archive the completed change on the feature branch with the `openspec-archive-change` skill
-   (`/opsx-archive`) and commit. If it lists nothing, skip this sub-step. If it lists nothing during the Archive step of
+   (`/opsx-archive`) and commit. The archive moves the change to `openspec/changes/archive/`, so update any path to it
+   in the PR description. If it lists nothing, skip this sub-step. If it lists nothing during the Archive step of
    `implement-story`, tell the user that no unarchived change was found on the branch.
 5. Push with `git push --force-with-lease --force-if-includes` and wait for `ci` with `gh pr checks <n> --watch`.
    If `ci` fails, fix it with fixup commits (the Implement step of the workflow skill in use), push them normally, and run this

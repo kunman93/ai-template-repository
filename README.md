@@ -8,6 +8,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `.agents/skills/`: workflow skills for Stories (`implement-story`, `write-story`), bug fixes (`fix-bug`, `write-bug-report`), chores (`do-chore`), finishing work (`finish-work`) and commits (`git-commit`).
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
+- `.github/pull_request_template.md`: the pull request template that the agent fills out when it creates a PR.
 - `.github/workflows/ci.yml`: a CI skeleton with the job `ci`.
 - `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
 - `openspec/`, `.github/skills/openspec-*` and `.github/prompts/opsx-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
