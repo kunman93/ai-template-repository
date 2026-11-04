@@ -80,7 +80,8 @@ GitHub reads `ci.yml`, not `AGENTS.md`, and `on:` filters cannot use expressions
 `if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch`. Pushes to other
 branches start a run whose job is skipped, which costs no runner time. On a PR branch that skipped run shows up as a
 second, passing check named `ci` next to the real one. It does not weaken the required check: in git-sandbox, with a
-ruleset requiring `ci`, a PR whose real `ci` failed stayed blocked, both while that run was pending and after it failed.
+ruleset requiring `ci`, a PR whose real `ci` failed stayed blocked while that run was pending, after it failed, and
+after the skipped run was re-run so that it was the newest `ci`.
 Alternatives considered: keeping `branches: [main]` as a documented second place to edit (two sources of truth, easy to
 forget), dropping the `if:` (every PR branch runs `ci` twice), and naming the skipped job differently with an expression
 in `name:` (relies on undocumented display behavior for skipped jobs).
