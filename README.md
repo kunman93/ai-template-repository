@@ -4,7 +4,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 ## What is included
 
-- `AGENTS.md`: instructions for coding agents (working style, commands, git workflow, engineering principles).
+- `AGENTS.md`: instructions for coding agents (working style, default branch, commands, git workflow, engineering principles).
 - `.agents/skills/`: workflow skills for Stories (`implement-story`, `write-story`), bug fixes (`fix-bug`, `write-bug-report`), chores (`do-chore`), finishing work (`finish-work`) and commits (`git-commit`).
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
@@ -21,10 +21,65 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 ## Adopting the template
 
-1. Create your repository from this template.
+Both paths end with the same [setup](#setup).
+
+### New repository
+
+Create your repository from this template.
+
+### Existing repository
+
+Follow these steps once, in your repository, with no uncommitted work. Your default branch keeps its name; the steps
+below never rename it.
+
+1. Add the template as a remote, fetch it and start a branch from your up-to-date default branch. `<url>` is this
+   template's URL and `<default-branch>` your default branch, for example `master`.
+
+   ```sh
+   git remote add template <url>
+   git fetch template
+   git fetch origin
+   git switch -c chore/adopt-template origin/<default-branch>
+   ```
+
+2. List the template files your repository already has. Nothing is copied yet.
+
+   ```sh
+   git ls-tree -r --name-only template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig | while read -r f; do if [ -e "$f" ]; then echo "$f"; fi; done
+   ```
+
+3. Copy only the files that do not exist yet. Files from step 2 stay untouched. The template's `README.md`,
+   `openspec/specs/`, `openspec/changes/` and its other decision records describe the template itself and are never
+   copied.
+
+   ```sh
+   git ls-tree -r --name-only template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig | while read -r f; do [ -e "$f" ] || git checkout template/main -- "$f"; done
+   ```
+
+4. Decide for each file listed in step 2:
+   - **Keep** yours: do nothing.
+   - **Take** the template's: `git checkout template/main -- <file>`.
+   - **Merge by hand**: compare with `git diff template/main -- <file>` (`-` lines are the template's, `+` lines are
+     yours) and edit the file. Do this for `AGENTS.md`, `.github/workflows/ci.yml` and
+     `.github/ISSUE_TEMPLATE/config.yml`, because they mix generic content with your project's.
+
+5. If your default branch is not `main`, set it in the Repository section of `AGENTS.md` and in both `branches`
+   filters of `.github/workflows/ci.yml` (marked `TODO`) now. Until you do, `ci` does not run on your onboarding PR.
+
+6. Review what came in with `git diff --staged`, then commit and open a PR.
+
+Copy the vendored skills (`.agents/skills/git-commit`) and the OpenSpec skills and prompts as above instead of
+reinstalling them with `gh skill install` or `openspec init`. The copies match the versions this template tested, and
+`gh skill update` and `openspec update` still work on them later.
+
+### Setup
+
+1. If your default branch is not `main`, set it in the Repository section of `AGENTS.md` and in both `branches` filters
+   of `.github/workflows/ci.yml` (marked `TODO`), unless you did in step 5 of "Existing repository". Skills and agents
+   refer to `<default-branch>`, so those two files are the only places that name it.
 2. Fill in the Commands section of `AGENTS.md` with your install, build, test and lint commands. The workflow skills and the reviewer run them.
 3. Add your stack's build, test and lint steps to the `ci` job in `.github/workflows/ci.yml`. Keep the job name `ci`.
-4. Require the `ci` check in a branch ruleset on `main`.
+4. Require the `ci` check in a branch ruleset on your default branch.
 5. Change the security advisory link in `.github/ISSUE_TEMPLATE/config.yml` to your repository.
 6. Add skills for your stack under `.agents/skills/` if you need them, and reference them from `AGENTS.md`.
 7. Describe your project in this README.
@@ -41,9 +96,9 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 
 ### Syncing a project with the template
 
-The template is the source of truth for everything generic (workflow skills, reviewer, issue forms, engineering principles). Keep project-specific content (Commands, stack skills, `ci.yml`, the security link in `ISSUE_TEMPLATE/config.yml`, this README) apart from it.
+The template is the source of truth for everything generic (workflow skills, reviewer, issue forms, engineering principles). Keep project-specific content (Repository, Commands, stack skills, `ci.yml`, the security link in `ISSUE_TEMPLATE/config.yml`, this README) apart from it.
 
-- Prefer changing the template first through a `chore/` PR, then copy the paths into your repository. Histories are unrelated, so copy paths instead of merging. Once: `git remote add template <url>`. Then for each sync:
+- Prefer changing the template first through a `chore/` PR, then copy the paths into your repository. Histories are unrelated, so copy paths instead of merging. A repository onboarded as above already has the `template` remote. Otherwise add it once: `git remote add template <url>`. Then for each sync:
   1. Commit your work first, because the checkout below overwrites local edits without asking.
   2. `git fetch template`, then `git checkout template/main -- <paths>`.
   3. Review with `git diff --staged`, because the checkout stages what it copies. Files the template removed are not deleted for you.

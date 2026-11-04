@@ -15,6 +15,15 @@ Read the [README.md](README.md) to understand what the repo is about.
 
 ---
 
+## Repository
+
+- Default branch: `main`
+
+`<default-branch>` in any skill or agent file stands for the branch named here. The branch filters of
+`.github/workflows/ci.yml` name it too and must match; they cannot read this file.
+
+---
+
 ## Commands
 
 Fill in the commands of this repository. While a command is not configured, say so instead of running it.
@@ -28,7 +37,7 @@ Fill in the commands of this repository. While a command is not configured, say 
 
 ## Git Workflow
 
-All work happens on feature branches. `main` is read-only: inspect it, but never commit to it, rebase it, or modify it in any way.
+All work happens on feature branches. The default branch is read-only: inspect it, but never commit to it, rebase it, or modify it in any way.
 
 ### Feature branches
 
@@ -42,7 +51,7 @@ All work happens on feature branches. `main` is read-only: inspect it, but never
 
 **Never**:
 
-- Push to, rebase, or rewrite `main`
+- Push to, rebase, or rewrite the default branch
 - Force push with plain `--force`
 - Force push outside the `finish-work` procedures named above
 

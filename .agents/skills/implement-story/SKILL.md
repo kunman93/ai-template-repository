@@ -21,8 +21,8 @@ The main session runs on Sonnet 5.5, except steps 3 and 4, which always run on O
 
 Runs on Sonnet 5.5.
 
-- Fetch `main` from origin.
-- Create a branch `feature/<branch-name-based-on-issue>` based on `origin/main`.
+- Fetch `<default-branch>` from origin.
+- Create a branch `feature/<branch-name-based-on-issue>` based on `origin/<default-branch>`.
 
 ## 2. Verify clean state
 
