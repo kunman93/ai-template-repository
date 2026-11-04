@@ -45,12 +45,12 @@
 
 ## 4. Verification on git-sandbox
 
-- [ ] 4.1 Ask the maintainer for permission to change `kunman93/git-sandbox`, then follow the "Existing repository"
+- [x] 4.1 Ask the maintainer for permission to change `kunman93/git-sandbox`, then follow the "Existing repository"
   steps literally from the README in `../git-sandbox`, keeping its default branch `master` and setting it in
   `AGENTS.md`; fix any step that is unclear or wrong in the README and repeat until it runs as written
-- [ ] 4.2 Push the onboarding as a `chore/` branch and open a PR against `master` in git-sandbox; verify its `ci` check
+- [x] 4.2 Push the onboarding as a `chore/` branch and open a PR against `master` in git-sandbox; verify its `ci` check
   runs and passes, and record the commands, the listed existing files and the decisions taken for the PR of this change
-- [ ] 4.3 Run `openspec validate onboard-existing-repositories --strict` and verify it passes
+- [x] 4.3 Run `openspec validate onboard-existing-repositories --strict` and verify it passes
 
 ## Workflow follow-up
 
