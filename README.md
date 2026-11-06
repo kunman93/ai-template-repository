@@ -5,7 +5,12 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 ## What is included
 
 - `AGENTS.md`: instructions for coding agents (working style, default branch, commands, git workflow, engineering principles).
-- `.agents/skills/`: workflow skills for Stories (`implement-story`, `write-story`), bug fixes (`fix-bug`, `write-bug-report`), chores (`do-chore`), finishing work (`finish-work`) and commits (`git-commit`).
+- `.agents/skills/`:
+  - `write-story`, `implement-story`: workflow skills for Stories
+  - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
+  - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
+  - `finish-work`: creates the PR, finalizes the history and merges. You don't call it directly; `implement-story`, `fix-bug` and `do-chore` use it
+  - `git-commit`: a skill for making atomic commits
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
 - `.github/pull_request_template.md`: the pull request template that the agent fills out when it creates a PR.
@@ -22,11 +27,11 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 ## Adopting the template
 
-Both paths end with the same [setup](#setup).
+Both paths end with the same [Setup](#setup).
 
 ### New repository
 
-Create your repository from this template.
+Create your repository from this template. Once created, continue with [Setup](#setup).
 
 ### Existing repository
 
@@ -57,6 +62,10 @@ below never rename it.
    git ls-tree -r --name-only template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig | while read -r f; do [ -e "$f" ] || git checkout template/main -- "$f"; done
    ```
 
+   Copy the vendored skills (`.agents/skills/git-commit`) and the OpenSpec skills and prompts this way instead of
+   reinstalling them with `gh skill install` or `openspec init`. The copies match the versions this template tested,
+   and `gh skill update` and `openspec update` still work on them later.
+
 4. Decide for each file listed in step 2:
    - **Keep** yours: do nothing.
    - **Take** the template's: `git checkout template/main -- <file>`.
@@ -69,9 +78,7 @@ below never rename it.
 
 6. Review what came in with `git diff --staged`, then commit and open a PR.
 
-Copy the vendored skills (`.agents/skills/git-commit`) and the OpenSpec skills and prompts as above instead of
-reinstalling them with `gh skill install` or `openspec init`. The copies match the versions this template tested, and
-`gh skill update` and `openspec update` still work on them later.
+Next, continue with [Setup](#setup).
 
 ### Setup
 
@@ -97,13 +104,13 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 
 ### Syncing a project with the template
 
-The template is the source of truth for everything generic (workflow skills, reviewer, issue forms, engineering principles). Keep project-specific content (Repository, Commands, stack skills, `ci.yml`, the security link in `ISSUE_TEMPLATE/config.yml`, this README) apart from it.
+The template is the source of truth for everything generic (workflow skills, reviewer, issue forms, engineering principles). Keep project-specific content (Repository, Commands, stack skills, `ci.yml`, the security link in `ISSUE_TEMPLATE/config.yml`, this README) separate from it.
 
-- Prefer changing the template first through a `chore/` PR, then copy the paths into your repository. Histories are unrelated, so copy paths instead of merging. A repository onboarded as above already has the `template` remote. Otherwise add it once: `git remote add template <url>`. Then for each sync:
+- Prefer changing the template first through a `chore/` PR, then copy the paths into your repository. Histories are unrelated, so copy paths instead of merging. A repository onboarded as above already has the `template` remote. If not, add it once: `git remote add template <url>`. Then for each sync:
   1. Commit your work first, because the checkout below overwrites local edits without asking.
   2. `git fetch template`, then `git checkout template/main -- <paths>`.
   3. Review with `git diff --staged`, because the checkout stages what it copies. Files the template removed are not deleted for you.
 - If you improved a generic file in a project first, keep that change in its own commit, then port it with `git format-patch -1 <sha>` in the project and `git am -3 <patch-file>` in a clone of the template, through a `chore/` PR. `-3` only helps when the template's file changed; if `am` reports missing history, apply the patch by hand with `git apply --reject <patch-file>`.
-- Before starting a Story, run `git fetch template` and check for drift with `git diff template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md`. Expect permanent differences in `ci.yml`, `ISSUE_TEMPLATE/config.yml` and your stack skills.
-- Copy only `docs/decisions/adr-template.md` and `docs/decisions/README.md` from `docs/decisions/`. The records in it are your project's own decisions.
+- Before starting a Story, run `git fetch template` and check for drift with `git diff template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig`. Expect permanent differences in `ci.yml`, `ISSUE_TEMPLATE/config.yml`, `.gitignore`, `.editorconfig`, `openspec/config.yaml` and your stack skills.
+- Copy only `adr-template.md`, `README.md` and `0000-use-markdown-architectural-decision-records.md` from `docs/decisions/`. The other records in it are your project's own decisions.
 - Never copy `AGENTS.md`, `ci.yml` or `ISSUE_TEMPLATE/config.yml` wholesale: they mix generic content with your project's, so merge them by hand.
