@@ -64,10 +64,10 @@ PR is opened. Onboarding SHALL NOT rename the default branch.
   from `master`
 
 ### Requirement: Onboarding prepares later syncs
-The existing-repository path SHALL add the template as the git remote named `template`, the same remote that "Syncing a
-project with the template" uses, and SHALL end with reviewing the staged changes and committing them on a `chore/`
+The existing-repository path SHALL add the template as the git remote named `template`, so that later syncs need no further
+setup, and SHALL end with reviewing the staged changes and committing them on a `chore/`
 branch.
 
 #### Scenario: Sync after onboarding
-- **WHEN** a maintainer who onboarded a repository later follows "Syncing a project with the template"
+- **WHEN** a maintainer who onboarded a repository later wants to fetch template changes
 - **THEN** the `template` remote already exists and no further setup is needed
