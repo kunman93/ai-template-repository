@@ -18,12 +18,16 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
 - `openspec/`, `.github/skills/openspec-*` and `.github/prompts/opsx-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
 
+---
+
 ## Prerequisites
 
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
 - [GitHub CLI](https://cli.github.com) (`gh`), signed in
 - [Git](https://git-scm.com) 2.56 or later, because the `git-commit` skill stages resolved merge conflicts with `git add --resolved`
 - [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec)
+
+---
 
 ## Adopting the template
 
@@ -93,6 +97,8 @@ Next, continue with [Setup](#setup).
 7. Describe your project in this README.
 
 Create Stories and bug reports with the `write-story` and `write-bug-report` skills, then work on them with `implement-story`, `fix-bug` or `do-chore`.
+
+---
 
 ## Keeping the template up to date
 
