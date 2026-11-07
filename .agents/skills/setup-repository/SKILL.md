@@ -6,7 +6,8 @@ description: 'Apply the project-specific Setup of a repository that adopted this
 # Set Up a Repository
 
 Fills in the template placeholders of a repository whose template files, including `.agents/skills/`, are already in
-place. To get the files, use "Adopting the template" in `README.md`. Changes go through a `chore/` branch and a
+place. To get the files, use the `onboard-repository` skill (or the manual steps in "Adopting the template" in
+`README.md`). Changes go through a `chore/` branch and a
 reviewed PR. The skill only fills in placeholders and leaves every other value as it is.
 
 The whole workflow runs on Sonnet 5.5 in the main session. Step 5 runs the `reviewer` subagent, which is pinned to Opus 5.5 in its agent file.
@@ -33,7 +34,8 @@ stash them and stop.
 - The workflows under `.github/workflows/` other than `ci.yml`, with their triggers and job names.
 - The skills under `.agents/skills/` that are not template skills and whose name does not appear in `AGENTS.md`.
   Template skills are the ones on the `template` remote (when it exists), otherwise `write-story`,
-  `implement-story`, `write-bug-report`, `fix-bug`, `do-chore`, `setup-repository`, `finish-work` and `git-commit`.
+  `implement-story`, `write-bug-report`, `fix-bug`, `do-chore`, `onboard-repository`, `setup-repository`, `finish-work`
+  and `git-commit`.
 - The effective rules on the default branch: `gh api repos/{owner}/{repo}/rules/branches/<default-branch>`. If GitHub
   refuses it (for example on a private repository without a paid plan), the ruleset step is "cannot do" with GitHub's
   message, and the ruleset is not offered.
@@ -108,8 +110,8 @@ Runs on Sonnet 5.5. Skip this step when no file change was confirmed.
   `<default-branch>`, fetch it and create `chore/setup-repository` from `origin/<default-branch>`; if that branch
   already exists, ask whether to reuse it, otherwise stop and report.
 - Check that `AGENTS.md`, `.github/workflows/ci.yml` and `.github/ISSUE_TEMPLATE/config.yml` exist on the branch. If
-  not, the template files are not committed there: stop and tell the user to put the onboarding on a
-  `chore/adopt-template` branch (see "Adopting the template" in `README.md`).
+  not, the template files are not committed there: stop and tell the user to run the `onboard-repository` skill, or to
+  put the manual onboarding on a `chore/adopt-template` branch (see "Adopting the template" in `README.md`).
 - Make the confirmed changes and commit them with the `.agents/skills/git-commit` skill, one logical change per commit.
 - Check that `ci.yml` is still valid YAML with a job named `ci`.
 
