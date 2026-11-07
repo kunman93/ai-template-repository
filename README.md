@@ -9,6 +9,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
   - `write-story`, `implement-story`: workflow skills for Stories
   - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
+  - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
   - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) after you adopt the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
   - `finish-work`: creates the PR, finalizes the history and merges. You don't call it directly; `implement-story`, `fix-bug`, `do-chore` and `setup-repository` use it
   - `git-commit`: a skill for making atomic commits
@@ -36,9 +37,29 @@ Both a new and an existing repository follow the same list; only getting the fil
 
 1. Get the template files.
    - **New repository:** create your repository from this template.
-   - **Existing repository:** follow the steps below once, in your repository, with no uncommitted work. Your default
-     branch keeps its name; the steps never rename it. `<url>` is this template's URL and `<default-branch>` your
-     default branch, for example `master`.
+   - **Existing repository:** install the `onboard-repository` skill in your repository, with no uncommitted work
+     (replace `<owner>/<template>` with this template's repository):
+
+     ```sh
+     gh skill install <owner>/<template> onboard-repository --allow-hidden-dirs --dir .agents/skills
+     ```
+
+     `gh` warns: "Skills in hidden directories (e.g. .claude/, .agents/) may be installed copies from another
+     publisher. Verify the skill's origin and check for a canonical source." That is expected,
+     because this template keeps its skills in `.agents/skills`: check that `<owner>/<template>` is the template you
+     mean. Then run the `onboard-repository` skill in Copilot CLI. It copies only the template files your repository
+     does not have, asks whether to keep yours, take the template's or merge both for every file that differs, commits
+     on `chore/adopt-template` and then runs `setup-repository` (item 2) on the same branch, so both end in one PR.
+     Your default branch keeps its name and is never changed.
+
+     To pull later template changes, run `gh skill update onboard-repository --dir .agents/skills` and then the skill
+     again. It offers only the files the template changed since your last run.
+
+     <details>
+     <summary>Manual onboarding, without the skill</summary>
+
+     Follow the steps below once, in your repository, with no uncommitted work. `<url>` is this template's URL and
+     `<default-branch>` your default branch, for example `master`.
 
      1. Add the template as a remote, fetch it and start a branch from your up-to-date default branch.
 
@@ -78,10 +99,13 @@ Both a new and an existing repository follow the same list; only getting the fil
         `chore/adopt-template`. Do not open the PR yet: the next item sets your default branch on this branch, so that
         `ci` runs on the PR.
 
+     </details>
+
 2. Run the `setup-repository` skill in Copilot CLI. It sets the default branch, Commands, `ci` steps, security link,
    stack skills and the ruleset (the [manual setup](#manual-setup) below lists the same steps), asks before every
    change, keeps values that are already set and can be run again. On `chore/adopt-template` it adds its changes to the
-   same PR.
+   same PR. The `onboard-repository` skill runs it for you, so on an existing repository you run it yourself only after
+   the manual onboarding.
 3. Describe your project in this README.
 
 ### Manual setup
