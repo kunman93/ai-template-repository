@@ -56,6 +56,8 @@ Classify each Setup step. A value is a placeholder only if it is the template's 
   `ci.yml` filters; a missing section or filter is left out of the comparison) with each other and with GitHub.
   - All hold `main` and GitHub's default branch differs: placeholders.
   - All hold the same value, equal to GitHub's: already set.
+  - `AGENTS.md` holds `main`, `ci.yml` has at least one filter, and every `ci.yml` filter holds GitHub's default
+    branch, which is not `main`: `AGENTS.md` is a placeholder and `ci.yml` is already set.
   - Otherwise (the values disagree, or all hold another value than GitHub's): change none of them and report every
     location as a mismatch, so the skill never makes `AGENTS.md` and `ci.yml` name different branches.
 - A `ci.yml` the maintainer kept from their own repository is never rewritten.
@@ -68,8 +70,9 @@ marked "to change", "already set", "mismatch" or "cannot do", with the reason.
 Runs on Sonnet 5.5. Ask about each change one at a time, showing the current and the proposed value. Apply a change
 only after the user confirms it. A declined change stays unchanged and is reported as not done.
 
-- **Default branch:** propose the branch from GitHub for the Repository section of `AGENTS.md` and both `ci.yml`
-  filters when they hold `main` and it differs, and remove the `TODO` comments on those filters. When the section is
+- **Default branch:** propose the branch from GitHub for each of the Repository section of `AGENTS.md` and both
+  `ci.yml` filters that is a placeholder (only `AGENTS.md` when `ci.yml` is already set), and remove the `TODO`
+  comments on the filters it changes. When the section is
   missing, offer to add it with the template's wording, naming GitHub's default branch, and leave the rest of the file
   unchanged (append the section at the end when the file has no matching place).
 - **Commands:** propose each unset command only from what a manifest defines or what its tool standardizes. When there
