@@ -37,18 +37,17 @@ Both a new and an existing repository follow the same list; only getting the fil
 
 1. Get the template files.
    - **New repository:** create your repository from this template.
-   - **Existing repository:** install the `onboard-repository` skill in your repository, with no uncommitted work
-     (replace `<owner>/<template>` with this template's repository):
+   - **Existing repository:** install the `onboard-repository` skill in your repository, with no uncommitted work:
 
      ```sh
-     gh skill install <owner>/<template> onboard-repository --allow-hidden-dirs --dir .agents/skills
+     gh skill install kunman93/ai-template-repository onboard-repository --allow-hidden-dirs --dir .agents/skills
      ```
 
      `gh` warns: "Skills in hidden directories (e.g. .claude/, .agents/) may be installed copies from another
      publisher. Verify the skill's origin and check for a canonical source." That is expected,
-     because this template keeps its skills in `.agents/skills`: check that `<owner>/<template>` is the template you
-     mean. Then run the `onboard-repository` skill in Copilot CLI. It copies only the template files your repository
-     does not have, asks whether to keep yours, take the template's or merge both for every file that differs, commits
+     because this template keeps its skills in `.agents/skills`; the canonical source is
+     `kunman93/ai-template-repository`. Then run the `onboard-repository` skill in Copilot CLI. It copies only the
+     template files your repository does not have, asks whether to keep yours, take the template's or merge both for every file that differs, commits
      on `chore/adopt-template` and then runs `setup-repository` (item 2) on the same branch, so both end in one PR.
      Your default branch keeps its name and is never changed.
 
@@ -58,13 +57,13 @@ Both a new and an existing repository follow the same list; only getting the fil
      <details>
      <summary>Manual onboarding, without the skill</summary>
 
-     Follow the steps below once, in your repository, with no uncommitted work. `<url>` is this template's URL and
-     `<default-branch>` your default branch, for example `master`.
+     Follow the steps below once, in your repository, with no uncommitted work. `<default-branch>` is your default
+     branch, for example `master`.
 
      1. Add the template as a remote, fetch it and start a branch from your up-to-date default branch.
 
         ```sh
-        git remote add template <url>
+        git remote add template https://github.com/kunman93/ai-template-repository.git
         git fetch template
         git fetch origin
         git switch -c chore/adopt-template origin/<default-branch>
