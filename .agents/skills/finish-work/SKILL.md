@@ -5,7 +5,7 @@ description: 'Finish a Story, bug fix or chore after its implementation is revie
 
 # Finish a Story, Bug Fix or Chore
 
-Procedures for the Create PR, Archive (Stories) or Finalize (bug fixes and chores), and Merge steps of the `implement-story`, `fix-bug` and `do-chore` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5, so run the model and agent check of the workflow skill in use first.
+Procedures for the Create PR, Archive (Stories) or Finalize (bug fixes and chores), and Merge steps of the `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5, so run the model and agent check of the workflow skill in use first. For `setup-repository`, "the Implement step" below means its step 3 (Branch and commit).
 
 ## Create PR
 

@@ -115,6 +115,7 @@ Load the matching skill before starting any work, and follow it:
 - A Story issue: `implement-story` (`feature/` branch).
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
+- Applying the project-specific Setup of a repository that adopted the template (default branch, Commands, `ci` steps, security link, stack skills, `ci` ruleset): `setup-repository` (`chore/` branch).
 
 Stories and bug reports are created only with the `write-story` and `write-bug-report` skills, never as free-form issues.
 

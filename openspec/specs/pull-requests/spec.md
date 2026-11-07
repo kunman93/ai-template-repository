@@ -76,9 +76,9 @@ After creating a PR, the agent SHALL update its description whenever pushed chan
 - **THEN** any path to the change in the PR description points to its location under `openspec/changes/archive/`
 
 ### Requirement: All workflows open PRs the same way
-The `implement-story`, `fix-bug` and `do-chore` workflows SHALL create pull requests only through the Create PR
-procedure of the `finish-work` skill, so they get the template without instructions of their own.
+The `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflows SHALL create pull requests only through
+the Create PR procedure of the `finish-work` skill, so they get the template without instructions of their own.
 
 #### Scenario: Any workflow reaches PR creation
-- **WHEN** a Story, bug fix or chore reaches its Create PR step
+- **WHEN** a Story, bug fix, chore or repository setup reaches its Create PR step
 - **THEN** the PR is created by the `finish-work` Create PR procedure and follows the template
