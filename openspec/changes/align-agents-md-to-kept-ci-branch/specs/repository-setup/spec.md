@@ -4,8 +4,9 @@
 The skill SHALL change only values that still hold the template's placeholder: the default branch `main`, a command
 reading `_not configured_`, the placeholder step of the `ci` job, and a security advisory link that does not point to
 the current repository. It SHALL NOT overwrite any other value; it reports it as already set, and a conflicting value
-as a mismatch for the maintainer to resolve. A `main` in `AGENTS.md` SHALL also count as a placeholder when every
-branch filter in `ci.yml` names GitHub's default branch; `ci.yml` then counts as already set and is never rewritten.
+as a mismatch for the maintainer to resolve. A `main` in `AGENTS.md` SHALL also count as a placeholder when `ci.yml` has
+at least one branch filter, every filter names GitHub's default branch and that branch is not `main`; `ci.yml` then
+counts as already set and is never rewritten.
 
 #### Scenario: Commands already filled in
 - **WHEN** the Test command in `AGENTS.md` is already set
