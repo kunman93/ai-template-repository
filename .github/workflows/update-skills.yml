@@ -6,8 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   vendored-skills:
@@ -21,10 +20,15 @@ jobs:
       - run: gh skill update --all --dir .agents/skills
         env:
           GH_TOKEN: ${{ github.token }}
+      # PRs opened with the default token do not trigger `ci`, so the PR is opened with a GitHub App token.
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.UPDATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.UPDATE_APP_PRIVATE_KEY }}
       - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
         with:
-          # PRs opened with the default token do not trigger `ci`; the secret should be a PAT or GitHub App token.
-          token: ${{ secrets.UPDATE_PR_TOKEN || github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           branch: chore/update-vendored-skills
           commit-message: "chore: update vendored skills"
           title: "chore: update vendored skills"
@@ -49,9 +53,14 @@ jobs:
           openspec config set workflows '["propose","explore","apply","update","sync","archive"]'
           openspec config set delivery both
           openspec update
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.UPDATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.UPDATE_APP_PRIVATE_KEY }}
       - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
         with:
-          token: ${{ secrets.UPDATE_PR_TOKEN || github.token }}
+          token: ${{ steps.app-token.outputs.token }}
           branch: chore/update-openspec
           commit-message: "chore: update openspec"
           title: "chore: update openspec"
