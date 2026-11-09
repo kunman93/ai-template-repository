@@ -47,8 +47,9 @@ Whenever you create a PR, always give the user its URL in this form: `🔀 PR: <
 
 After the first push, do not rewrite the history during review. Fix CI failures and review findings with
 `git commit --fixup=<sha>` commits targeting the commit they belong to, and push them normally, so the user can
-review incremental changes. They are squashed in [Finalize history](#finalize-history). Never reword `fixup!` subjects
-(autosquash matches on them). A finding that is a new logical change, not belonging to an existing commit, gets a normal
+review incremental changes. If a later commit also changed the same lines, target the latest of them (find it with
+`git blame`), so the autosquash replays without conflicts. They are squashed in [Finalize history](#finalize-history).
+Never reword `fixup!` subjects (autosquash matches on them). A finding that is a new logical change, not belonging to an existing commit, gets a normal
 atomic commit with the `git-commit` skill instead.
 
 After every push, check the PR description against the branch. If a section is no longer accurate, update it with
@@ -94,8 +95,9 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
 
 1. Create a backup: `git branch -f backup/<branch>` (`-f` so a stale backup never blocks).
 2. Squash the fixups: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $(git merge-base HEAD origin/<default-branch>)`.
-   If it stops on a conflict, run `git rebase --abort` and `git reset --hard backup/<branch>`, and ask the user how to
-   proceed. Otherwise verify `git diff backup/<branch> HEAD` is empty. If it is not, run
+   If it stops on a conflict, resolve it yourself and continue with `git rebase --continue`: the squash must not
+   change the content, so the final content is the backup's, and the empty diff below proves the resolution. Then
+   verify `git diff backup/<branch> HEAD` is empty. If it is not, run
    `git reset --hard backup/<branch>` and ask the user how to proceed. Keep the backup until the user decides;
    delete it if finalizing is abandoned.
 3. Run `git fetch origin <default-branch>` and `git rebase origin/<default-branch>`. If it stops on conflicts, resolve them commit by commit
