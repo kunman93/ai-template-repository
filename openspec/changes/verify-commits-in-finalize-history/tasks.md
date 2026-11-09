@@ -2,11 +2,11 @@
 
 ## 1. The check script
 
-- [ ] 1.1 Write `.agents/skills/finish-work/scripts/check-commits.test.sh` with one case per scenario of
+- [x] 1.1 Write `.agents/skills/finish-work/scripts/check-commits.test.sh` with one case per scenario of
   `specs/commit-check/spec.md` that concerns the script (fixup, no type, unknown type, 73
   characters, valid subjects incl. scope and `!`, missing / wrong / non-trailer `Refs:`, no issue, clean history,
   unknown base, non-numeric issue), each in a throwaway repository under `mktemp -d`; verify it fails because the script does not exist yet
-- [ ] 1.2 Write `.agents/skills/finish-work/scripts/check-commits.sh <base> [<issue>]` per design.md (git only,
+- [x] 1.2 Write `.agents/skills/finish-work/scripts/check-commits.sh <base> [<issue>]` per design.md (git only,
   `<short-sha> <subject>: <reason>` lines, exit 0 / 1 / 2) and make both files executable; verify the test script
   passes 10 times in a row, and that it fails when the 72-character limit, the `amend!` marker or the trailer-only
   `Refs:` lookup is broken on purpose (restore each afterwards)
