@@ -43,7 +43,7 @@ Record `git ls-remote origin master` before starting.
 
 ## 4. Validation
 
-- [ ] 4.1 Run `openspec validate verify-commits-in-finalize-history --strict`; verify it passes
+- [x] 4.1 Run `openspec validate verify-commits-in-finalize-history --strict`; verify it passes
 
 ## Workflow follow-up
 
