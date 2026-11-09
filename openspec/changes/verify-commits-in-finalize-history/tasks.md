@@ -20,7 +20,7 @@
 - [x] 2.2 In the Finalize history section, run the check after the archive sub-step and before the push, with the fix
   loop of design.md (record `HEAD`, fix, prove `git diff <recorded> HEAD` empty, rerun; reset and ask on a content
   change); verify by walking the "Missing trailer on the archive commit" scenario through the new text
-- [ ] 2.3 In the Git Workflow section of `AGENTS.md`, state the `Refs: #<n>` trailer rule for branches that belong to
+- [x] 2.3 In the Git Workflow section of `AGENTS.md`, state the `Refs: #<n>` trailer rule for branches that belong to
   an issue, in the same trailer block as `Co-authored-by` with no blank line; verify against the "Reader looks up the
   rule" scenario
 - [ ] 2.4 In `README.md`, mention in the `finish-work` entry that it checks the commits mechanically before each push
