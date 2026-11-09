@@ -70,6 +70,27 @@ expect_status 1
 expect_output "$(sha) fixup! feat(skills): add the check: leftover fixup"
 expect_not_output "not a Conventional Commits subject"
 
+case_name="leftover squash and amend commits"
+new_repo
+commit "squash! feat: a"
+squash_sha="$(sha)"
+commit "amend! feat: a"
+run_check base
+expect_status 1
+expect_output "$squash_sha squash! feat: a: leftover fixup"
+expect_output "$(sha) amend! feat: a: leftover fixup"
+
+case_name="several offending commits"
+new_repo
+commit "update readme"
+first_sha="$(sha)"
+commit "docs: fine"
+commit "fixup! docs: fine"
+run_check base
+expect_status 1
+expect_output "$first_sha update readme: not a Conventional Commits subject"
+expect_output "$(sha) fixup! docs: fine: leftover fixup"
+
 case_name="subject without a type"
 new_repo
 commit "update readme"
