@@ -11,7 +11,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
   - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
   - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) after you adopt the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
-  - `finish-work`: creates the PR, finalizes the history and merges. You don't call it directly; `implement-story`, `fix-bug`, `do-chore` and `setup-repository` use it
+  - `finish-work`: has the cleaned-up commits reviewed, creates the PR, finalizes the history and merges. You don't call it directly; `implement-story`, `fix-bug`, `do-chore` and `setup-repository` use it
   - `git-commit`: a skill for making atomic commits
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.

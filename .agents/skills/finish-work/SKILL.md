@@ -5,7 +5,7 @@ description: 'Finish a Story, bug fix or chore after its implementation is revie
 
 # Finish a Story, Bug Fix or Chore
 
-Procedures for the Create PR, Archive (Stories) or Finalize (bug fixes and chores), and Merge steps of the `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5, so run the model and agent check of the workflow skill in use first. For `setup-repository`, "the Implement step" below means its step 3 (Branch and commit).
+Procedures for the Create PR, Archive (Stories) or Finalize (bug fixes and chores), and Merge steps of the `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5 in the main session, except the commit review, which runs in the `reviewer` subagent pinned to Opus 5.5, so run the model and agent check of the workflow skill in use first. For `setup-repository`, "the Implement step" below means its step 3 (Branch and commit).
 
 ## Create PR
 
@@ -15,7 +15,14 @@ Before creating the PR, clean up the history into atomic commits:
 2. Rewrite the history, for example by squashing fixups and rewording.
 3. Verify the content is unchanged: `git diff backup/<branch> HEAD` must be empty.
    If it is not, run `git reset --hard backup/<branch>` and retry.
-4. Delete the backup: `git branch -D backup/<branch>`.
+4. Have the custom `reviewer` subagent
+   ([.github/agents/reviewer.agent.md](../../../.github/agents/reviewer.agent.md)), pinned to Opus 5.5, do a commit
+   review of the cleaned-up history against `origin/<default-branch>`. No `/model` switch is needed, so start it
+   automatically. If it reports a CRITICAL or MAJOR finding (verdict REQUEST CHANGES), rewrite the history again to fix
+   it, repeat sub-step 3 against the same backup, and run the commit review again. Repeat until no CRITICAL or MAJOR
+   finding remains, and tell the user about any MINOR findings when you give the PR URL. If a rewrite breaks the
+   content, run `git reset --hard backup/<branch>`.
+5. Delete the backup: `git branch -D backup/<branch>`.
 
 Then push the feature branch and create a PR targeting `<default-branch>`. If the branch was already pushed, push with
 `git push --force-with-lease --force-if-includes`.

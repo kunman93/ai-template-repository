@@ -134,7 +134,7 @@ review again until there are none.
 
 Runs on Sonnet 5.5.
 
-- Clean up the history, push the branch, create the PR, wait for `ci`, and handle CI failures and PR review findings
+- Clean up the history, have the `reviewer` subagent review the cleaned-up commits, push the branch, create the PR, wait for `ci`, and handle CI failures and PR review findings
   with the `finish-work` skill (section "Create PR").
 - Wait for the user's explicit approval of the PR in the conversation. Then finalize the history and merge with the
   `finish-work` skill (sections "Finalize history" and "Merge"). Never merge without the user's approval and a green
