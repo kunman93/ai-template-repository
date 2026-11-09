@@ -91,8 +91,8 @@ Runs on Sonnet 5.5. Ask about one file at a time. Apply nothing yet.
 - For each file to ask about, show `git diff <base>:<path> <T>:<path>` (the repository's version against the
   template's) and, with `B`, `git diff <B>:<path> <T>:<path>` (what the template changed). Offer keep, take and merge, or
   keep and delete for a file the template removed.
-- Recommend merge for `AGENTS.md`, `.github/workflows/ci.yml` and `.github/ISSUE_TEMPLATE/config.yml`, because they mix
-  generic content with the project's. Recommend take when `L` equals the template's version at `B`, because the
+- Recommend merge for `AGENTS.md`, `.github/workflows/ci.yml`, `.github/ISSUE_TEMPLATE/config.yml` and
+  `.github/dependabot.yml`, because they mix generic content with the project's. Recommend take when `L` equals the template's version at `B`, because the
   repository never changed it. Otherwise recommend nothing.
 - Keep means the file is not written and stays byte-identical. When the user keeps `.github/workflows/ci.yml`, warn
   that `setup-repository` and the `ci` ruleset expect a job named `ci`.
