@@ -1,6 +1,8 @@
 name: Update skills
 
 on:
+  push:
+    branches: [chore/automate-skill-updates]
   schedule:
     - cron: "0 5 * * *"
   workflow_dispatch:
