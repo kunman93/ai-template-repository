@@ -72,7 +72,7 @@ then run the review again. Repeat until the reviewer approves without any MAJOR 
 
 Runs on Sonnet 5.5.
 
-- Clean up the history, push the feature branch, create the PR, wait for `ci`, and handle CI failures and PR review
+- Clean up the history, have the `reviewer` subagent review the cleaned-up commits, push the feature branch, create the PR, wait for `ci`, and handle CI failures and PR review
   findings with the `finish-work` skill (`.agents/skills/finish-work`, section "Create PR").
 - Do not archive until the user approves.
 
