@@ -1,0 +1,72 @@
+name: Update skills
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  vendored-skills:
+    if: github.repository == 'kunman93/ai-template-repository'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: gh skill update --all --dir .agents/skills
+        env:
+          GH_TOKEN: ${{ github.token }}
+      # PRs opened with the default token do not trigger `ci`, so the PR is opened with a GitHub App token.
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.UPDATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.UPDATE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: chore/update-vendored-skills
+          commit-message: "chore: update vendored skills"
+          title: "chore: update vendored skills"
+          body: "Automated `gh skill update --all --dir .agents/skills`. See `.agents/skills/VENDORED.md`."
+          delete-branch: true
+
+  openspec:
+    if: github.repository == 'kunman93/ai-template-repository'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - run: npm install --global --ignore-scripts @fission-ai/openspec@latest
+      # The runner has no global config, so set the profile this repository's generated files come from.
+      - run: |
+          openspec config set profile custom
+          openspec config set workflows '["propose","explore","apply","update","sync","archive"]'
+          openspec config set delivery both
+          openspec update
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.UPDATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.UPDATE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: chore/update-openspec
+          commit-message: "chore: update openspec"
+          title: "chore: update openspec"
+          body: "Automated upgrade to the latest OpenSpec CLI followed by `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`."
+          delete-branch: true

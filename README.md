@@ -17,6 +17,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
 - `.github/pull_request_template.md`: the pull request template that the agent fills out when it creates a PR.
 - `.github/workflows/ci.yml`: a CI skeleton with the job `ci`.
+- `.github/workflows/update-skills.yml`: the template's own daily skill updates; it runs only in the template repository.
 - `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
 - `openspec/`, `.github/skills/openspec-*` and `.github/prompts/opsx-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
 
@@ -129,4 +130,5 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 
 - **OpenSpec:** upgrade the OpenSpec CLI, then run `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`, so never edit those by hand.
 - **Vendored skills:** copied unchanged from upstream, so never edit them locally. Update them with `gh skill update --all --dir .agents/skills`, which reads the source from the `metadata` of each `SKILL.md` (see `.agents/skills/VENDORED.md`). `--dir` keeps it from touching skills installed outside the repository. The warnings about skills without GitHub metadata are expected: the template's own workflow skills are not vendored.
+- **Automatic updates:** `.github/workflows/update-skills.yml` runs both updates daily and opens one PR per update (`chore/update-vendored-skills`, `chore/update-openspec`). It only runs in this template repository: its jobs are guarded by `github.repository`, so it stays inert in repositories that adopt the template. PRs opened with the default token do not trigger `ci`, so the jobs open them with a GitHub App token. Create a GitHub App with Contents and Pull requests write access, install it on this repository, and store its Client ID as the variable `UPDATE_APP_CLIENT_ID` and its private key as the secret `UPDATE_APP_PRIVATE_KEY`.
 - **Decision record template:** `docs/decisions/adr-template.md` is copied unchanged from MADR; never edit it locally. The source and upgrade steps are in `docs/decisions/README.md`.
