@@ -17,6 +17,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
 - `.github/pull_request_template.md`: the pull request template that the agent fills out when it creates a PR.
 - `.github/workflows/ci.yml`: a CI skeleton with the job `ci`.
+- `.github/dependabot.yml`: a monthly Dependabot update of the GitHub Actions the workflows use, grouped into one PR. The workflows pin third-party actions to a commit SHA, which Dependabot keeps current.
 - `.github/workflows/update-skills.yml`: the template's own daily skill updates; it runs only in the template repository.
 - `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
 - `openspec/`, `.github/skills/openspec-*` and `.github/prompts/opsx-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
