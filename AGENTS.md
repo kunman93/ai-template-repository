@@ -43,6 +43,10 @@ All work happens on feature branches. The default branch is read-only: inspect i
 
 - Name branches `feature/<branch-name-based-on-issue>` (use `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
 - Commit with the `.agents/skills/git-commit` skill. Make atomic commits: one logical change per commit.
+- On a branch that belongs to an issue (`feature/` and `fix/`), end every commit message with the trailer
+  `Refs: #<issue>` (one trailer per issue), in the same final trailer block as `Co-authored-by`, with no blank line
+  between them (otherwise git
+  does not read it as a trailer). The Create PR and Finalize history procedures of the `finish-work` skill verify it.
 - Pushing the feature branch is allowed. This and the `finish-work` procedures below are the explicit request for the
   pushes that the `git-commit` skill otherwise forbids.
 - Rewrite and force push your own feature branch only in the Create PR, Finalize history and Merge procedures of the
