@@ -23,7 +23,7 @@
 - [x] 2.3 In the Git Workflow section of `AGENTS.md`, state the `Refs: #<n>` trailer rule for branches that belong to
   an issue, in the same trailer block as `Co-authored-by` with no blank line; verify against the "Reader looks up the
   rule" scenario
-- [ ] 2.4 In `README.md`, mention in the `finish-work` entry that it checks the commits mechanically before each push
+- [x] 2.4 In `README.md`, mention in the `finish-work` entry that it checks the commits mechanically before each push
   of a rewritten history; verify the entry matches the new sections
 
 ## 3. Verification in git-sandbox
