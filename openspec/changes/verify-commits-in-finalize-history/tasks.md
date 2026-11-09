@@ -13,11 +13,11 @@
 
 ## 2. finish-work and documentation
 
-- [ ] 2.1 In the Create PR section of `.agents/skills/finish-work/SKILL.md`, run the check after the content check and
+- [x] 2.1 In the Create PR section of `.agents/skills/finish-work/SKILL.md`, run the check after the content check and
   before the commit review, passing `<issue>` on `feature/` and `fix/` branches and none on `chore/`; on failure fix
   the history, repeat the content check against the backup and rerun the check; verify by walking the "Chore branch"
   scenario through the new text
-- [ ] 2.2 In the Finalize history section, run the check after the archive sub-step and before the push, with the fix
+- [x] 2.2 In the Finalize history section, run the check after the archive sub-step and before the push, with the fix
   loop of design.md (record `HEAD`, fix, prove `git diff <recorded> HEAD` empty, rerun; reset and ask on a content
   change); verify by walking the "Missing trailer on the archive commit" scenario through the new text
 - [ ] 2.3 In the Git Workflow section of `AGENTS.md`, state the `Refs: #<n>` trailer rule for branches that belong to

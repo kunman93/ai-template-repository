@@ -15,14 +15,17 @@ Before creating the PR, clean up the history into atomic commits:
 2. Rewrite the history, for example by squashing fixups and rewording.
 3. Verify the content is unchanged: `git diff backup/<branch> HEAD` must be empty.
    If it is not, run `git reset --hard backup/<branch>` and retry.
-4. Have the custom `reviewer` subagent
+4. Run the [commit check](#commit-check). If it fails, rewrite the history to fix every reported commit, repeat
+   sub-step 3 against the same backup, and run the commit check again. Repeat until it passes. If a rewrite breaks the
+   content, run `git reset --hard backup/<branch>`.
+5. Have the custom `reviewer` subagent
    ([.github/agents/reviewer.agent.md](../../../.github/agents/reviewer.agent.md)), pinned to Opus 5.5, do a commit
    review of the cleaned-up history against `origin/<default-branch>`. No `/model` switch is needed, so start it
    automatically. If it reports a CRITICAL or MAJOR finding (verdict REQUEST CHANGES), rewrite the history again to fix
-   it, repeat sub-step 3 against the same backup, and run the commit review again. Repeat until no CRITICAL or MAJOR
-   finding remains, and tell the user about any MINOR findings when you give the PR URL. If a rewrite breaks the
+   it, repeat sub-steps 3 and 4 against the same backup, and run the commit review again. Repeat until no CRITICAL or
+   MAJOR finding remains, and tell the user about any MINOR findings when you give the PR URL. If a rewrite breaks the
    content, run `git reset --hard backup/<branch>`.
-5. Delete the backup: `git branch -D backup/<branch>`.
+6. Delete the backup: `git branch -D backup/<branch>`.
 
 Then push the feature branch and create a PR targeting `<default-branch>`. If the branch was already pushed, push with
 `git push --force-with-lease --force-if-includes`.
@@ -106,7 +109,8 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
      resolves the conflict, or makes no edits and reports it as non-trivial, in which case ask the user.
 
    If `<default-branch>` brought in changes, run all commands in the Commands section of `AGENTS.md` and tell the user. If there
-   were conflicts, also run the Review step of the workflow skill in use, push with
+   were conflicts, also run the Review step of the workflow skill in use, run the [commit check](#commit-check) (fixing
+   failures as in sub-step 5), push with
    `git push --force-with-lease --force-if-includes`, tell the user, and wait for their re-approval before continuing.
 4. Check for an unarchived change:
    `git diff --name-only --diff-filter=A origin/<default-branch>...HEAD -- openspec/changes ':!openspec/changes/archive'`.
@@ -114,10 +118,30 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
    (`/opsx-archive`) and commit. The archive moves the change to `openspec/changes/archive/`, so update any path to it
    in the PR description. If it lists nothing, skip this sub-step. If it lists nothing during the Archive step of
    `implement-story`, tell the user that no unarchived change was found on the branch.
-5. Push with `git push --force-with-lease --force-if-includes` and wait for `ci` with `gh pr checks <n> --watch`.
+5. Run the [commit check](#commit-check). If it fails, record the commit with `git rev-parse HEAD`, rewrite the
+   history to fix every reported commit (for example with a non-interactive rebase that rewords it or adds the
+   trailer), verify `git diff <recorded-commit> HEAD` is empty, and run the commit check again. Repeat until it
+   passes. If a fix would change the content, run `git reset --hard <recorded-commit>` and ask the user how to
+   proceed.
+6. Push with `git push --force-with-lease --force-if-includes` and wait for `ci` with `gh pr checks <n> --watch`.
    If `ci` fails, fix it with fixup commits (the Implement step of the workflow skill in use), push them normally, and run this
    procedure again from sub-step 1.
-6. Delete the backup only once `ci` is green: `git branch -D backup/<branch>`.
+7. Delete the backup only once `ci` is green: `git branch -D backup/<branch>`.
+
+## Commit check
+
+Verifies the commits mechanically, without a model, before a rewritten history is pushed:
+
+```bash
+.agents/skills/finish-work/scripts/check-commits.sh origin/<default-branch> [<issue>]
+```
+
+Pass the issue number of the Story or bug report on a `feature/` or `fix/` branch, so that every commit needs the
+trailer `Refs: #<issue>`. Pass none on a `chore/` branch (including `setup-repository` and `onboard-repository`),
+which has no issue. It exits non-zero and names each offending commit by short SHA and subject when a commit is a
+leftover `fixup!`, `squash!` or `amend!` commit, has a subject that is not a Conventional Commits subject or is longer
+than 72 characters, or lacks the trailer. It exits `2` on a usage error, which is not a clean history. After changing
+the script, run `.agents/skills/finish-work/scripts/check-commits.test.sh`.
 
 ## Archive
 
