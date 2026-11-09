@@ -32,13 +32,13 @@ Runs from the main session in a clone of `kunman93/git-sandbox` (default branch 
 a throwaway branch `feature/commit-check-e2e` cut from `origin/master`, against a throwaway issue in `git-sandbox`.
 Record `git ls-remote origin master` before starting.
 
-- [ ] 3.1 Commit a valid history with `Refs: #<n>` trailers plus a `fixup!` commit, push and create a PR to `master`;
+- [x] 3.1 Commit a valid history with `Refs: #<n>` trailers plus a `fixup!` commit, push and create a PR to `master`;
   run Finalize history with this branch's script, with an archive-like last commit that lacks the trailer and a
   commit with a non-conventional subject; verify the check fails naming those commits by short SHA and subject, and
   that nothing is pushed
-- [ ] 3.2 Fix the history per the Finalize history fix loop; verify `git diff <recorded> HEAD` is empty, the check
+- [x] 3.2 Fix the history per the Finalize history fix loop; verify `git diff <recorded> HEAD` is empty, the check
   passes, and the push succeeds
-- [ ] 3.3 Close the PR and the issue, delete the remote and local throwaway branches and the clone; verify
+- [x] 3.3 Close the PR and the issue, delete the remote and local throwaway branches and the clone; verify
   `git ls-remote origin master` shows the same commit as before
 
 ## 4. Validation
