@@ -31,7 +31,8 @@ stash them and stop.
   the steps of the `ci` job) and `.github/ISSUE_TEMPLATE/config.yml` (security advisory URL).
 - The manifests in the repository root (for example `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`,
   `pom.xml`, `build.gradle`, `Makefile`).
-- The workflows under `.github/workflows/` other than `ci.yml`, with their triggers and job names.
+- The workflows under `.github/workflows/` other than `ci.yml` and `update-skills.yml` (the template's own, guarded to
+  run only in the template repository), with their triggers and job names.
 - The skills under `.agents/skills/` that are not template skills and whose name does not appear in `AGENTS.md`.
   Template skills are the ones on the `template` remote (when it exists), otherwise `write-story`,
   `implement-story`, `write-bug-report`, `fix-bug`, `do-chore`, `onboard-repository`, `setup-repository`, `finish-work`

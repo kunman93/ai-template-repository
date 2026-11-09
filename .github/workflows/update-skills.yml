@@ -1,0 +1,59 @@
+name: Update skills
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  vendored-skills:
+    if: github.repository == 'kunman93/ai-template-repository'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: gh skill update --all --dir .agents/skills
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
+        with:
+          # PRs opened with the default token do not trigger `ci`; the secret should be a PAT or GitHub App token.
+          token: ${{ secrets.UPDATE_PR_TOKEN || github.token }}
+          branch: chore/update-vendored-skills
+          commit-message: "chore: update vendored skills"
+          title: "chore: update vendored skills"
+          body: "Automated `gh skill update --all --dir .agents/skills`. See `.agents/skills/VENDORED.md`."
+          delete-branch: true
+
+  openspec:
+    if: github.repository == 'kunman93/ai-template-repository'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - run: npm install --global --ignore-scripts @fission-ai/openspec@latest
+      # The runner has no global config, so set the profile this repository's generated files come from.
+      - run: |
+          openspec config set profile custom
+          openspec config set workflows '["propose","explore","apply","update","sync","archive"]'
+          openspec config set delivery both
+          openspec update
+      - uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
+        with:
+          token: ${{ secrets.UPDATE_PR_TOKEN || github.token }}
+          branch: chore/update-openspec
+          commit-message: "chore: update openspec"
+          title: "chore: update openspec"
+          body: "Automated upgrade to the latest OpenSpec CLI followed by `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`."
+          delete-branch: true
