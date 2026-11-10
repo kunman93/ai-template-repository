@@ -29,7 +29,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
 - [GitHub CLI](https://cli.github.com) (`gh`), signed in
 - [Git](https://git-scm.com) 2.56 or later, because the `git-commit` skill stages resolved merge conflicts with `git add --resolved`
-- [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec)
+- [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec). Before a workflow, the agent reinstalls it globally at the version stamped in `.github/skills/openspec-*/SKILL.md` on the default branch if yours differs (see `AGENTS.md`). Repositories stamped with different versions therefore swap the global install back and forth.
 
 ---
 

@@ -122,6 +122,23 @@ Load the matching skill before starting any work, and follow it:
 - Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
 - Applying the project-specific Setup of a repository that adopted the template (default branch, Commands, `ci` steps, security link, stack skills, `ci` ruleset): `setup-repository` (`chore/` branch).
 
+Before starting any of these workflows, sync the local OpenSpec CLI with the version stamped in the generated files
+(in the template repository, CI regenerates them with the latest CLI). Do not do this for `onboard-repository`
+(including the `setup-repository` it hands over to) or a chore that updates OpenSpec.
+
+1. Run `git fetch origin <default-branch>`.
+2. Read the stamps from `origin/<default-branch>`, not from the working tree, which can be out of date:
+   `git grep -h generatedBy origin/<default-branch> -- '.github/skills/openspec-*/SKILL.md'`.
+3. Skip the rest if any of these is true:
+   - There are no stamped files.
+   - The fetch fails or `origin/<default-branch>` does not exist.
+   - The CLI is not installed.
+   - The stamps disagree (tell the user).
+4. Compare the stamp with `openspec --version`. If it is a plain `x.y.z` version that differs, run
+   `npm install --global --ignore-scripts @fission-ai/openspec@<stamp>`.
+   - Do this without asking. It is the one exception to the rule above on modifying anything outside the repository.
+   - If the install fails, tell the user and continue. Do not retry with elevated rights.
+
 Stories and bug reports are created only with the `write-story` and `write-bug-report` skills, never as free-form issues.
 
 ---
