@@ -147,6 +147,7 @@ Stories and bug reports are created only with the `write-story` and `write-bug-r
 
 - Use progressive disclosure. Start with the smallest relevant doc set.
 - Follow the markdown conventions as stated in the [Markdown Guide](https://www.markdownguide.org/).
+- Write steps and rules as short numbered or bulleted lists, not long single-paragraph sentence chains.
 - Do not create a `.md` file that merely restates or describes an existing
   config/source file. The original file is the documentation; only add prose docs
   when they convey information not already evident from the file itself.
