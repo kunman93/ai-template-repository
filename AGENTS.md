@@ -37,7 +37,8 @@ Fill in the commands of this repository. While a command is not configured, say 
 
 ## Git Workflow
 
-All work happens on feature branches. The default branch is read-only: inspect it, but never commit to it, rebase it, or modify it in any way.
+All work happens on feature branches. The default branch is read-only: inspect it, but never commit to it, rebase it, or
+modify it in any way.
 
 ### Feature branches
 
@@ -45,14 +46,14 @@ All work happens on feature branches. The default branch is read-only: inspect i
 - Commit with the `.agents/skills/git-commit` skill. Make atomic commits: one logical change per commit.
 - On a branch that belongs to an issue (`feature/` and `fix/`), end every commit message with the trailer
   `Refs: #<issue>` (one trailer per issue), in the same final trailer block as `Co-authored-by`, with no blank line
-  between them (otherwise git
-  does not read it as a trailer). The Create PR and Finalize history procedures of the `finish-work` skill verify it.
+  between them (otherwise git does not read it as a trailer). The Create PR and Finalize history procedures of the
+  `finish-work` skill verify it.
 - Pushing the feature branch is allowed. This and the `finish-work` procedures below are the explicit request for the
   pushes that the `git-commit` skill otherwise forbids.
 - Rewrite and force push your own feature branch only in the Create PR, Finalize history and Merge procedures of the
-  `finish-work` skill, always with `git push --force-with-lease --force-if-includes`. That skill is the explicit
-  request for the history changes (such as `git rebase`, `git commit --amend` and `git reset --hard`) and force pushes
-  that the `git-commit` skill requires.
+  `finish-work` skill, always with `git push --force-with-lease --force-if-includes`. That skill is the explicit request
+  for the history changes (such as `git rebase`, `git commit --amend` and `git reset --hard`) and force pushes that the
+  `git-commit` skill requires.
 - Delete a feature branch only after its PR has been merged (see the Merge section of the `finish-work` skill).
 
 **Never**:
@@ -67,13 +68,19 @@ All work happens on feature branches. The default branch is read-only: inspect i
 
 Apply to everyone who writes code or config here: the main session and every custom agent.
 
-**Priority rule:** KISS and YAGNI win ties. Prefer the simplest solution that meets the acceptance criteria, prefer deletion over addition, and choose boring over clever. Apply a principle below only when it makes the code simpler to change, test or read, and you can say how in one sentence. Otherwise leave it out: no speculative abstraction, no pattern for its own sake.
+**Priority rule:** KISS and YAGNI win ties. Prefer the simplest solution that meets the acceptance criteria, prefer
+deletion over addition, and choose boring over clever. Apply a principle below only when it makes the code simpler to
+change, test or read, and you can say how in one sentence. Otherwise leave it out: no speculative abstraction, no
+pattern for its own sake.
 
 ### Code level
 
 - Follow the conventions already present in the code over introducing new ones.
-- Clean Code: intention-revealing names, small focused functions, no dead code. Do not add comments to config/source files that merely restate what is already obvious from the element or identifier name. Only comment when it conveys non-obvious rationale or context.
-- DRY with the rule of three: tolerate duplication until the third occurrence. The wrong abstraction costs more than duplication.
+- Clean Code: intention-revealing names, small focused functions, no dead code. Do not add comments to config/source
+  files that merely restate what is already obvious from the element or identifier name. Only comment when it conveys
+  non-obvious rationale or context.
+- DRY with the rule of three: tolerate duplication until the third occurrence. The wrong abstraction costs more than
+  duplication.
 - Prefer immutability and pure functions.
 - Fail fast: validate at the boundaries and never swallow errors.
 
@@ -86,29 +93,33 @@ Apply to everyone who writes code or config here: the main session and every cus
 
 ### Architecture level
 
-- Separation of concerns: functional core, imperative shell. Keep domain logic pure and free of UI, I/O and framework code. Dependencies point inward.
-- Full Onion or Hexagonal layering (ports and adapters) only once there is a real backend or several adapters to justify it.
+- Separation of concerns: functional core, imperative shell. Keep domain logic pure and free of UI, I/O and framework
+  code. Dependencies point inward.
+- Full Onion or Hexagonal layering (ports and adapters) only once there is a real backend or several adapters to justify
+  it.
 
 ### Quality level
 
-- TDD, and prove behavior with executable validation before declaring work done. Test behavior, not implementation, and keep the test pyramid: many unit tests, few end-to-end tests.
-  Do not write tests that are fragile and bring no value: no assertions on a transient intermediate state (for example
-  a blink phase or an opacity of exactly 0 or 1 mid-loop) and no fixed waits to reach a state:
-  poll for it instead. A fixed window is allowed only to prove that something does not change, and must be a named
-  constant. Leave the detail of such transient behavior to a unit test of its config or to manual review.
-  Prefer fewer tests that each catch a real regression over many that raise coverage.
-  Before keeping any new test, check three things, and delete the test if one fails:
-  1. It fails when the behavior it names breaks. Break the production code on purpose (flip a condition, drop a
-     guard) and see it fail. A test that still passes proves nothing.
-  2. It asserts an outcome a user or caller can observe, not how the code is wired: no assertions that a prop or
-     object is passed through, that a mock was called, or on call counts, pixel diffs, or magic numbers.
-  3. It passes every time: run it at least 10 times and under load. Fix the
-     cause of a failure; never dismiss it as flakiness.
+- TDD, and prove behavior with executable validation before declaring work done. Test behavior, not implementation, and
+  keep the test pyramid: many unit tests, few end-to-end tests. Do not write tests that are fragile and bring no value:
+  no assertions on a transient intermediate state (for example a blink phase or an opacity of exactly 0 or 1 mid-loop)
+  and no fixed waits to reach a state: poll for it instead. A fixed window is allowed only to prove that something does
+  not change, and must be a named constant. Leave the detail of such transient behavior to a unit test of its config or
+  to manual review. Prefer fewer tests that each catch a real regression over many that raise coverage. Before keeping
+  any new test, check three things, and delete the test if one fails:
+  1. It fails when the behavior it names breaks. Break the production code on purpose (flip a condition, drop a guard)
+     and see it fail. A test that still passes proves nothing.
+  2. It asserts an outcome a user or caller can observe, not how the code is wired: no assertions that a prop or object
+     is passed through, that a mock was called, or on call counts, pixel diffs, or magic numbers.
+  3. It passes every time: run it at least 10 times and under load. Fix the cause of a failure; never dismiss it as
+     flakiness.
 - Boy Scout rule, limited to code you are already touching.
 - Minimal dependencies: justify every new package.
-- Secure by default: never introduce secrets, tokens, or credentials into the repository, sanitize input, use least privilege.
+- Secure by default: never introduce secrets, tokens, or credentials into the repository, sanitize input, use least
+  privilege.
 
-Language- and framework-specific readings of these principles live in skills that a repository adds under `.agents/skills`.
+Language- and framework-specific readings of these principles live in skills that a repository adds under
+`.agents/skills`.
 
 ---
 
@@ -119,10 +130,13 @@ Load the matching skill before starting any work, and follow it:
 - A Story issue: `implement-story` (`feature/` branch).
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
-- Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
-- Applying the project-specific Setup of a repository that adopted the template (default branch, Commands, `ci` steps, security link, stack skills, `ci` ruleset): `setup-repository` (`chore/` branch).
+- Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository`
+  (`chore/adopt-template` branch; it hands over to `setup-repository`).
+- Applying the project-specific Setup of a repository that adopted the template (default branch, Commands, `ci` steps,
+  security link, stack skills, `ci` ruleset): `setup-repository` (`chore/` branch).
 
-Stories and bug reports are created only with the `write-story` and `write-bug-report` skills, never as free-form issues.
+Stories and bug reports are created only with the `write-story` and `write-bug-report` skills, never as free-form
+issues.
 
 ---
 
@@ -130,9 +144,8 @@ Stories and bug reports are created only with the `write-story` and `write-bug-r
 
 - Use progressive disclosure. Start with the smallest relevant doc set.
 - Follow the markdown conventions as stated in the [Markdown Guide](https://www.markdownguide.org/).
-- Do not create a `.md` file that merely restates or describes an existing
-  config/source file. The original file is the documentation; only add prose docs
-  when they convey information not already evident from the file itself.
+- Do not create a `.md` file that merely restates or describes an existing config/source file. The original file is the
+  documentation; only add prose docs when they convey information not already evident from the file itself.
 - Record a significant decision that outlives a single change and is costly to reverse (stack, architecture,
   cross-cutting conventions) as an ADR in [docs/decisions](docs/decisions/), following its README. Choices that only
   concern one change stay in that change's OpenSpec `design.md`.

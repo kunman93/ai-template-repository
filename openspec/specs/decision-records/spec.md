@@ -1,6 +1,7 @@
 # decision-records Specification
 
 ## Purpose
+
 Gives the repository one consistent, discoverable place for architecture decision records in the MADR format, so that
 significant decisions that outlive a single change are documented for humans and agents.
 
@@ -44,8 +45,8 @@ Architecture decision records SHALL be stored as markdown files in `docs/decisio
 ### Requirement: Agents know when to write a record
 
 `AGENTS.md` SHALL link to `docs/decisions/` and state when to write an ADR: for a significant decision that outlives a
-single change and is costly to reverse, while change-scoped design choices stay in the OpenSpec `design.md`.
-`README.md` SHALL list `docs/decisions/` among the included files.
+single change and is costly to reverse, while change-scoped design choices stay in the OpenSpec `design.md`. `README.md`
+SHALL list `docs/decisions/` among the included files.
 
 #### Scenario: Agent looks for guidance
 

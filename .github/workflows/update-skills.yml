@@ -68,5 +68,7 @@ jobs:
           branch: chore/update-openspec
           commit-message: "chore: update openspec"
           title: "chore: update openspec"
-          body: "Automated upgrade to the latest OpenSpec CLI followed by `openspec update`. It regenerates `.github/skills/openspec-*` and `.github/prompts/opsx-*`."
+          body:
+            "Automated upgrade to the latest OpenSpec CLI followed by `openspec update`. It regenerates
+            `.github/skills/openspec-*` and `.github/prompts/opsx-*`."
           delete-branch: true

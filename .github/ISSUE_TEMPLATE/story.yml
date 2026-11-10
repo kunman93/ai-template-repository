@@ -41,7 +41,7 @@ body:
     attributes:
       label: Depends on
       description: Issues this Story depends on, if any.
-      placeholder: '#12, #15'
+      placeholder: "#12, #15"
 
   - type: textarea
     id: context
