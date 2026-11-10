@@ -31,7 +31,7 @@ Fill in the commands of this repository. While a command is not configured, say 
 - Install: _not configured_
 - Build: _not configured_
 - Test: _not configured_
-- Lint/format: _not configured_
+- Lint/format: `npx prettier@3.9.10 --check .` (fix with `npx prettier@3.9.10 --write .`)
 
 ---
 
