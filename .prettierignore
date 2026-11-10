@@ -1,0 +1,5 @@
+.agents/skills
+.github/skills/openspec-*
+.github/prompts/opsx-*
+openspec/changes/archive
+docs/decisions/adr-template.md
