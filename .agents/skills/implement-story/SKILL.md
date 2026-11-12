@@ -54,6 +54,17 @@ Runs on Sonnet 5.5.
 Runs on Sonnet 5.5 in the main session.
 
 - Implement the tasks from the change with the `openspec-apply-change` skill (`/opsx-apply`), applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`.
+- If the implementation shows that an artifact of the change (proposal, specs, design or tasks) is wrong or incomplete, stop and tell the user. Do not work around it.
+  - If the Story's intent or acceptance criteria are wrong, `openspec-update-change` cannot fix it because it does not change a change's intent. Instead:
+    1. Ask the user to correct the Story issue and wait until they confirm.
+    2. Ask the user what to do with the old change and the work already committed, and wait for their decision.
+    3. Restart at step 3 (Research), then go through step 4 (Plan) with a new change and step 5 (Approve plan) again. Steps 3 and 4 run on Opus 5.5, so the model check applies.
+    4. Resume step 6 only after the user approves the new plan.
+  - Otherwise:
+    1. Return to step 4 (Plan) and revise the artifacts with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies.
+    2. Commit the revised artifacts.
+    3. Go through step 5 (Approve plan) again and wait for the user's explicit approval.
+    4. Resume step 6 with the updated tasks.
 - When done, verify the work with all commands in the Commands section of `AGENTS.md`.
 - Then continue directly with step 7 (Review) without asking the user.
 
