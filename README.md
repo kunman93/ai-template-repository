@@ -33,6 +33,16 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 ---
 
+## Demo app
+
+`app/` holds a minimal React app (Vite, TypeScript) that shows "Hello Lutz". It gives you a real example to follow a Story through the workflow. It needs Node.js 22.13 or later.
+
+1. Install the dependencies: `npm --prefix app ci`
+2. Start the app: `npm --prefix app run dev`
+3. Open the URL that Vite prints, by default `http://localhost:5173`.
+
+---
+
 ## Adopting the template
 
 Both a new and an existing repository follow the same list; only getting the files differs.

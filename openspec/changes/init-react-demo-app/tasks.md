@@ -14,7 +14,7 @@
   default `App`
 - [x] 2.2 Trim `App` to render only "Hello Lutz" (remove counter, logos and unused assets and CSS), and verify the
   test passes, `npm --prefix app run lint` and `npm --prefix app run build` succeed
-- [ ] 2.3 Add a short "Demo app" section to `README.md` with the start command `npm --prefix app run dev`, and verify
+- [x] 2.3 Add a short "Demo app" section to `README.md` with the start command `npm --prefix app run dev`, and verify
   the dev server serves a page showing "Hello Lutz"
 
 ## 3. Commands and ci
