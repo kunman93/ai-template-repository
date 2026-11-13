@@ -10,7 +10,7 @@
 
 ## 2. Hello Lutz page
 
-- [ ] 2.1 Write `app/src/App.test.tsx` asserting "Hello Lutz" is visible, and verify it fails against the scaffold's
+- [x] 2.1 Write `app/src/App.test.tsx` asserting "Hello Lutz" is visible, and verify it fails against the scaffold's
   default `App`
 - [ ] 2.2 Trim `App` to render only "Hello Lutz" (remove counter, logos and unused assets and CSS), and verify the
   test passes, `npm --prefix app run lint` and `npm --prefix app run build` succeed
