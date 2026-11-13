@@ -37,7 +37,7 @@ echoes a placeholder. Node.js 22 and npm 10 are available locally. See `proposal
   `actions/*`) with Node.js 22 and npm caching on `app/package-lock.json`, then `npm ci`, lint, test and build. No
   third-party actions. Branch filters and the job name `ci` stay unchanged.
 - **Start command.** `npm --prefix app run dev` (Vite dev server, default `http://localhost:5173`), documented in
-  `README.md` and listed in Commands next to Build.
+  `README.md`.
 
 ## Risks / Trade-offs
 
