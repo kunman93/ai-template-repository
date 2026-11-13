@@ -2,9 +2,9 @@
 
 ## 1. Scaffold
 
-- [ ] 1.1 Scaffold the app with `npm create vite@latest app -- --template react-ts`, run `npm --prefix app install`,
+- [x] 1.1 Scaffold the app with `npm create vite@latest app -- --template react-ts`, run `npm --prefix app install`,
   and verify `app/package.json` and `app/package-lock.json` exist and `node_modules` is git-ignored
-- [ ] 1.2 Add `vitest`, `@testing-library/react`, `@testing-library/jest-dom` and `jsdom` as dev dependencies,
+- [x] 1.2 Add `vitest`, `@testing-library/react`, `@testing-library/jest-dom` and `jsdom` as dev dependencies,
   configure Vitest (jsdom environment, jest-dom matchers) and a `test` script (`vitest run`), and verify
   `npm --prefix app test` runs (exits with "no test files" until 2.1)
 
