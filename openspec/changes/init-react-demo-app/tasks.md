@@ -19,7 +19,7 @@
 
 ## 3. Commands and ci
 
-- [ ] 3.1 Fill in the Commands section of `AGENTS.md` (Install `npm --prefix app ci`, Build
+- [x] 3.1 Fill in the Commands section of `AGENTS.md` (Install `npm --prefix app ci`, Build
   `npm --prefix app run build`, Test `npm --prefix app test`, Lint/format `npm --prefix app run lint`), and verify each
   runs successfully from the repository root
 - [ ] 3.2 Replace the placeholder step of the `ci` job in `.github/workflows/ci.yml` with checkout, Node.js 22 setup

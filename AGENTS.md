@@ -28,10 +28,10 @@ Read the [README.md](README.md) to understand what the repo is about.
 
 Fill in the commands of this repository. While a command is not configured, say so instead of running it.
 
-- Install: _not configured_
-- Build: _not configured_
-- Test: _not configured_
-- Lint/format: _not configured_
+- Install: `npm --prefix app ci`
+- Build: `npm --prefix app run build`
+- Test: `npm --prefix app test`
+- Lint/format: `npm --prefix app run lint`
 
 ---
 
