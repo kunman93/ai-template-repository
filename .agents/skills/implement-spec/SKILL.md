@@ -35,10 +35,10 @@ Runs on Sonnet 5.5 in the main session.
 
 - Implement the tasks from the change with the `openspec-apply-change` skill (`/opsx-apply`), applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`. End every commit with the trailer `Refs: #<story>`.
 - If the implementation shows that an artifact of the change (proposal, specs, design or tasks) is wrong or incomplete, stop and tell the user. Do not work around it.
-  - If the Story itself is wrong, tell the user whether you think it is incomplete (its goal and every existing acceptance criterion hold, and criteria are only added or sharpened) or changed (anything else), with a one-sentence reason. The user decides. If in doubt, treat it as changed. Ask the user to correct the Story issue and wait until they confirm. Then:
+  - If the Story itself is wrong, tell the user whether you think it is incomplete (its goal and every existing acceptance criterion hold, and criteria are only added or sharpened) or changed (anything else), with a one-sentence reason. Wait for the user's decision. If you are unsure, propose changed. Ask the user to correct the Story issue and wait until they confirm both. Then:
     - Incomplete: follow "Otherwise" below.
     - Changed: `openspec-update-change` cannot fix it because it does not change a change's intent. Instead:
-      1. Ask the user what to do with the merged change, this branch and the work already committed, and wait for their decision. Recommend removing the obsolete change from the default branch, or closing the Story and writing a new one with `write-story`. Do not delete branches or open PRs yourself.
+      1. Ask the user what to do with the merged change, this branch and the work already committed, and wait for their decision. Recommend removing the obsolete change from the default branch with `do-chore`, so it cannot be implemented later. Do not delete branches or open PRs yourself.
       2. Tell the user to write the new spec with `write-spec` under a new, unused change name. Resume this workflow only for a change merged by it.
   - Otherwise:
     1. Revise the artifacts with the `openspec-update-change` skill (`/opsx-update`). It runs on Opus 5.5, so the model check applies.
