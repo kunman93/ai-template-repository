@@ -44,13 +44,13 @@
 
 ## 4. Documentation and other skills
 
-- [ ] 4.1 In `AGENTS.md`:
+- [x] 4.1 In `AGENTS.md`:
   - add `docs/<change-name>-spec` to branch naming
   - add `docs/` to the `Refs:` trailer rule
   - in Implementation Workflow, route a Story per decision 9
 
   Verify against the "Reader looks up the rule" scenario and the two scenarios of "A Story goes spec-first by default".
-- [ ] 4.2 In `README.md`, add the new skills to the skill list and the `finish-work` entry. Describe the default flow
+- [x] 4.2 In `README.md`, add the new skills to the skill list and the `finish-work` entry. Describe the default flow
   `write-story` → `write-spec` → `implement-spec`, with `implement-story` as the one-PR alternative. Verify by reading
   the changed places.
 - [ ] 4.3 In `.agents/skills/setup-repository/SKILL.md`, add `write-spec` and `implement-spec` to the list of template

@@ -41,9 +41,9 @@ All work happens on feature branches. The default branch is read-only: inspect i
 
 ### Feature branches
 
-- Name branches `feature/<branch-name-based-on-issue>` (use `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
+- Name branches `feature/<branch-name-based-on-issue>` (use `docs/<change-name>-spec` for a Story's spec, `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
 - Commit with the `.agents/skills/git-commit` skill. Make atomic commits: one logical change per commit.
-- On a branch that belongs to an issue (`feature/` and `fix/`), end every commit message with the trailer
+- On a branch that belongs to an issue (`docs/`, `feature/` and `fix/`), end every commit message with the trailer
   `Refs: #<issue>` (one trailer per issue), in the same final trailer block as `Co-authored-by`, with no blank line
   between them (otherwise git
   does not read it as a trailer). The Create PR and Finalize history procedures of the `finish-work` skill verify it.
@@ -116,7 +116,7 @@ Language- and framework-specific readings of these principles live in skills tha
 
 Load the matching skill before starting any work, and follow it:
 
-- A Story issue: `implement-story` (`feature/` branch).
+- A Story issue: `write-spec` (`docs/` branch), then `implement-spec` (`feature/` branch) for the merged change. Use `implement-story` (`feature/` branch, spec and code in one PR) only when the user asks for it.
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
 - Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
