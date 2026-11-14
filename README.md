@@ -117,7 +117,7 @@ The steps `setup-repository` applies, for when you do not use it. On an existing
 1. If your default branch is not `main`, set it in the Repository section of `AGENTS.md` and in both `branches` filters
    of `.github/workflows/ci.yml` (marked `TODO`). Skills and agents refer to `<default-branch>`, so those two files
    are the only places that name it. Until you do, `ci` does not run on your PR.
-2. Fill in the Commands section of `AGENTS.md` with your install, build, test and lint commands. The workflow skills and the reviewer run them.
+2. Fill in the Commands section of `AGENTS.md` with your install, build, test and lint commands. The workflow skills and the reviewer run them (not in a spec review).
 3. Add your stack's build, test and lint steps to the `ci` job in `.github/workflows/ci.yml`. Keep the job name `ci`.
 4. Change the security advisory link in `.github/ISSUE_TEMPLATE/config.yml` to your repository.
 5. Add skills for your stack under `.agents/skills/` if you need them, and reference them from `AGENTS.md`.
