@@ -93,10 +93,17 @@ The correction rule of step 6 of `implement-story` is adapted to the merged spec
 
 - **Artifacts wrong:** revise them on the `feature/` branch with `openspec-update-change` on Opus 5.5, commit, get
   approval, resume. The revision is reviewed in the implementation PR.
-- **Story intent wrong:**
+- **Story incomplete** (its goal and every existing acceptance criterion hold, criteria are only added or sharpened):
+  the user corrects the Story, then the artifacts are revised as above.
+- **Story changed** (anything else, or any doubt):
   1. Stop.
-  2. Ask the user to correct the Story and decide on the merged change and the committed work.
-  3. Point to `write-spec` for the new spec.
+  2. Ask the user to correct the Story and decide on the merged change, the branch and the committed work. The agent
+     recommends removing the obsolete change or writing a new Story, and never deletes branches or opens PRs itself:
+     `AGENTS.md` allows deleting a feature branch only after its PR has merged, and no workflow covers a deletion PR.
+  3. Point to `write-spec` for the new spec, under a new, unused change name.
+
+The user decides between incomplete and changed. The agent only proposes a classification with a reason, because it
+cannot judge reliably whether a goal has changed. `implement-story` step 6 keeps its wording.
 
 ### 8. Step layout
 

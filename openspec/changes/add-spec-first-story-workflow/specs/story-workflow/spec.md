@@ -94,17 +94,23 @@ review, PR, archive and merge, without research, plan or approve plan. Its PR SH
 ### Requirement: Spec corrections during implementation
 When implementing shows that an artifact of the change is wrong or incomplete, `implement-spec` SHALL stop and tell the
 user. It SHALL revise the artifacts on the `feature/` branch after the user's approval, or, when the Story's intent is
-wrong, have the Story corrected and a new change written with `write-spec`.
+wrong, have the Story corrected and a new change written with `write-spec`. The user SHALL decide whether the Story is
+incomplete or changed. It SHALL never delete a branch or open a PR for the obsolete change itself.
 
 #### Scenario: Wrong task
 - **WHEN** a task of the change turns out to be wrong and the Story's intent still holds
 - **THEN** `implement-spec` revises the artifacts with `openspec-update-change` on Opus 5.5, commits them on the
   `feature/` branch, and resumes only after the user approves the revision
 
-#### Scenario: Wrong Story
-- **WHEN** the Story's acceptance criteria turn out to be wrong
-- **THEN** `implement-spec` asks the user to correct the Story and to decide what happens to the merged change and the
-  committed work, and the new spec is written with `write-spec`
+#### Scenario: Incomplete Story
+- **WHEN** the user decides the Story only lacks acceptance criteria and its goal holds
+- **THEN** the Story is corrected, and `implement-spec` revises the change with `openspec-update-change` and resumes
+  after the user approves the revision
+
+#### Scenario: Changed Story
+- **WHEN** the user decides the Story's goal or an existing acceptance criterion changed
+- **THEN** `implement-spec` asks the user to correct the Story and to decide what happens to the merged change, the
+  branch and the committed work, and the new spec is written with `write-spec` under a new name
 
 ### Requirement: Archiving depends on the workflow
 The `finish-work` skill SHALL always archive the change of `implement-spec`, even though the change was added on the
