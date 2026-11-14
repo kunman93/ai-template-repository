@@ -58,9 +58,9 @@
 
 ## 5. Integration checks
 
-- [ ] 5.1 Run `openspec validate add-spec-first-story-workflow --strict`. Confirm that every file listing the workflow
+- [x] 5.1 Run `openspec validate add-spec-first-story-workflow --strict`. Confirm that every file listing the workflow
   skills names `write-spec` and `implement-spec`. Find these files by searching the repository for `fix-bug`, outside
   `openspec/changes/archive/`.
-- [ ] 5.2 In `kunman93/git-sandbox`, on a throwaway branch, run the merged-spec check of decision 6 against three
+- [x] 5.2 In `kunman93/git-sandbox`, on a throwaway branch, run the merged-spec check of decision 6 against three
   states of a sample change: added on an unmerged `docs/` branch, merged into the default branch, and archived. Confirm
   that only the merged state passes. Leave the default branch of the sandbox unchanged and delete the branch.
