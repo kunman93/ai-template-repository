@@ -27,12 +27,12 @@
 
 ## 3. AGENTS.md, README.md and setup-repository
 
-- [ ] 3.1 In `AGENTS.md`, add `docs/<change-name>-spec` to branch naming, `docs/` to the `Refs:` trailer rule, and an
+- [x] 3.1 In `AGENTS.md`, add `docs/<change-name>-spec` to branch naming, `docs/` to the `Refs:` trailer rule, and an
   opt-in `write-spec` line to the Implementation Workflow next to the unchanged `implement-story` line. Verify against
   the routing requirement of `specs/spec-writing/spec.md`.
-- [ ] 3.2 In `README.md`, list `write-spec` with the Story skills, among the users of `finish-work` and in the workflow
+- [x] 3.2 In `README.md`, list `write-spec` with the Story skills, among the users of `finish-work` and in the workflow
   overview. Verify by reading the sections.
-- [ ] 3.3 Add `write-spec` to the template skill list of `.agents/skills/setup-repository/SKILL.md`. Verify with
+- [x] 3.3 Add `write-spec` to the template skill list of `.agents/skills/setup-repository/SKILL.md`. Verify with
   `grep -n write-spec .agents/skills/setup-repository/SKILL.md`.
 
 ## 4. Integration checks
