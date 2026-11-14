@@ -6,12 +6,12 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 - `AGENTS.md`: instructions for coding agents (working style, default branch, commands, git workflow, engineering principles).
 - `.agents/skills/`:
-  - `write-story`, `implement-story`: workflow skills for Stories
+  - `write-story`, `write-spec`, `implement-spec`, `implement-story`: workflow skills for Stories. The default flow is `write-story`, then `write-spec` (the spec, merged on its own) and `implement-spec` (the code). `implement-story` does both in one PR
   - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
   - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
   - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) after you adopt the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
-  - `finish-work`: has the cleaned-up commits checked mechanically and reviewed, creates the PR, finalizes the history (checking the commits again before each push) and merges. You don't call it directly; `implement-story`, `fix-bug`, `do-chore` and `setup-repository` use it
+  - `finish-work`: has the cleaned-up commits checked mechanically and reviewed, creates the PR, finalizes the history (checking the commits again before each push) and merges. You don't call it directly; `implement-story`, `write-spec`, `implement-spec`, `fix-bug`, `do-chore` and `setup-repository` use it
   - `git-commit`: a skill for making atomic commits
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
@@ -123,7 +123,7 @@ The steps `setup-repository` applies, for when you do not use it. On an existing
 5. Add skills for your stack under `.agents/skills/` if you need them, and reference them from `AGENTS.md`.
 6. Once the PR is merged, require the `ci` check in a branch ruleset on your default branch.
 
-Create Stories and bug reports with the `write-story` and `write-bug-report` skills, then work on them with `implement-story`, `fix-bug` or `do-chore`.
+Create Stories and bug reports with the `write-story` and `write-bug-report` skills. Then work on a Story with `write-spec` and `implement-spec` (or `implement-story` for one PR), and on a bug report or maintenance with `fix-bug` or `do-chore`.
 
 ---
 
