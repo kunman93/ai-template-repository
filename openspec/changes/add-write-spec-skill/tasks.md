@@ -2,17 +2,17 @@
 
 ## 1. The write-spec skill
 
-- [ ] 1.1 Create `.agents/skills/write-spec/SKILL.md` with the steps of design decision 8, starting from the PR #46
+- [x] 1.1 Create `.agents/skills/write-spec/SKILL.md` with the steps of design decision 8, starting from the PR #46
   draft: Story check, change name and docs branch checks, `Story: #<n>` in the proposal, `Refs: #<n>` on every commit,
   spec-review mode before the PR, review-only resume after a plan revision, `Refs #<n>` PR, no archive, merge after
   approval. Verify each requirement of `specs/spec-writing/spec.md` except the finish-work and routing ones maps to a
   line of the skill, and that it does not name `main` as a branch.
-- [ ] 1.2 Make the skill's `description` trigger on writing or specifying a Story only (design decision 7), and verify
+- [x] 1.2 Make the skill's `description` trigger on writing or specifying a Story only (design decision 7), and verify
   it does not claim "work on, start, pick up a Story".
 - [x] 1.3 Add a Spec review mode to `.github/agents/reviewer.agent.md`, following Commit review: name it in the
   description, add the switch under "Your job", and add its section with checks, Commands skipped and its report.
   Verify each scenario of "The reviewer has a spec review mode" in `specs/spec-writing/spec.md` maps to a line.
-- [ ] 1.4 Make step 6 of `write-spec` ask for a spec review instead of describing the mode in its prompt, and apply
+- [x] 1.4 Make step 6 of `write-spec` ask for a spec review instead of describing the mode in its prompt, and apply
   "Fixes that change the plan need approval" to every fix in steps 5 and 6. Verify against both requirements.
 
 ## 2. finish-work
