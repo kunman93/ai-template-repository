@@ -2,7 +2,7 @@
 
 ## 1. write-spec
 
-- [ ] 1.1 Create `.agents/skills/write-spec/SKILL.md` with the steps of design.md decision 8:
+- [x] 1.1 Create `.agents/skills/write-spec/SKILL.md` with the steps of design.md decision 8:
   - frontmatter `name` and `description` in the style of `fix-bug`
   - the Story check and the workflow check of step 0
   - the change name from the Story (decision 1) and the `docs/<change-name>-spec` branch
