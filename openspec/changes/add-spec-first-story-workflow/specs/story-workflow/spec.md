@@ -52,7 +52,13 @@ Before the PR, it SHALL have the `reviewer` subagent review the docs branch.
 
 #### Scenario: Spec reviewed before the PR
 - **WHEN** the plan is approved
-- **THEN** `write-spec` has the `reviewer` subagent review the docs branch and fixes MAJOR findings before it creates the PR
+- **THEN** `write-spec` has the `reviewer` subagent review the docs branch in spec-review mode, where implementation and
+  tests still pending are not findings, and fixes MAJOR findings before it creates the PR
+
+#### Scenario: Plan revised after the PR exists
+- **WHEN** the user requests a plan revision after the spec PR was created and approves the revised plan
+- **THEN** `write-spec` resumes only the review, pushes fixups normally and updates the existing PR, without a second
+  history cleanup or PR
 
 ### Requirement: write-spec merges the spec without archiving it
 After the plan is approved, `write-spec` SHALL create the PR with the `finish-work` skill, and SHALL finalize and merge

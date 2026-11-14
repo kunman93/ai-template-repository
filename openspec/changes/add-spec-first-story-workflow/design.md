@@ -143,6 +143,10 @@ The skill descriptions overlap, and `implement-story` cannot change. The routing
 
 `write-spec` has the `reviewer` subagent review the docs branch before the PR, as `implement-story` does in step 7. `finish-work` maps the Implement step of `write-spec` to a fixup commit on the change's files and its Review step to this pass.
 
+The pass runs in spec-review mode: the prompt tells the `reviewer` that the branch is spec-only, so implementation and
+tests that `implement-spec` adds are pending, not findings. The reviewer agent file stays unchanged. After a plan
+revision following PR creation, only the review resumes: no second cleanup and no second PR.
+
 ## Risks / Trade-offs
 
 - [Two PRs per Story instead of one] → This is the point of the Story. The spec PR is small and fast to merge. Users
