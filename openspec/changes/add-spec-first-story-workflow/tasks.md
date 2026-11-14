@@ -16,7 +16,7 @@
 
 ## 2. implement-spec
 
-- [ ] 2.1 Create `.agents/skills/implement-spec/SKILL.md`, starting from steps 6–10 of `implement-story`, per design.md
+- [x] 2.1 Create `.agents/skills/implement-spec/SKILL.md`, starting from steps 6–10 of `implement-story`, per design.md
   decisions 6–8:
   - step 0 (Check workflow setup), as in `fix-bug`:
     - a model check before every step: Sonnet 5.5 for all steps, and Opus 5.5 for a spec correction with
