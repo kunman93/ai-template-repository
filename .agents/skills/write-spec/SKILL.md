@@ -50,17 +50,17 @@ Runs on Sonnet 5.5.
 
 - Ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change-name>/`) and wait for their explicit approval in the conversation.
 - If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies. Commit the revision.
-- Only after approval, continue with step 6 (Create PR).
+- Only after approval, continue with step 6 (Create PR). If the PR already exists, resume only the Review step of step 6, push the fixups normally and update the existing PR. Do not clean up the history again and do not create a second PR.
 
 ## 6. Create PR
 
 Runs on Sonnet 5.5.
 
-- Review step: have the `reviewer` subagent review the docs branch (the change's artifacts), fix MAJOR findings with fixup commits (the Implement step) and repeat until there are none. A finding that needs a revision of the plan goes back to step 4 and then to step 5.
+- Review step: have the `reviewer` subagent review the docs branch (the change's artifacts) in spec-review mode. Tell it in its prompt that the branch is spec-only: it checks the artifacts against the Story and each other, and implementation and tests that `implement-spec` will add are pending, not findings. Fix MAJOR findings with fixup commits (the Implement step) and repeat in the same mode until there are none. A finding that needs a revision of the plan goes back to step 4 and then to step 5.
 - Clean up the history, have the `reviewer` subagent review the cleaned-up commits, push the docs branch, create the PR, wait for `ci`, and handle CI failures and PR review
   findings with the `finish-work` skill (`.agents/skills/finish-work`, section "Create PR").
 - The PR refers to the Story and does not close it.
-- Fix CI failures and review findings in the artifacts of the change with fixup commits. If a finding needs a revision of the plan, return to step 4 and then to step 5 for the user's approval.
+- Fix CI failures and review findings in the artifacts of the change with fixup commits, and run the Review step again in spec-review mode. If a finding needs a revision of the plan, return to step 4 and then to step 5 for the user's approval. After approval, resume as step 5 says, without a second cleanup or PR.
 - Do not finalize until the user approves.
 
 ## 7. Finalize
