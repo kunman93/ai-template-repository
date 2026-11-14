@@ -17,13 +17,13 @@
 
 ## 2. finish-work
 
-- [ ] 2.1 Name `write-spec` in the description, title and intro of `.agents/skills/finish-work/SKILL.md`, including
+- [x] 2.1 Name `write-spec` in the description, title and intro of `.agents/skills/finish-work/SKILL.md`, including
   what its Implement and Review steps mean. Verify by reading the intro.
-- [ ] 2.2 Add the spec PR rule (Story, `Refs #<n>`, change named, OpenSpec item ticked) to Create PR. Verify it
+- [x] 2.2 Add the spec PR rule (Story, `Refs #<n>`, change named, OpenSpec item ticked) to Create PR. Verify it
   matches the Spec PR scenario of `specs/pull-requests/spec.md`.
-- [ ] 2.3 Make Finalize history skip sub-step 4 for `write-spec` and update its intro. Verify both scenarios of the
+- [x] 2.3 Make Finalize history skip sub-step 4 for `write-spec` and update its intro. Verify both scenarios of the
   "Finish-work never archives on a write-spec branch" requirement against the text.
-- [ ] 2.4 Name `docs/` in the commit check section. Verify against `specs/commit-check/spec.md`.
+- [x] 2.4 Name `docs/` in the commit check section. Verify against `specs/commit-check/spec.md`.
 
 ## 3. AGENTS.md, README.md and setup-repository
 
