@@ -53,7 +53,7 @@
 - [x] 4.2 In `README.md`, add the new skills to the skill list and the `finish-work` entry. Describe the default flow
   `write-story` → `write-spec` → `implement-spec`, with `implement-story` as the one-PR alternative. Verify by reading
   the changed places.
-- [ ] 4.3 In `.agents/skills/setup-repository/SKILL.md`, add `write-spec` and `implement-spec` to the list of template
+- [x] 4.3 In `.agents/skills/setup-repository/SKILL.md`, add `write-spec` and `implement-spec` to the list of template
   skills. Verify by reading the list.
 
 ## 5. Integration checks

@@ -35,8 +35,8 @@ stash them and stop.
   run only in the template repository), with their triggers and job names.
 - The skills under `.agents/skills/` that are not template skills and whose name does not appear in `AGENTS.md`.
   Template skills are the ones on the `template` remote (when it exists), otherwise `write-story`,
-  `implement-story`, `write-bug-report`, `fix-bug`, `do-chore`, `onboard-repository`, `setup-repository`, `finish-work`
-  and `git-commit`.
+  `implement-story`, `write-spec`, `implement-spec`, `write-bug-report`, `fix-bug`, `do-chore`, `onboard-repository`,
+  `setup-repository`, `finish-work` and `git-commit`.
 - The effective rules on the default branch: `gh api repos/{owner}/{repo}/rules/branches/<default-branch>`. If GitHub
   refuses it (for example on a private repository without a paid plan), the ruleset step is "cannot do" with GitHub's
   message, and the ruleset is not offered.
