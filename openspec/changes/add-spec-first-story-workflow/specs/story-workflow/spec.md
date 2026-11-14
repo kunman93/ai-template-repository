@@ -95,7 +95,7 @@ review, PR, archive and merge, without research, plan or approve plan. Its PR SH
 When implementing shows that an artifact of the change is wrong or incomplete, `implement-spec` SHALL stop and tell the
 user. It SHALL revise the artifacts on the `feature/` branch after the user's approval, or, when the Story's intent is
 wrong, have the Story corrected and a new change written with `write-spec`. The user SHALL decide whether the Story is
-incomplete or changed. It SHALL never delete a branch or open a PR for the obsolete change itself.
+incomplete or changed. `implement-spec` SHALL never delete a branch or open a PR on the changed path.
 
 #### Scenario: Wrong task
 - **WHEN** a task of the change turns out to be wrong and the Story's intent still holds
@@ -103,12 +103,13 @@ incomplete or changed. It SHALL never delete a branch or open a PR for the obsol
   `feature/` branch, and resumes only after the user approves the revision
 
 #### Scenario: Incomplete Story
-- **WHEN** the user decides the Story only lacks acceptance criteria and its goal holds
+- **WHEN** the user decides the Story's goal and every existing acceptance criterion hold, and criteria are only added
+  or sharpened
 - **THEN** the Story is corrected, and `implement-spec` revises the change with `openspec-update-change` and resumes
   after the user approves the revision
 
 #### Scenario: Changed Story
-- **WHEN** the user decides the Story's goal or an existing acceptance criterion changed
+- **WHEN** the user decides the Story is not incomplete, that is, anything else than added or sharpened criteria
 - **THEN** `implement-spec` asks the user to correct the Story and to decide what happens to the merged change, the
   branch and the committed work, and the new spec is written with `write-spec` under a new name
 

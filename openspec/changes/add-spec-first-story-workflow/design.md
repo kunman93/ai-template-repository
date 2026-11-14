@@ -95,11 +95,11 @@ The correction rule of step 6 of `implement-story` is adapted to the merged spec
   approval, resume. The revision is reviewed in the implementation PR.
 - **Story incomplete** (its goal and every existing acceptance criterion hold, criteria are only added or sharpened):
   the user corrects the Story, then the artifacts are revised as above.
-- **Story changed** (anything else, or any doubt):
+- **Story changed** (anything else; if the agent is unsure it proposes changed):
   1. Stop.
   2. Ask the user to correct the Story and decide on the merged change, the branch and the committed work. The agent
-     recommends removing the obsolete change or writing a new Story, and never deletes branches or opens PRs itself:
-     `AGENTS.md` allows deleting a feature branch only after its PR has merged, and no workflow covers a deletion PR.
+     recommends removing the obsolete change with `do-chore` and never deletes branches or opens PRs itself:
+     `AGENTS.md` allows deleting a feature branch only after its PR has merged.
   3. Point to `write-spec` for the new spec, under a new, unused change name.
 
 The user decides between incomplete and changed. The agent only proposes a classification with a reason, because it
