@@ -49,8 +49,8 @@ Runs on Opus 5.5.
 Runs on Sonnet 5.5.
 
 - Ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change-name>/`) and wait for their explicit approval in the conversation.
-- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies. Commit the revision.
-- Only after approval, continue with step 6 (Create PR). If the PR already exists, resume only the Review step of step 6, push the fixups normally and update the existing PR. Do not clean up the history again and do not create a second PR.
+- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies. Commit the revision with the trailer `Refs: #<story>`. Once the PR exists, make it a `git commit --fixup=<sha>` commit on the commit it belongs to, or a new atomic commit.
+- Only after approval, continue with step 6 (Create PR). If the PR already exists, resume at the Review step of step 6, push the fixups normally, update the existing PR and its description, wait for `ci`, and continue the PR review loop of step 6. Do not clean up the history again and do not create a second PR.
 
 ## 6. Create PR
 
