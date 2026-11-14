@@ -6,12 +6,12 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 - `AGENTS.md`: instructions for coding agents (working style, default branch, commands, git workflow, engineering principles).
 - `.agents/skills/`:
-  - `write-story`, `implement-story`: workflow skills for Stories
+  - `write-story`, `implement-story`, `write-spec`: workflow skills for Stories. `implement-story` writes the spec and the code in one PR; `write-spec` writes only the spec, reviewed and merged on its own
   - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
   - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
   - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) after you adopt the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
-  - `finish-work`: has the cleaned-up commits checked mechanically and reviewed, creates the PR, finalizes the history (checking the commits again before each push) and merges. You don't call it directly; `implement-story`, `fix-bug`, `do-chore` and `setup-repository` use it
+  - `finish-work`: has the cleaned-up commits checked mechanically and reviewed, creates the PR, finalizes the history (checking the commits again before each push) and merges. You don't call it directly; `implement-story`, `write-spec`, `fix-bug`, `do-chore` and `setup-repository` use it
   - `git-commit`: a skill for making atomic commits
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
 - `.github/ISSUE_TEMPLATE/`: issue forms for Stories, bug reports and feature requests.
@@ -117,13 +117,13 @@ The steps `setup-repository` applies, for when you do not use it. On an existing
 1. If your default branch is not `main`, set it in the Repository section of `AGENTS.md` and in both `branches` filters
    of `.github/workflows/ci.yml` (marked `TODO`). Skills and agents refer to `<default-branch>`, so those two files
    are the only places that name it. Until you do, `ci` does not run on your PR.
-2. Fill in the Commands section of `AGENTS.md` with your install, build, test and lint commands. The workflow skills and the reviewer run them.
+2. Fill in the Commands section of `AGENTS.md` with your install, build, test and lint commands. The workflow skills and the reviewer run them (not in a spec review).
 3. Add your stack's build, test and lint steps to the `ci` job in `.github/workflows/ci.yml`. Keep the job name `ci`.
 4. Change the security advisory link in `.github/ISSUE_TEMPLATE/config.yml` to your repository.
 5. Add skills for your stack under `.agents/skills/` if you need them, and reference them from `AGENTS.md`.
 6. Once the PR is merged, require the `ci` check in a branch ruleset on your default branch.
 
-Create Stories and bug reports with the `write-story` and `write-bug-report` skills, then work on them with `implement-story`, `fix-bug` or `do-chore`.
+Create Stories and bug reports with the `write-story` and `write-bug-report` skills, then work on them with `implement-story` (or `write-spec` for the spec alone), `fix-bug` or `do-chore`.
 
 ---
 

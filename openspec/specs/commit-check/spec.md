@@ -81,7 +81,8 @@ fail with a usage error when the base ref does not resolve or the issue number i
 The Create PR procedure of `finish-work` SHALL run the check after the content check and before the commit review. The
 Finalize history procedure SHALL run it after the archive sub-step and before the push, and before the push after a
 rebase with conflicts. All SHALL pass the issue
-number on `feature/` and `fix/` branches and none on `chore/` branches, and SHALL push only once the check passes.
+number on `docs/`, `feature/` and `fix/` branches and none on `chore/` branches, and SHALL push only once the check
+passes.
 
 #### Scenario: Missing trailer on the archive commit
 - **WHEN** Finalize history archives the change and the archive commit lacks `Refs: #<n>`
@@ -95,6 +96,10 @@ number on `feature/` and `fix/` branches and none on `chore/` branches, and SHAL
 #### Scenario: Chore branch
 - **WHEN** Create PR runs on a `chore/` branch whose commits have no `Refs:` trailer and conventional subjects
 - **THEN** the check passes and the commit review starts
+
+#### Scenario: Spec branch
+- **WHEN** Create PR runs on a `docs/` branch of `write-spec` for Story #47
+- **THEN** the check runs with issue `47` and fails for every commit that lacks `Refs: #47`
 
 ### Requirement: The Refs trailer rule is documented
 `AGENTS.md` SHALL state that on a branch that belongs to an issue, every commit ends with the trailer `Refs: #<n>` in

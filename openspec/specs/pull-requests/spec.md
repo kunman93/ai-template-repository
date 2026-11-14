@@ -18,8 +18,8 @@ checklist items SHALL NOT assume a language, framework or stack. `README.md` SHA
 
 #### Scenario: Type of change matches the workflows
 - **WHEN** a reader looks at the Type of change section
-- **THEN** it offers Story, Bug fix and Chore, matching the `feature/`, `fix/` and `chore/` branches, and a separate
-  Breaking change option
+- **THEN** it offers Story, Bug fix and Chore, matching the `feature/` and `docs/` branches of a Story, the `fix/`
+  branches and the `chore/` branches, and a separate Breaking change option
 
 #### Scenario: Stack-agnostic checklist
 - **WHEN** a reader looks at the Checklist section
@@ -36,9 +36,14 @@ branch's commits, diff and linked issue. The body SHALL contain no empty section
 section that does not apply SHALL say `n/a`.
 
 #### Scenario: Story PR
-- **WHEN** the agent creates the PR for a Story
+- **WHEN** the agent creates the PR for a Story with `implement-story`
 - **THEN** every section has content derived from the branch, Type of change marks Story, and Related issues closes the
   Story's issue
+
+#### Scenario: Spec PR
+- **WHEN** the agent creates the spec PR for a Story with `write-spec`
+- **THEN** Type of change marks Story, Related issues refers to the Story with `Refs #<n>` and does not close it, the
+  Description names the OpenSpec change, and the OpenSpec item of the Checklist is ticked
 
 #### Scenario: Section that does not apply
 - **WHEN** the agent creates a PR for a change without visible output, such as a documentation change
@@ -76,9 +81,10 @@ After creating a PR, the agent SHALL update its description whenever pushed chan
 - **THEN** any path to the change in the PR description points to its location under `openspec/changes/archive/`
 
 ### Requirement: All workflows open PRs the same way
-The `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflows SHALL create pull requests only through
-the Create PR procedure of the `finish-work` skill, so they get the template without instructions of their own.
+The `implement-story`, `write-spec`, `fix-bug`, `do-chore` and `setup-repository` workflows SHALL create pull requests
+only through the Create PR procedure of the `finish-work` skill, so they get the template without instructions of their
+own.
 
 #### Scenario: Any workflow reaches PR creation
-- **WHEN** a Story, bug fix, chore or repository setup reaches its Create PR step
+- **WHEN** a Story, a spec, a bug fix, a chore or a repository setup reaches its Create PR step
 - **THEN** the PR is created by the `finish-work` Create PR procedure and follows the template

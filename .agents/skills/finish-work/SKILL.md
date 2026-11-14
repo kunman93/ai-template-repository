@@ -1,11 +1,11 @@
 ---
 name: finish-work
-description: 'Finish a Story, bug fix or chore after its implementation is reviewed: clean up history and create the PR, wait for CI, read PR review findings, finalize history (autosquash and rebase on origin/<default-branch>), archive the OpenSpec change if the branch has one, and merge. Use when it is time to push, open or update the PR, finalize, archive, or merge.'
+description: 'Finish a Story, spec, bug fix or chore after its implementation is reviewed: clean up history and create the PR, wait for CI, read PR review findings, finalize history (autosquash and rebase on origin/<default-branch>), archive the OpenSpec change for implement-story, and merge. Use when it is time to push, open or update the PR, finalize, archive, or merge.'
 ---
 
-# Finish a Story, Bug Fix or Chore
+# Finish a Story, Spec, Bug Fix or Chore
 
-Procedures for the Create PR, Archive (Stories) or Finalize (bug fixes and chores), and Merge steps of the `implement-story`, `fix-bug`, `do-chore` and `setup-repository` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5 in the main session, except the commit review, which runs in the `reviewer` subagent pinned to Opus 5.5, so run the model and agent check of the workflow skill in use first. For `setup-repository`, "the Implement step" below means its step 3 (Branch and commit).
+Procedures for the Create PR, Archive (Stories) or Finalize (specs, bug fixes and chores), and Merge steps of the `implement-story`, `write-spec`, `fix-bug`, `do-chore` and `setup-repository` workflow skills. The approval gates stay in those skills. Every step runs on Sonnet 5.5 in the main session, except the commit review, which runs in the `reviewer` subagent pinned to Opus 5.5, so run the model and agent check of the workflow skill in use first. For `setup-repository`, "the Implement step" below means its step 3 (Branch and commit). For `write-spec`, "the Implement step" means a fixup commit on the change's files for a fix that does not change their meaning (anything else goes back to its steps 4 and 5), and "the Review step" means the reviewer pass on the docs branch in its step 6.
 
 ## Create PR
 
@@ -37,6 +37,8 @@ a body, so read the file, fill it out and pass it on stdin with `gh pr create --
   for example Screenshots / evidence for a change without visible output, or Related issues for a chore without an
   issue.
 - Use `Closes #<number>` for the issue. For a Story, also name the OpenSpec change.
+- For a spec PR (`write-spec`), mark Story as the type of change, use `Refs #<number>` for the Story and never `Closes`,
+  so the Story stays open. Name the OpenSpec change in the Description and tick the OpenSpec item of the Checklist.
 - Tick a checkbox only if it is true for the branch. Leave an item that does not apply unticked and write `n/a` after
   it. Under Testing steps, name the checks you ran. If no Commands are configured, leave the Commands item unticked
   with `n/a` and say so under Testing steps.
@@ -91,7 +93,8 @@ tell the user and wait for their next review report. Do not finalize or archive 
 ## Finalize history
 
 Squashes the fixups and rebases the branch on `origin/<default-branch>`. Sub-step 4 archives only if the branch has an unarchived
-OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat run find nothing to archive.
+OpenSpec change and the workflow is not `write-spec`, so Stories archive here, while specs, bug fixes, chores and any
+repeat run find nothing to archive.
 
 1. Create a backup: `git branch -f backup/<branch>` (`-f` so a stale backup never blocks).
 2. Squash the fixups: `GIT_SEQUENCE_EDITOR=: git rebase -i --autosquash $(git merge-base HEAD origin/<default-branch>)`.
@@ -114,7 +117,8 @@ OpenSpec change, so Stories archive here, while bug fixes, chores and any repeat
    were conflicts, also run the Review step of the workflow skill in use, run the [commit check](#commit-check) (fixing
    failures as in sub-step 5), push with
    `git push --force-with-lease --force-if-includes`, tell the user, and wait for their re-approval before continuing.
-4. Check for an unarchived change:
+4. For `write-spec`, never archive: the change stays unarchived on the branch. Skip this sub-step. Otherwise check for an
+   unarchived change:
    `git diff --name-only --diff-filter=A origin/<default-branch>...HEAD -- openspec/changes ':!openspec/changes/archive'`.
    If it lists files, archive the completed change on the feature branch with the `openspec-archive-change` skill
    (`/opsx-archive`) and commit. The archive moves the change to `openspec/changes/archive/`, so update any path to it
@@ -138,7 +142,7 @@ Verifies the commits mechanically, without a model, before a rewritten history i
 .agents/skills/finish-work/scripts/check-commits.sh origin/<default-branch> [<issue>]
 ```
 
-Pass the issue number of the Story or bug report on a `feature/` or `fix/` branch, so that every commit needs the
+Pass the issue number of the Story or bug report on a `docs/`, `feature/` or `fix/` branch, so that every commit needs the
 trailer `Refs: #<issue>`. Pass none on a `chore/` branch (including `setup-repository` and `onboard-repository`),
 which has no issue. It exits non-zero and names each offending commit by short SHA and subject when a commit is a
 leftover `fixup!`, `squash!` or `amend!` commit, has a subject that is not a Conventional Commits subject or is longer
