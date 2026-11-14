@@ -37,10 +37,10 @@
 
 ## 4. Integration checks
 
-- [ ] 4.1 Run `openspec validate add-write-spec-skill --strict` and verify it passes.
-- [ ] 4.2 Verify `.agents/skills/implement-story/SKILL.md` and `openspec/changes/archive/` are unchanged with
+- [x] 4.1 Run `openspec validate add-write-spec-skill --strict` and verify it passes.
+- [x] 4.2 Verify `.agents/skills/implement-story/SKILL.md` and `openspec/changes/archive/` are unchanged with
   `git diff --stat origin/main -- .agents/skills/implement-story openspec/changes/archive`, which must be empty.
-- [ ] 4.3 Search the workflow skills, the reviewer agent and `AGENTS.md` for `main` used as a branch name and verify
+- [x] 4.3 Search the workflow skills, the reviewer agent and `AGENTS.md` for `main` used as a branch name and verify
   `write-spec` adds no match.
 
 ## Workflow follow-up
