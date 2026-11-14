@@ -33,13 +33,13 @@
 
 ## 3. finish-work
 
-- [ ] 3.1 In `.agents/skills/finish-work/SKILL.md`, add `write-spec` and `implement-spec` to the frontmatter and the
+- [x] 3.1 In `.agents/skills/finish-work/SKILL.md`, add `write-spec` and `implement-spec` to the frontmatter and the
   intro list of workflows, next to `implement-story`. Verify by reading both.
-- [ ] 3.2 In Create PR, add the spec PR rule (decision 5): Type Story, `Refs #<n>` instead of `Closes`, and the change
+- [x] 3.2 In Create PR, add the spec PR rule (decision 5): Type Story, `Refs #<n>` instead of `Closes`, and the change
   named. Verify against the "Spec PR" scenario of `specs/pull-requests/spec.md`.
-- [ ] 3.3 Replace Finalize history sub-step 4 and its intro with the rule of decision 3. Verify against the four
+- [x] 3.3 Replace Finalize history sub-step 4 and its intro with the rule of decision 3. Verify against the four
   scenarios of "Archiving depends on the workflow".
-- [ ] 3.4 In Commit check, pass the Story number on `docs/` branches. Verify against the "Spec branch" scenario of
+- [x] 3.4 In Commit check, pass the Story number on `docs/` branches. Verify against the "Spec branch" scenario of
   `specs/commit-check/spec.md`.
 
 ## 4. Documentation and other skills
