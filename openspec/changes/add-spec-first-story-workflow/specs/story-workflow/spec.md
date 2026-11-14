@@ -39,7 +39,8 @@ The `write-spec` skill SHALL name the OpenSpec change from the Story before bran
 ### Requirement: write-spec plans without writing code
 The `write-spec` skill SHALL verify the clean state, run research and plan on Opus 5.5 and approve plan on Sonnet 5.5,
 and SHALL change only the files of its OpenSpec change. Its proposal SHALL record the Story as a line `Story: #<n>`.
-Before the PR, it SHALL have the `reviewer` subagent review the docs branch.
+Before the PR, it SHALL have the `reviewer` subagent review the docs branch in spec-review mode, where implementation
+and tests still pending are not findings.
 
 #### Scenario: Proposal names the Story
 - **WHEN** `write-spec` creates the proposal for Story #45
@@ -55,14 +56,16 @@ Before the PR, it SHALL have the `reviewer` subagent review the docs branch.
 - **THEN** `write-spec` has the `reviewer` subagent review the docs branch in spec-review mode, where implementation and
   tests still pending are not findings, and fixes MAJOR findings before it creates the PR
 
-#### Scenario: Plan revised after the PR exists
-- **WHEN** the user requests a plan revision after the spec PR was created and approves the revised plan
-- **THEN** `write-spec` resumes only the review, pushes fixups normally and updates the existing PR, without a second
-  history cleanup or PR
-
 ### Requirement: write-spec merges the spec without archiving it
 After the plan is approved, `write-spec` SHALL create the PR with the `finish-work` skill, and SHALL finalize and merge
 it only after the user's approval. The OpenSpec change SHALL stay unarchived, and the PR SHALL NOT close the Story.
+When the plan is revised after the PR exists, it SHALL resume at the review, push the revision as fixups and update the
+existing PR, without a second history cleanup or PR.
+
+#### Scenario: Plan revised after the PR exists
+- **WHEN** the user requests a plan revision after the spec PR was created and approves the revised plan
+- **THEN** `write-spec` resumes at the review, pushes fixups normally and updates the existing PR, without a second
+  history cleanup or PR
 
 #### Scenario: Spec PR merged
 - **WHEN** the user approves the spec PR and `write-spec` merges it
