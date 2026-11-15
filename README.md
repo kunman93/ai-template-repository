@@ -6,7 +6,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 - `AGENTS.md`: instructions for coding agents (working style, default branch, commands, git workflow, engineering principles).
 - `.agents/skills/`:
-  - `write-story`, `write-spec`, `implement-spec`, `implement-story`: workflow skills for Stories. By default a Story goes through `write-spec` (writes only the spec, reviewed and merged on its own) and then `implement-spec` (implements the merged spec, and its PR closes the Story); `implement-story` writes the spec and the code in one PR when you ask for it
+  - `write-story`, `write-spec`, `implement-spec`, `implement-story`: workflow skills for Stories. By default a Story goes through `write-spec` (writes only the spec, reviewed and merged on its own; it also amends a merged spec when you name the change and ask to fix it) and then `implement-spec` (implements the merged spec, and its PR closes the Story); `implement-story` writes the spec and the code in one PR when you ask for it
   - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
   - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
