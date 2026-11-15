@@ -1,6 +1,6 @@
 ---
 name: implement-story
-description: 'Implement a Story (a GitHub issue created from the story form) on a feature/ branch: research, OpenSpec change proposal, user approval, implementation, review, PR, archive and merge. Use when the user asks to work on, start, implement or pick up a Story or names a Story issue number.'
+description: 'Implement a Story (a GitHub issue created from the story form) on a feature/ branch: research, OpenSpec change proposal, user approval, implementation, review, PR, archive and merge. Use when the user explicitly asks for implement-story, or for the spec and the code of a Story in one PR. Otherwise a Story goes to write-spec first, then implement-spec.'
 ---
 
 # Implement a Story

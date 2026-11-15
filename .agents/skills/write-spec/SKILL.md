@@ -1,6 +1,6 @@
 ---
 name: write-spec
-description: 'Write the spec of a Story (a GitHub issue created from the story form) on a docs/ branch: research, OpenSpec change proposal, user approval, review, PR and merge. The change stays unarchived and the PR does not close the Story. Use when the user asks to write or spec a Story on its own, before any code, or asks for write-spec.'
+description: 'Write the spec of a Story (a GitHub issue created from the story form) on a docs/ branch: research, OpenSpec change proposal, user approval, review, PR and merge. The change stays unarchived and the PR does not close the Story. Use when the user asks to write the spec of a Story or asks for write-spec, or to work on, start or pick up a Story that has no merged, unarchived spec yet. Implement a merged spec with implement-spec.'
 ---
 
 # Write a Spec

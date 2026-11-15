@@ -36,9 +36,9 @@ branch's commits, diff and linked issue. The body SHALL contain no empty section
 section that does not apply SHALL say `n/a`.
 
 #### Scenario: Story PR
-- **WHEN** the agent creates the PR for a Story with `implement-story`
-- **THEN** every section has content derived from the branch, Type of change marks Story, and Related issues closes the
-  Story's issue
+- **WHEN** the agent creates the PR for a Story with `implement-story` or `implement-spec`
+- **THEN** every section has content derived from the branch, Type of change marks Story, Related issues closes the
+  Story's issue, and the Description names the OpenSpec change
 
 #### Scenario: Spec PR
 - **WHEN** the agent creates the spec PR for a Story with `write-spec`
@@ -81,10 +81,11 @@ After creating a PR, the agent SHALL update its description whenever pushed chan
 - **THEN** any path to the change in the PR description points to its location under `openspec/changes/archive/`
 
 ### Requirement: All workflows open PRs the same way
-The `implement-story`, `write-spec`, `fix-bug`, `do-chore` and `setup-repository` workflows SHALL create pull requests
-only through the Create PR procedure of the `finish-work` skill, so they get the template without instructions of their
-own.
+The `implement-story`, `write-spec`, `implement-spec`, `fix-bug`, `do-chore` and `setup-repository` workflows SHALL
+create pull requests only through the Create PR procedure of the `finish-work` skill, so they get the template without
+instructions of their own.
 
 #### Scenario: Any workflow reaches PR creation
-- **WHEN** a Story, a spec, a bug fix, a chore or a repository setup reaches its Create PR step
+- **WHEN** a Story, a spec, the implementation of a spec, a bug fix, a chore or a repository setup reaches its Create
+  PR step
 - **THEN** the PR is created by the `finish-work` Create PR procedure and follows the template
