@@ -41,7 +41,7 @@ All work happens on feature branches. The default branch is read-only: inspect i
 
 ### Feature branches
 
-- Name branches `feature/<branch-name-based-on-issue>` (use `feature/<change-name>` for a merged spec, `docs/<change-name>-spec` for a Story's spec, `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
+- Name branches `feature/<branch-name-based-on-issue>` (use `feature/<change-name>` for a merged spec, `docs/<change-name>-spec` for a Story's spec, `docs/<change-name>-spec-fix` for an amendment of a merged spec, `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
 - Commit with the `.agents/skills/git-commit` skill. Make atomic commits: one logical change per commit.
 - On a branch that belongs to an issue (`docs/`, `feature/` and `fix/`), end every commit message with the trailer
   `Refs: #<issue>` (one trailer per issue), in the same final trailer block as `Co-authored-by`, with no blank line
@@ -123,7 +123,8 @@ Load the matching skill before starting any work, and follow it:
   - One match (an unarchived merged spec): `implement-spec` (`feature/` branch) with that change.
   - Several matches: ask the user which change to implement.
   - No match: `write-spec` (`docs/` branch), which writes the spec and ends at its merge.
-- A merged spec the user names (an OpenSpec change that `write-spec` merged into the default branch): `implement-spec` (`feature/` branch).
+- A request to amend or fix a merged spec the user names (an OpenSpec change that `write-spec` merged): `write-spec` in amend mode (`docs/` branch), not `implement-spec`.
+- A merged spec the user names to implement (an OpenSpec change that `write-spec` merged into the default branch): `implement-spec` (`feature/` branch).
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
 - Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
