@@ -41,7 +41,7 @@ All work happens on feature branches. The default branch is read-only: inspect i
 
 ### Feature branches
 
-- Name branches `feature/<branch-name-based-on-issue>` (use `docs/<change-name>-spec` for a Story's spec, `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
+- Name branches `feature/<branch-name-based-on-issue>` (use `feature/<change-name>` for a merged spec, `docs/<change-name>-spec` for a Story's spec, `fix/<...>` for bug fixes, `chore/<...>` for maintenance).
 - Commit with the `.agents/skills/git-commit` skill. Make atomic commits: one logical change per commit.
 - On a branch that belongs to an issue (`docs/`, `feature/` and `fix/`), end every commit message with the trailer
   `Refs: #<issue>` (one trailer per issue), in the same final trailer block as `Co-authored-by`, with no blank line
@@ -116,8 +116,14 @@ Language- and framework-specific readings of these principles live in skills tha
 
 Load the matching skill before starting any work, and follow it:
 
-- A Story issue: `implement-story` (`feature/` branch).
-- The spec of a Story on its own, when the user asks for it: `write-spec` (`docs/` branch).
+- A Story issue, when the user asks for `implement-story` or for the spec and code in one PR: `implement-story` (`feature/` branch).
+- The spec of a Story, when the user asks for it or for `write-spec`: `write-spec` (`docs/` branch).
+- Any other request to work on a Story: first run `git fetch origin <default-branch>` and
+  `git grep -l "^Story: #<n>$" origin/<default-branch> -- 'openspec/changes/*/proposal.md' ':!openspec/changes/archive'`.
+  - One match (an unarchived merged spec): `implement-spec` (`feature/` branch) with that change.
+  - Several matches: ask the user which change to implement.
+  - No match: `write-spec` (`docs/` branch), which writes the spec and ends at its merge.
+- A merged spec the user names (an OpenSpec change that `write-spec` merged into the default branch): `implement-spec` (`feature/` branch).
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
 - Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
