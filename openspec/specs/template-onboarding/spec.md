@@ -34,8 +34,8 @@ commands kept as a manual fallback.
 
 ### Requirement: Onboarding brings the template's workflow files
 Onboarding SHALL add the template's agent files (`AGENTS.md`, `.agents/skills/`, `.github/agents/`), issue forms, pull
-request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.github/skills/openspec-*`,
-`.github/prompts/opsx-*`), the decision record template, its README and record 0000, `.gitignore` and `.editorconfig`.
+request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.github/skills/openspec-*`), the decision record
+template, its README and record 0000, `.gitignore` and `.editorconfig`.
 
 #### Scenario: Repository without any template files
 - **WHEN** a maintainer onboards a repository that has none of these files
@@ -43,7 +43,7 @@ request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.github/ski
 
 #### Scenario: Vendored and OpenSpec files match the template
 - **WHEN** a maintainer onboards a repository
-- **THEN** the vendored skills and the OpenSpec skills and prompts are copied from the template rather than
+- **THEN** the vendored skills and the OpenSpec skills are copied from the template rather than
   reinstalled with `gh skill install` or `openspec init`, so their versions and set match the template
 
 ### Requirement: Existing files are never overwritten without a decision
