@@ -20,7 +20,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - `.github/dependabot.yml`: a monthly Dependabot update of the GitHub Actions the workflows use, grouped into one PR. The workflows pin third-party actions to a commit SHA, which Dependabot keeps current.
 - `.github/workflows/update-skills.yml`: the template's own weekly skill updates; it runs only in the template repository.
 - `docs/decisions/`: architecture decision records in the [MADR](https://adr.github.io/madr/) format, with the template for new records.
-- `openspec/` and `.github/skills/openspec-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
+- `openspec/` and `.agents/skills/openspec-*`: [OpenSpec](https://github.com/Fission-AI/OpenSpec) setup for spec-driven changes.
 
 ---
 
@@ -29,7 +29,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
 - [GitHub CLI](https://cli.github.com) (`gh`), signed in
 - [Git](https://git-scm.com) 2.56 or later, because the `git-commit` skill stages resolved merge conflicts with `git add --resolved`
-- [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec). Before a workflow, the agent reinstalls it globally at the version stamped in `.github/skills/openspec-*/SKILL.md` on the default branch if yours differs (see `AGENTS.md`). Repositories stamped with different versions therefore swap the global install back and forth.
+- [OpenSpec CLI](https://github.com/Fission-AI/OpenSpec). Before a workflow, the agent reinstalls it globally at the version stamped in `.agents/skills/openspec-*/SKILL.md` on the default branch if yours differs (see `AGENTS.md`). Repositories stamped with different versions therefore swap the global install back and forth.
 
 ---
 
@@ -129,7 +129,7 @@ Create Stories and bug reports with the `write-story` and `write-bug-report` ski
 
 ## Maintaining the template
 
-- **OpenSpec:** upgrade the OpenSpec CLI, set the profile, workflows and `delivery skills` as in the `openspec` job of `.github/workflows/update-skills.yml` (`delivery` is a global setting, and `both` would bring the prompts back), then run `openspec update`. It regenerates `.github/skills/openspec-*`, so never edit those by hand.
-- **Vendored skills:** copied unchanged from upstream, so never edit them locally. Update them with `gh skill update --all --dir .agents/skills`, which reads the source from the `metadata` of each `SKILL.md` (see `.agents/skills/VENDORED.md`). `--dir` keeps it from touching skills installed outside the repository. The warnings about skills without GitHub metadata are expected: the template's own workflow skills are not vendored.
+- **OpenSpec:** upgrade the OpenSpec CLI, set the profile and workflows as in the `openspec` job of `.github/workflows/update-skills.yml` (both are global settings), then run `openspec update`. It regenerates `.agents/skills/openspec-*`, so never edit those by hand.
+- **Vendored skills:** copied unchanged from upstream, so never edit them locally. Update them with `gh skill update --all --dir .agents/skills`, which reads the source from the `metadata` of each `SKILL.md` (see `.agents/skills/VENDORED.md`). `--dir` keeps it from touching skills installed outside the repository. The warnings about skills without GitHub metadata are expected: the template's own workflow skills and the generated `openspec-*` skills are not vendored.
 - **Automatic updates:** `.github/workflows/update-skills.yml` runs both updates weekly (Sunday 23:59 UTC) and opens one PR per update (`chore/update-vendored-skills`, `chore/update-openspec`). It only runs in this template repository: its jobs are guarded by `github.repository`, so it stays inert in repositories that adopt the template. PRs opened with the default token do not trigger `ci`, so the jobs open them with a GitHub App token. Create a GitHub App with Contents and Pull requests write access, install it on this repository, and store its Client ID as the variable `UPDATE_APP_CLIENT_ID` and its private key as the secret `UPDATE_APP_PRIVATE_KEY`.
 - **Decision record template:** `docs/decisions/adr-template.md` is copied unchanged from MADR; never edit it locally. The source and upgrade steps are in `docs/decisions/README.md`.
