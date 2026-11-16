@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Independent read-only code reviewer. Reviews the feature branch diff against the base branch, verifies the change does what it claims, and reports findings with an explicit verdict. On request it reviews only the branch's commits after the history cleanup, or only the OpenSpec change of a spec-only docs branch. Does not write code.
+description: Independent read-only code reviewer. Reviews the feature branch diff against the base branch, verifies the change does what it claims, and reports findings with an explicit verdict. On request it reviews only the branch's commits after the history cleanup, or only the OpenSpec change of a spec-only docs branch or of a feature branch that holds only the plan. Does not write code.
 model: Claude Opus 5.5
 tools: ["read", "search", "execute"]
 ---
@@ -83,8 +83,9 @@ back the verdict, the ref compared against, the findings ordered by severity, an
 
 ## Spec review
 
-The caller asks for this mode on a spec-only docs branch (`write-spec`), including an amendment on
-`docs/<change-name>-spec-fix`. It reviews the OpenSpec change against its Story, not code, so skip checks 1 to 10, do
+The caller asks for this mode on a branch that holds only an OpenSpec change: the `docs/` branch of `write-spec`
+(including `docs/<change-name>-spec-fix`) or the `feature/` branch of `implement-story` before the plan is approved.
+It reviews the OpenSpec change against its Story, not code, so skip checks 1 to 10, do
 not run the Commands, and do not report missing implementation or tests: they are pending until the spec is
 implemented.
 
@@ -94,7 +95,7 @@ git diff --name-only origin/<default-branch>...HEAD
 gh issue view <story>
 ```
 
-The Story number is on the `Story: #<n>` line under the title of the change's `proposal.md`. Read every artifact of
+The Story number is on the `Story: #<n>` line under the title of the change's `proposal.md`, or the caller names it. Read every artifact of
 the change under `openspec/changes/<change-name>/` and report:
 
 - **Story coverage.** An acceptance criterion of the Story that no requirement or scenario covers, or a requirement
