@@ -1,13 +1,13 @@
 ---
 name: implement-story
-description: 'Implement a Story (a GitHub issue created from the story form) on a feature/ branch: research, OpenSpec change proposal, user approval, implementation, review, PR, archive and merge. Use when the user explicitly asks for implement-story, or for the spec and the code of a Story in one PR. Otherwise a Story goes to write-spec first, then implement-spec.'
+description: 'Implement a Story (a GitHub issue created from the story form) on a feature/ branch: research, OpenSpec change proposal, plan review, user approval, implementation, review, PR, archive and merge. Use when the user explicitly asks for implement-story, or for the spec and the code of a Story in one PR. Otherwise a Story goes to write-spec first, then implement-spec.'
 ---
 
 # Implement a Story
 
 Runs on a `feature/<...>` branch. To create a Story, use the `write-story` skill (`.agents/skills/write-story`); never create one as a free-form issue.
 
-The main session runs on Sonnet 5.5, except steps 3 and 4, which always run on Opus 5.5 in the main session. Step 7 runs the `reviewer` subagent, which is pinned to Opus 5.5 in its agent file. The user names the Story and moves its card on the project board.
+The main session runs on Sonnet 5.5, except steps 3 and 4, which always run on Opus 5.5 in the main session. Steps 5 and 7 run the `reviewer` subagent, which is pinned to Opus 5.5 in its agent file. The user names the Story and moves its card on the project board.
 
 ## 0. Check workflow setup
 
@@ -45,8 +45,10 @@ Runs on Opus 5.5.
 
 Runs on Sonnet 5.5.
 
-- Ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change>/`) and wait for their explicit approval in the conversation.
-- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill. Step 4 runs on Opus 5.5, so the model check applies.
+- Unless the branch already holds code, have the custom `reviewer` subagent ([.github/agents/reviewer.agent.md](../../../.github/agents/reviewer.agent.md)) do a spec review against `origin/<default-branch>`. Name the Story number in its prompt.
+- If there is any CRITICAL or MAJOR finding (verdict REQUEST CHANGES), return to step 4 (Plan), fix the findings by revising the proposal with the `openspec-update-change` skill, commit the revision, and run the review again. Repeat until the verdict is APPROVE. If a finding points to a defect in the Story itself, handle it as step 6 does for a wrong Story.
+- Once the reviewer approves (or the review was skipped), ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change>/`) and tell them which MINOR findings remain. Wait for their explicit approval in the conversation.
+- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill, and commit the revision. Step 4 runs on Opus 5.5, so the model check applies.
 - Only after approval, continue with step 6 (Implement).
 
 ## 6. Implement
