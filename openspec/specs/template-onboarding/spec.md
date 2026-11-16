@@ -34,7 +34,7 @@ commands kept as a manual fallback.
 
 ### Requirement: Onboarding brings the template's workflow files
 Onboarding SHALL add the template's agent files (`AGENTS.md`, `.agents/skills/`, `.github/agents/`), issue forms, pull
-request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.github/skills/openspec-*`), the decision record
+request template, `ci.yml`, OpenSpec setup (`openspec/config.yaml`, `.agents/skills/openspec-*`), the decision record
 template, its README and record 0000, `.gitignore` and `.editorconfig`.
 
 #### Scenario: Repository without any template files

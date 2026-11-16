@@ -136,7 +136,7 @@ Before starting any of these workflows, sync the local OpenSpec CLI with the ver
 
 1. Run `git fetch origin <default-branch>`.
 2. Read the stamps from `origin/<default-branch>`, not from the working tree, which can be out of date:
-   `git grep -h generatedBy origin/<default-branch> -- '.github/skills/openspec-*/SKILL.md'`.
+   `git grep -h generatedBy origin/<default-branch> -- '.agents/skills/openspec-*/SKILL.md'`.
 3. Skip the rest if any of these is true:
    - There are no stamped files.
    - The fetch fails or `origin/<default-branch>` does not exist.
