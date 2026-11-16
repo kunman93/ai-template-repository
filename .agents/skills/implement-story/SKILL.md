@@ -32,13 +32,13 @@ Runs on Sonnet 5.5. Run all commands in the Commands section of `AGENTS.md`.
 
 Runs on Opus 5.5.
 
-- Research the issue provided as a prompt with the `openspec-explore` skill (`/opsx-explore`).
+- Research the issue provided as a prompt with the `openspec-explore` skill.
 
 ## 4. Plan
 
 Runs on Opus 5.5.
 
-- Create a change proposal with the `openspec-propose` skill (`/opsx-propose`).
+- Create a change proposal with the `openspec-propose` skill.
 - Commit the proposal.
 
 ## 5. Approve plan
@@ -46,14 +46,14 @@ Runs on Opus 5.5.
 Runs on Sonnet 5.5.
 
 - Ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change>/`) and wait for their explicit approval in the conversation.
-- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies.
+- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill. Step 4 runs on Opus 5.5, so the model check applies.
 - Only after approval, continue with step 6 (Implement).
 
 ## 6. Implement
 
 Runs on Sonnet 5.5 in the main session.
 
-- Implement the tasks from the change with the `openspec-apply-change` skill (`/opsx-apply`), applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`.
+- Implement the tasks from the change with the `openspec-apply-change` skill, applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`.
 - If the implementation shows that an artifact of the change (proposal, specs, design or tasks) is wrong or incomplete, stop and tell the user. Do not work around it.
   - If the Story's intent or acceptance criteria are wrong, `openspec-update-change` cannot fix it because it does not change a change's intent. Instead:
     1. Ask the user to correct the Story issue and wait until they confirm.
@@ -61,7 +61,7 @@ Runs on Sonnet 5.5 in the main session.
     3. Restart at step 3 (Research), then go through step 4 (Plan) with a new change and step 5 (Approve plan) again. Steps 3 and 4 run on Opus 5.5, so the model check applies.
     4. Resume step 6 only after the user approves the new plan.
   - Otherwise:
-    1. Return to step 4 (Plan) and revise the artifacts with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies.
+    1. Return to step 4 (Plan) and revise the artifacts with the `openspec-update-change` skill. Step 4 runs on Opus 5.5, so the model check applies.
     2. Commit the revised artifacts.
     3. Go through step 5 (Approve plan) again and wait for the user's explicit approval.
     4. Resume step 6 with the updated tasks.
@@ -92,7 +92,7 @@ Runs on Sonnet 5.5.
 Runs on Sonnet 5.5.
 
 - Wait for the user's explicit approval of the PR in the conversation. GitHub does not allow approving your own PR, so this is the approval.
-- Then finalize the history, archive the change with the `openspec-archive-change` skill (`/opsx-archive`), push, and
+- Then finalize the history, archive the change with the `openspec-archive-change` skill, push, and
   wait for `ci` with the `finish-work` skill (sections "Archive" and "Finalize history").
 
 ## 10. Merge

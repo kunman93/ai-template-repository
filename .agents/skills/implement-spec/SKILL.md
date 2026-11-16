@@ -37,7 +37,7 @@ Runs on Sonnet 5.5. Run all commands in the Commands section of `AGENTS.md`.
 
 Runs on Sonnet 5.5 in the main session.
 
-- Implement the tasks from the change with the `openspec-apply-change` skill (`/opsx-apply`), applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`. End every commit with the trailer `Refs: #<story>`.
+- Implement the tasks from the change with the `openspec-apply-change` skill, applying TDD, and make atomic commits with the `.agents/skills/git-commit` skill, following the Engineering Principles in `AGENTS.md`. End every commit with the trailer `Refs: #<story>`.
 - If the implementation shows that an artifact of the change (proposal, specs, design or tasks) is wrong or incomplete, stop and tell the user. Do not work around it.
   - If the Story itself is wrong, tell the user whether you think it is incomplete (its goal and every existing acceptance criterion hold, and criteria are only added or sharpened) or changed (anything else), with a one-sentence reason. If you are unsure, propose changed. Wait for the user's decision. Ask the user to correct the Story issue and wait until they confirm. Then:
     - Incomplete: follow "Otherwise" below.
@@ -45,7 +45,7 @@ Runs on Sonnet 5.5 in the main session.
       1. Ask the user what to do with the merged change, this branch and the work already committed, and wait for their decision. Recommend removing the obsolete change from the default branch with `do-chore`, so it cannot be implemented later. Do not delete branches or open PRs yourself.
       2. Tell the user to write the new spec with `write-spec` under a new, unused change name. Resume this workflow only for a change merged by it.
   - Otherwise:
-    1. Revise the artifacts with the `openspec-update-change` skill (`/opsx-update`). It runs on Opus 5.5, so the model check applies.
+    1. Revise the artifacts with the `openspec-update-change` skill. It runs on Opus 5.5, so the model check applies.
     2. Commit the revised artifacts.
     3. Ask the user to review the revision and wait for their explicit approval in the conversation.
     4. Switch back to Sonnet 5.5 (the model check applies) and resume with the updated tasks.
@@ -78,7 +78,7 @@ Runs on Sonnet 5.5.
 Runs on Sonnet 5.5.
 
 - Wait for the user's explicit approval of the PR in the conversation. GitHub does not allow approving your own PR, so this is the approval.
-- Then finalize the history, archive the change with the `openspec-archive-change` skill (`/opsx-archive`), push, and
+- Then finalize the history, archive the change with the `openspec-archive-change` skill, push, and
   wait for `ci` with the `finish-work` skill (sections "Archive" and "Finalize history").
 
 ## 7. Merge

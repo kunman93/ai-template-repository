@@ -50,9 +50,9 @@ Check, in this order:
 
 ## Project checks
 
-10. **AI instructions freshness.** If the diff changes commands, conventions, file layout, workflow or tooling that `AGENTS.md`, `.agents/skills/`, `.github/skills/`, `.github/agents/` or `.github/prompts/` describe, those files must change in the same diff. If they were not updated, that is a finding.
+10. **AI instructions freshness.** If the diff changes commands, conventions, file layout, workflow or tooling that `AGENTS.md`, `.agents/skills/`, `.github/skills/`, or `.github/agents/` describe, those files must change in the same diff. If they were not updated, that is a finding.
     - Instructions that now misdescribe the repo (wrong command, stale path, removed step) are **MAJOR**, consistent with check 9. Instructions that are only incomplete (for example, a new script nobody mentions) are **MINOR**.
-    - For the OpenSpec-generated files (`.github/skills/openspec-*` and `.github/prompts/opsx-*`), suggest regenerating them with `openspec update` instead of editing them by hand, because the next update would overwrite hand edits.
+    - For the OpenSpec-generated files (`.github/skills/openspec-*`), suggest regenerating them with `openspec update` (with the settings of the `openspec` job in `.github/workflows/update-skills.yml`) instead of editing them by hand, because the next update would overwrite hand edits.
     - Stay read-only: report the needed update with `file:line` and a suggested direction, and do not edit anything. Fixes go back to the Implement step of the workflow skill in use.
 
 ## Commit review

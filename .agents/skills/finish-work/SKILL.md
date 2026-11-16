@@ -129,7 +129,7 @@ to archive.
      no unarchived change was found on the branch.
    - `write-spec`, `fix-bug`, `do-chore` and `setup-repository`: never archive. Skip this sub-step.
 
-   Archive with the `openspec-archive-change` skill (`/opsx-archive`) on the feature branch and commit. The archive
+   Archive with the `openspec-archive-change` skill on the feature branch and commit. The archive
    moves the change to `openspec/changes/archive/`, so update any path to it in the PR description.
 5. Run the [commit check](#commit-check). If it fails, record the commit with `git rev-parse HEAD`, rewrite the
    history to fix every reported commit (for example with a non-interactive rebase that rewords it or adds the

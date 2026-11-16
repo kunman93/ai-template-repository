@@ -48,15 +48,15 @@ Runs on Sonnet 5.5. Run all commands in the Commands section of `AGENTS.md`.
 
 Runs on Opus 5.5.
 
-- Research the issue provided as a prompt with the `openspec-explore` skill (`/opsx-explore`).
+- Research the issue provided as a prompt with the `openspec-explore` skill.
 - Amend mode: research the problem the user reported against the merged change and the Story.
 
 ## 4. Plan
 
 Runs on Opus 5.5.
 
-- New spec: create the change `<change-name>` with the `openspec-propose` skill (`/opsx-propose`), under the name from step 1, and put the line `Story: #<story>` under the title of `proposal.md`.
-- Amend mode: amend the existing change with the `openspec-update-change` skill (`/opsx-update`). Keep its `Story: #<story>` line, or add that line under the title of `proposal.md` with the number confirmed in step 0 if it was missing. Tick no task.
+- New spec: create the change `<change-name>` with the `openspec-propose` skill, under the name from step 1, and put the line `Story: #<story>` under the title of `proposal.md`.
+- Amend mode: amend the existing change with the `openspec-update-change` skill. Keep its `Story: #<story>` line, or add that line under the title of `proposal.md` with the number confirmed in step 0 if it was missing. Tick no task.
 - Change only the files of the OpenSpec change. Write no code.
 - Commit the proposal (or the amendment) with the `.agents/skills/git-commit` skill and the trailer `Refs: #<story>`.
 
@@ -76,7 +76,7 @@ If the Story itself turns out to be wrong in steps 3 to 6, stop and tell the use
 Runs on Sonnet 5.5.
 
 - Ask the user to review the change proposal (the change's artifacts in `openspec/changes/<change-name>/`) and wait for their explicit approval in the conversation.
-- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill (`/opsx-update`). Step 4 runs on Opus 5.5, so the model check applies. Commit the revision with the trailer `Refs: #<story>`. Once the PR exists, make it a `git commit --fixup=<sha>` commit on the commit it belongs to, or a new atomic commit.
+- If the user requests changes, return to step 4 (Plan) and revise the proposal with the `openspec-update-change` skill. Step 4 runs on Opus 5.5, so the model check applies. Commit the revision with the trailer `Refs: #<story>`. Once the PR exists, make it a `git commit --fixup=<sha>` commit on the commit it belongs to, or a new atomic commit.
 - Only after approval, continue with step 6 (Create PR). If the PR already exists, resume at the Review step of step 6, push the fixups normally, update the existing PR and its description, wait for `ci`, and continue the PR review loop of step 6. Do not clean up the history again and do not create a second PR.
 
 ## 6. Create PR
