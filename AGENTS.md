@@ -50,16 +50,16 @@ All work happens on feature branches. The default branch is read-only: inspect i
 - Pushing the feature branch is allowed. This and the `finish-work` procedures below are the explicit request for the
   pushes that the `git-commit` skill otherwise forbids.
 - Rewrite and force push your own feature branch only in the Create PR, Finalize history and Merge procedures of the
-  `finish-work` skill, always with `git push --force-with-lease --force-if-includes`. That skill is the explicit
+  `finish-work` skill and in the "Pause for a spec fix" section of the `implement-spec` skill, always with `git push --force-with-lease --force-if-includes`. That skill is the explicit
   request for the history changes (such as `git rebase`, `git commit --amend` and `git reset --hard`) and force pushes
-  that the `git-commit` skill requires.
+  that the `git-commit` skill requires, and so is the "Pause for a spec fix" section of `implement-spec`.
 - Delete a feature branch only after its PR has been merged (see the Merge section of the `finish-work` skill).
 
 **Never**:
 
 - Push to, rebase, or rewrite the default branch
 - Force push with plain `--force`
-- Force push outside the `finish-work` procedures named above
+- Force push outside the `finish-work` procedures and the "Pause for a spec fix" section of `implement-spec` named above
 
 ---
 

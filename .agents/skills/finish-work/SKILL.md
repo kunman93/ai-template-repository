@@ -47,7 +47,9 @@ a body, so read the file, fill it out and pass it on stdin with `gh pr create --
 
 Whenever you create a PR, always give the user its URL in this form: `🔀 PR: <url>`.
 
-After the first push, do not rewrite the history during review. Fix CI failures and review findings with
+After the first push, do not rewrite the history during review. The one exception is the spec-fix rebase of the
+"Pause for a spec fix" section of `implement-spec`; its next push is a force push with
+`--force-with-lease --force-if-includes`. Fix CI failures and review findings with
 `git commit --fixup=<sha>` commits targeting the commit they belong to, and push them normally, so the user can
 review incremental changes. If a later commit also changed the same lines, target the latest of them (find it with
 `git blame`), so the autosquash replays without conflicts. They are squashed in [Finalize history](#finalize-history).
