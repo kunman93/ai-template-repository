@@ -29,7 +29,9 @@
   Commands and ask the user whether to undo or continue if they fail, check every task against the code and its tests
   against the amended scenarios, tick only the tasks that are done, commit if the change's files differ from `HEAD`,
   delete the backup, remove obsolete code in its own commit and tell the user, then continue
-  step 3. Verify against every scenario of "Every task is re-checked against the amended spec".
+  step 3. Verify against every scenario of "Every task is re-checked against the amended spec". Also write the open-PR
+  check (before continuing step 3) and verify it against "A resume with an open PR continues the review loop"; it
+  needs a real PR, so it is checked by reading the text.
 - [x] 1.6 Check the commands of tasks 1.3 to 1.5 in a throwaway clone of this repository with a fake change. Cover:
   - an amendment merged and not merged, and a change removed;
   - resuming from the local default branch, from a clone made before the feature branch was pushed, and with origin
@@ -37,8 +39,7 @@
   - an interrupted resume (rebase in progress, and a leftover `backup/spec-fix/<change-name>`), another rebase in
     progress without that backup, a resume after each undo path (abort, reset, undo after failing Commands, and the
     user's own `git rebase --abort`), and a second spec fix after a finished resume;
-  - an undo with the user's staged, unstaged and untracked edits, a missing `rebase-merge/onto`, and a resume with the PR
-    already open (`gh pr list`);
+  - an undo with the user's staged and unstaged edits, and a missing `rebase-merge/onto`;
   - a conflict in `tasks.md` resolved from `$onto` (read from `rebase-merge/onto`), and a change file the amendment deleted;
   - a tick-only commit that becomes empty, and a tick that replays without a conflict;
   - the empty diff after the restore, a re-check with no task done while `HEAD` has stale ticks, and a re-check whose
