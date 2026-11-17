@@ -106,7 +106,8 @@ branch and is not a new branch.
 #### Scenario: Interrupted resume
 - **WHEN** the user resumes again and the backup of an earlier resume is left, because its rebase or re-check did not
   finish
-- **THEN** the skill continues the rebase if one of `feature/<change-name>` is in progress, or else, if the branch
+- **THEN** the skill continues the rebase if one of `feature/<change-name>` is in progress, without a new backup, which would
+  overwrite the original one, or else, if the branch
   differs from the backup, switches to `feature/<change-name>` and asks the user whether to continue with the re-check
   or undo with the backup, instead of running the merge check
 
@@ -151,8 +152,8 @@ Finalize history sub-step 3 of `finish-work`. If the branch was already pushed, 
 
 #### Scenario: Undo with uncommitted edits of the user
 - **WHEN** the skill is about to undo and, outside the change's files, the working tree holds an unstaged or untracked
-  change that is not an unmerged path (before `git rebase --abort`), or any staged or unstaged change (before
-  `git reset --hard`)
+  change that is not an unmerged path (before `git rebase --abort`), or any staged or unstaged change or untracked file that the
+  backup tracks (before `git reset --hard`)
 - **THEN** it asks the user to preserve or discard it and keeps the backup until the user decides
 
 #### Scenario: Rebase target unreadable

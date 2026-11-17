@@ -80,7 +80,7 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 - The local branch does not contain the tip on origin (someone pushed to it, or another machine has newer work): stop
   and ask the user.
 - An interrupted resume is checked before anything else, because git refuses to switch during a rebase:
-  - A rebase is in progress (`git status`): continue it with decision 4 only if it rebases `feature/<change-name>` and
+  - A rebase is in progress (`git status`): continue it with decision 4 from the conflict resolution on (no new backup and no new `git rebase`, which would overwrite the original backup with the half-replayed HEAD; use `git rebase --continue`) only if it rebases `feature/<change-name>` and
     `backup/spec-fix/<change-name>` exists. Only a resume creates that backup, so without it the rebase is another one,
     for example from Finalize history. Otherwise ask the user.
   - No rebase is in progress, but `backup/spec-fix/<change-name>` exists: switch to `feature/<change-name>`.
@@ -120,8 +120,8 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>`
    after it. Inspect the working tree first. Outside the change's files, these changes are the user's: before
    `git rebase --abort`, an unstaged or untracked change that is not an unmerged path (staged ones are the conflict
-   resolutions of this rebase); before `git reset --hard`, any staged or unstaged change, because it overwrites tracked
-   files. Ask the user to preserve or discard it and keep the backup until they decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
+   resolutions of this rebase); before `git reset --hard`, any staged or unstaged change and any untracked file that the backup tracks
+   (`git ls-tree -r --name-only`), because it overwrites those paths. Ask the user to preserve or discard it and keep the backup until they decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
    proceed.
 6. The backup is deleted only after an undo (sub-step 5) or at the end of decision 5.
 
