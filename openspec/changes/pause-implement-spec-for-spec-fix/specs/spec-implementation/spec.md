@@ -136,9 +136,9 @@ Finalize history sub-step 3 of `finish-work`. If the branch was already pushed, 
 - **THEN** the skill resolves it with the version of that file in the rebase target, even if a later fetch moved
   `origin/<default-branch>` on
 
-#### Scenario: Change file deleted on the default branch
-- **WHEN** the rebase stops on a conflict in a file of the change that the default branch no longer has
-- **THEN** the skill removes the file, as the default branch's version
+#### Scenario: Change file deleted in the rebase target
+- **WHEN** the rebase stops on a conflict in a file of the change that the rebase target no longer has
+- **THEN** the skill removes the file, as the rebase target's version
 
 #### Scenario: Commit becomes empty
 - **WHEN** a commit that only ticked tasks becomes empty after the resolution
@@ -150,9 +150,14 @@ Finalize history sub-step 3 of `finish-work`. If the branch was already pushed, 
   proceed
 
 #### Scenario: Undo with uncommitted edits of the user
-- **WHEN** the skill is about to undo with `git rebase --abort` or `git reset --hard` and the working tree holds an
-  unstaged or untracked change outside the change's files that is not an unmerged path
+- **WHEN** the skill is about to undo and, outside the change's files, the working tree holds an unstaged or untracked
+  change that is not an unmerged path (before `git rebase --abort`), or any staged or unstaged change (before
+  `git reset --hard`)
 - **THEN** it asks the user to preserve or discard it and keeps the backup until the user decides
+
+#### Scenario: Rebase target unreadable
+- **WHEN** a conflict needs the rebase target and `.git/rebase-merge/onto` does not exist
+- **THEN** the skill stops and asks the user
 
 #### Scenario: Push rejected
 - **WHEN** the next push with `--force-with-lease --force-if-includes` is rejected, for example because someone pushed
@@ -204,7 +209,7 @@ for in its own commit.
 
 #### Scenario: No task done
 - **WHEN** the re-check finds no task done, and ticks that replayed without a conflict are still in `HEAD`
-- **THEN** the skill commits the reset, so the change's files in `HEAD` match the default branch
+- **THEN** the skill commits the reset, so the change's files in `HEAD` match their version at the rebase target
 
 #### Scenario: Nothing to re-commit
 - **WHEN** after the re-check the change's files equal those in `HEAD`

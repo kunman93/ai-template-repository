@@ -118,9 +118,10 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
    conflicts are resolved, non-trivial ones go to the user, and unsure ones go to an Opus subagent. The rest of that
    sub-step (Commands, review, commit check, push and re-approval) does not apply here; decision 5 runs the Commands.
 5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>`
-   after it. Both discard the working tree, so inspect it first: an unstaged or untracked change outside the change's
-   files that is not an unmerged path is the user's. Ask them to preserve or discard it and keep the backup until they
-   decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
+   after it. Inspect the working tree first. Outside the change's files, these changes are the user's: before
+   `git rebase --abort`, an unstaged or untracked change that is not an unmerged path (staged ones are the conflict
+   resolutions of this rebase); before `git reset --hard`, any staged or unstaged change, because it overwrites tracked
+   files. Ask the user to preserve or discard it and keep the backup until they decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
    proceed.
 6. The backup is deleted only after an undo (sub-step 5) or at the end of decision 5.
 
@@ -134,7 +135,7 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 
 ### 5. Reset and re-check the ticks
 
-1. After the rebase, restore the change's files and check that they match the default branch. Every task is now
+1. After the rebase, restore the change's files and check that they match their version at the rebase target. Every task is now
    unticked, including ticks that the rebase replayed without a conflict:
 
    ```text
@@ -156,11 +157,11 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
    reset of stale ticks when no task is done. If it exits 0, there is nothing to commit.
 5. Delete the backup: `git branch -D backup/spec-fix/<change-name>`.
 6. Remove code that the amended change no longer calls for in its own commit, and tell the user.
-7. Continue step 3 with the unticked tasks. For a task whose test asserts the old behavior, change the test first and
-   see it fail before changing the code (TDD).
-8. If the PR is already open, skip the history cleanup and the PR creation of step 5. After the Review step, follow the
+7. If the PR is already open, skip the history cleanup and the PR creation of step 5. After the Review step, follow the
    review loop of `finish-work`: the guarded push, the PR description check, `ci` and the user's approval. The check
    runs before the tasks continue, so that step 5 is not reached with the wrong assumption.
+8. Continue step 3 with the unticked tasks. For a task whose test asserts the old behavior, change the test first and
+   see it fail before changing the code (TDD).
 
 - Alternative: rely on conflict resolution alone. Rejected: ticks on lines the amendment did not touch replay without a
   conflict, so a task whose meaning changed elsewhere (in the specs or design) would stay ticked.
