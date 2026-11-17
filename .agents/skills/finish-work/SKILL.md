@@ -47,7 +47,7 @@ a body, so read the file, fill it out and pass it on stdin with `gh pr create --
 
 Whenever you create a PR, always give the user its URL in this form: `🔀 PR: <url>`.
 
-After the first push, do not rewrite the history during review. Fix CI failures and review findings with
+After the first push, do not rewrite the history during review. Fix CI failures and valid review findings with
 `git commit --fixup=<sha>` commits targeting the commit they belong to, and push them normally, so the user can
 review incremental changes. If a later commit also changed the same lines, target the latest of them (find it with
 `git blame`), so the autosquash replays without conflicts. They are squashed in [Finalize history](#finalize-history).
@@ -86,9 +86,17 @@ When the user reports the PR review is done, read the findings:
     }'
   ```
 
-If there are findings, return to the Implement step of the workflow skill in use, fix them with fixup commits, run its
-Review step again, and push. Then
-tell the user and wait for their next review report. Do not finalize or archive until the user approves.
+If there are findings, triage every one before fixing anything:
+
+1. Verify each finding against the code, the specs and the repository rules. Reproduce it where feasible (for example
+   in a throwaway repo or with a failing test).
+2. Tell the user, per finding, whether it is valid, a nitpick or rejected, with a one-line reason. Do not silently
+   skip any.
+3. Ask the user when you are unsure whether a finding is valid.
+4. Fix only the valid findings (the Implement step of the workflow skill in use), run its Review step again, and push.
+   If none is valid, skip this. Either way, tell the user and wait for their next review report.
+
+Do not finalize or archive until the user approves.
 
 ## Finalize history
 
