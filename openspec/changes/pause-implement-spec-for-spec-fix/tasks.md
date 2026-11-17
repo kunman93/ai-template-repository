@@ -37,6 +37,8 @@
   - an interrupted resume (rebase in progress, and a leftover `backup/spec-fix/<change-name>`), another rebase in
     progress without that backup, a resume after each undo path (abort, reset, undo after failing Commands, and the
     user's own `git rebase --abort`), and a second spec fix after a finished resume;
+  - an undo with the user's staged, unstaged and untracked edits, a missing `rebase-merge/onto`, and a resume with the PR
+    already open (`gh pr list`);
   - a conflict in `tasks.md` resolved from `$onto` (read from `rebase-merge/onto`), and a change file the amendment deleted;
   - a tick-only commit that becomes empty, and a tick that replays without a conflict;
   - the empty diff after the restore, a re-check with no task done while `HEAD` has stale ticks, and a re-check whose
