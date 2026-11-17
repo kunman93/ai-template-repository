@@ -91,10 +91,12 @@ Runs on Sonnet 5.5. A merged spec is amended only on the default branch, with `w
 
 ### Pause
 
-1. Commit the work that is done with the `.agents/skills/git-commit` skill. Work is done when it completes a task and the Commands of `AGENTS.md` pass.
-2. Ask the user what to do with any other uncommitted change, such as a failing test written before its code. Do not commit, stash or discard it yourself; the rebase needs a clean tree.
-3. Tell the user what is wrong and recommend `write-spec` in amend mode with the change name and the problem.
-4. Push nothing and stop.
+1. Inspect all uncommitted changes (`git status`, `git diff`). Work is done when it completes a task and the Commands of `AGENTS.md` pass.
+2. If a file mixes done work with unfinished edits, ask the user to separate them first: the `git-commit` skill stages whole paths.
+3. Commit the work that is done with the `.agents/skills/git-commit` skill.
+4. Ask the user what to do with any other uncommitted change, such as a failing test written before its code. Do not commit, stash or discard it yourself; the rebase needs a clean tree.
+5. Tell the user what is wrong and recommend `write-spec` in amend mode with the change name and the problem.
+6. Push nothing and stop.
 
 ### Resume
 
@@ -104,7 +106,7 @@ Resume when the user says the spec fix is merged, or re-runs this skill on the e
    - A rebase is in progress (`git status`): continue it with "Rebase" only if it rebases `feature/<change-name>` and `backup/spec-fix/<change-name>` exists. Otherwise it is another rebase: stop and ask the user.
    - No rebase, but `backup/spec-fix/<change-name>` exists: switch to `feature/<change-name>`.
      - If the branch equals the backup (`git rev-parse` of both), delete the backup and go on with step 2.
-     - Otherwise ask the user whether to continue with "Re-check" or to undo with the backup.
+     - Otherwise ask the user whether to continue with "Re-check" or to undo with the backup. Undo only as in "Rebase" sub-step 5.
 2. Fetch and switch:
    1. `git fetch origin <default-branch>`.
    2. `git ls-remote --exit-code --heads origin feature/<change-name>`. Exit 0 means the branch was pushed.
@@ -120,12 +122,12 @@ Resume when the user says the spec fix is merged, or re-runs this skill on the e
 
 1. `git branch -f backup/spec-fix/<change-name>`. It is never the `backup/<branch>` of `finish-work`.
 2. `git rebase origin/<default-branch>`. Never rebase the default branch itself.
-3. A conflict in a file of `openspec/changes/<change-name>/` takes the default branch's version:
-   - The file exists there: `git checkout origin/<default-branch> -- <file>`.
-   - The amendment deleted it: `git rm <file>`.
+3. A conflict in a file of `openspec/changes/<change-name>/` takes the version of the rebase target, not of `origin/<default-branch>`, which a later fetch may have moved past an interrupted rebase. Use `onto=$(cat "$(git rev-parse --git-path rebase-merge/onto)")`:
+   - The file exists there: `git checkout "$onto" -- <file>`.
+   - The amendment deleted it (`git cat-file -e "$onto":<file>` fails): `git rm <file>`.
    - A commit that becomes empty: `git rebase --skip`.
 4. Every other conflict follows only the three conflict rules of Finalize history sub-step 3 of `finish-work` (trivial: resolve; non-trivial: ask the user; unsure: ask an Opus subagent). Its Commands, review, commit check, push and re-approval do not apply here.
-5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>` after it. Then delete the backup (`git branch -D backup/spec-fix/<change-name>`) and ask the user how to proceed.
+5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>` after it. Before the reset, inspect `git status`: if it shows edits other than this resume's own changes to the change's files, ask the user to preserve or explicitly discard them, and keep the backup until they decide. Then delete the backup (`git branch -D backup/spec-fix/<change-name>`) and ask the user how to proceed.
 6. Push nothing. Do not rely on memory for whether the branch was rewritten: before any later push, run `git fetch origin +refs/heads/feature/<change-name>:refs/remotes/origin/feature/<change-name>` if the branch exists on origin (`git ls-remote --exit-code --heads origin feature/<change-name>`). If `git merge-base --is-ancestor origin/feature/<change-name> HEAD` fails, the rewritten branch has diverged from origin, so the next push uses `git push --force-with-lease --force-if-includes` and the user is told that the PR history was rewritten. If it is rejected, stop and ask the user; never retry with other options. A branch never pushed is pushed in step 5 as usual.
 
 ### Re-check
@@ -140,3 +142,4 @@ Resume when the user says the spec fix is merged, or re-runs this skill on the e
 5. Delete the backup: `git branch -D backup/spec-fix/<change-name>`.
 6. Remove code the amended change no longer calls for in its own commit and tell the user.
 7. Continue step 3 with the unticked tasks. For a task whose test asserts the old behavior, change the test first and see it fail before changing the code.
+8. If the PR is already open (`gh pr list --head feature/<change-name> --state open`), do not clean up the history or create a second PR in step 5. After step 4 (Review), follow the review loop of the `finish-work` skill ("Create PR"): fixup or atomic commits, the guarded push of "Rebase" sub-step 6, the PR description check, `ci`, and the user's approval.
