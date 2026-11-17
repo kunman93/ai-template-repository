@@ -31,7 +31,7 @@ progress of unmerged work (ticked tasks) off it.
     `feature/<change-name>` and says the branch is paused.
 - Rebase onto the amended spec:
   - The skill rebases `feature/<change-name>` onto `origin/<default-branch>`.
-  - Conflicts in the change's files take the default branch's version. A commit that becomes empty is skipped.
+  - Conflicts in the change's files take the rebase target's version. A commit that becomes empty is skipped.
   - All other conflicts follow the Finalize history rules of `finish-work`.
   - If the branch was already pushed, its next push uses `--force-with-lease --force-if-includes`. If that push is
     rejected, the skill stops and asks the user.
