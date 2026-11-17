@@ -41,11 +41,14 @@ it is.
 
 ### 2. Pause
 
-1. Commit the work that is done with `git-commit`. Work is done when it completes a task and the Commands of
-   `AGENTS.md` pass. Ask the user about any other uncommitted change, such as a failing test written before its code
-   (TDD), since the rebase needs a clean tree.
-2. Tell the user what is wrong, and recommend `write-spec` in amend mode with the change name and the problem.
-3. Push nothing and stop.
+1. Inspect all uncommitted changes. Work is done when it completes a task and the Commands of `AGENTS.md` pass.
+2. If a file mixes done work with unfinished edits, ask the user to separate them first, because `git-commit` stages
+   whole paths.
+3. Commit the work that is done with `git-commit`.
+4. Ask the user about any other uncommitted change, such as a failing test written before its code (TDD), since the
+   rebase needs a clean tree.
+5. Tell the user what is wrong, and recommend `write-spec` in amend mode with the change name and the problem.
+6. Push nothing and stop.
 
 - Alternative: `git stash` the rest. Rejected: a stash is easy to lose across sessions and branch switches; the user
   decides.
@@ -102,8 +105,10 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 1. Run `git branch -f backup/spec-fix/<change-name>`. It has its own name, so it is never mistaken for the
    `backup/<branch>` of `finish-work`, which can outlive a pause during Finalize history.
 2. Run `git rebase origin/<default-branch>`.
-3. A conflict in a file of `openspec/changes/<change-name>/` takes the default branch's version, as the Story asks:
-   - The file exists on the default branch: `git checkout origin/<default-branch> -- <file>`.
+3. A conflict in a file of `openspec/changes/<change-name>/` takes the version of the rebase target, as the Story asks.
+   The target is read from `.git/rebase-merge/onto`, not from `origin/<default-branch>`, which a fetch in a later
+   session may have moved past an interrupted rebase:
+   - The file exists there: `git checkout "$onto" -- <file>`.
    - The amendment deleted it: `git rm <file>`.
 
    The ticks this drops come back in decision 5. A commit that only ticked tasks can become empty: skip it with
@@ -112,7 +117,8 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
    conflicts are resolved, non-trivial ones go to the user, and unsure ones go to an Opus subagent. The rest of that
    sub-step (Commands, review, commit check, push and re-approval) does not apply here; decision 5 runs the Commands.
 5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>`
-   after it. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
+   after it. Before the reset, inspect the working tree: edits other than the resume's own changes to the change's files
+   are the user's, so ask them to preserve or discard them and keep the backup until they decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
    proceed.
 6. The backup is deleted only after an undo (sub-step 5) or at the end of decision 5.
 
@@ -150,6 +156,8 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 6. Remove code that the amended change no longer calls for in its own commit, and tell the user.
 7. Continue step 3 with the unticked tasks. For a task whose test asserts the old behavior, change the test first and
    see it fail before changing the code (TDD).
+8. If the PR is already open, skip the history cleanup and the PR creation of step 5. After the Review step, follow the
+   review loop of `finish-work`: the guarded push, the PR description check, `ci` and the user's approval.
 
 - Alternative: rely on conflict resolution alone. Rejected: ticks on lines the amendment did not touch replay without a
   conflict, so a task whose meaning changed elsewhere (in the specs or design) would stay ticked.
