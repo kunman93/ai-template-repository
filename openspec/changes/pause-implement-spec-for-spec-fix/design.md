@@ -106,10 +106,11 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
    `backup/<branch>` of `finish-work`, which can outlive a pause during Finalize history.
 2. Run `git rebase origin/<default-branch>`.
 3. A conflict in a file of `openspec/changes/<change-name>/` takes the version of the rebase target, as the Story asks.
-   The target is read from `.git/rebase-merge/onto`, not from `origin/<default-branch>`, which a fetch in a later
-   session may have moved past an interrupted rebase:
+   The target is read from `.git/rebase-merge/onto` (`onto=$(cat "$(git rev-parse --git-path rebase-merge/onto)")`; if
+   it does not exist, stop and ask the user), not from `origin/<default-branch>`, which a fetch in a later session may
+   have moved past an interrupted rebase:
    - The file exists there: `git checkout "$onto" -- <file>`.
-   - The amendment deleted it: `git rm <file>`.
+   - The amendment deleted it (`git cat-file -e "$onto":<file>` fails): `git rm <file>`.
 
    The ticks this drops come back in decision 5. A commit that only ticked tasks can become empty: skip it with
    `git rebase --skip`.
@@ -117,8 +118,9 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
    conflicts are resolved, non-trivial ones go to the user, and unsure ones go to an Opus subagent. The rest of that
    sub-step (Commands, review, commit check, push and re-approval) does not apply here; decision 5 runs the Commands.
 5. Undo a bad resolution with `git rebase --abort` during the rebase, or `git reset --hard backup/spec-fix/<change-name>`
-   after it. Before the reset, inspect the working tree: edits other than the resume's own changes to the change's files
-   are the user's, so ask them to preserve or discard them and keep the backup until they decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
+   after it. Both discard the working tree, so inspect it first: an unstaged or untracked change outside the change's
+   files that is not an unmerged path is the user's. Ask them to preserve or discard it and keep the backup until they
+   decide. Then delete the backup, so that the next resume runs the merge check again, and ask the user how to
    proceed.
 6. The backup is deleted only after an undo (sub-step 5) or at the end of decision 5.
 
@@ -157,7 +159,8 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 7. Continue step 3 with the unticked tasks. For a task whose test asserts the old behavior, change the test first and
    see it fail before changing the code (TDD).
 8. If the PR is already open, skip the history cleanup and the PR creation of step 5. After the Review step, follow the
-   review loop of `finish-work`: the guarded push, the PR description check, `ci` and the user's approval.
+   review loop of `finish-work`: the guarded push, the PR description check, `ci` and the user's approval. The check
+   runs before the tasks continue, so that step 5 is not reached with the wrong assumption.
 
 - Alternative: rely on conflict resolution alone. Rejected: ticks on lines the amendment did not touch replay without a
   conflict, so a task whose meaning changed elsewhere (in the specs or design) would stay ticked.
@@ -175,7 +178,7 @@ git log --oneline "$base"..origin/<default-branch> -- openspec/changes/<change-n
 
 - [The rebase rewrites a pushed branch during review, so the user loses the incremental view of the fixups] → The skill
   tells the user. The fixup commits survive the rebase and are still squashed in Finalize history.
-- [`git checkout origin/<default-branch> -- <file>` during the rebase can leave an intermediate commit whose `tasks.md`
+- [`git checkout "$onto" -- <file>` during the rebase can leave an intermediate commit whose `tasks.md`
   hunk unticks lines] → Decision 5 normalizes the final state, which is what the archive keeps. Before the first push,
   the Create PR history cleanup can fold such hunks; after it, they stay as small `tasks.md` hunks in their commits.
 - [The agent misjudges a task as done in the re-check] → The `reviewer` subagent checks the branch against the change in

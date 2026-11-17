@@ -38,13 +38,17 @@ SHALL NOT work around a wrong artifact and SHALL NOT change the change's files o
 ## ADDED Requirements
 
 ### Requirement: A pause for a spec fix pushes nothing
-When `implement-spec` pauses for a spec fix, it SHALL commit the work that is done, ask the user about any other
-uncommitted changes, push nothing, and stop. Work is done when it completes a task and the Commands of `AGENTS.md`
+When `implement-spec` pauses for a spec fix, it SHALL inspect all uncommitted changes, commit the work that is done,
+ask the user about any other uncommitted changes, push nothing, and stop. Work is done when it completes a task and the Commands of `AGENTS.md`
 pass.
 
 #### Scenario: Pause with finished work
 - **WHEN** the skill pauses and the working tree holds work that completes a task, and the Commands pass
 - **THEN** it commits that work with the `git-commit` skill, pushes nothing, and stops
+
+#### Scenario: Pause with a file that mixes finished and unfinished work
+- **WHEN** the skill pauses and one file holds both work that completes a task and unfinished edits
+- **THEN** it asks the user to separate them before it commits, because `git-commit` stages whole paths
 
 #### Scenario: Pause with unfinished work
 - **WHEN** the skill pauses and the working tree holds changes that complete no task, or the Commands fail, for
@@ -123,13 +127,14 @@ branch and is not a new branch.
 
 ### Requirement: The branch is rebased onto the amended spec
 On resume, `implement-spec` SHALL rebase `feature/<change-name>` onto `origin/<default-branch>`. Conflicts in the
-change's files SHALL take the default branch's version; all other conflicts SHALL follow the three conflict rules of
+change's files SHALL take the version of the rebase target, read from `.git/rebase-merge/onto`; all other conflicts SHALL follow the three conflict rules of
 Finalize history sub-step 3 of `finish-work`. If the branch was already pushed, its next push SHALL use
 `--force-with-lease --force-if-includes`.
 
 #### Scenario: Conflict in the change's files
 - **WHEN** the rebase stops on a conflict in a file of `openspec/changes/<change-name>/`
-- **THEN** the skill resolves it with the default branch's version of that file
+- **THEN** the skill resolves it with the version of that file in the rebase target, even if a later fetch moved
+  `origin/<default-branch>` on
 
 #### Scenario: Change file deleted on the default branch
 - **WHEN** the rebase stops on a conflict in a file of the change that the default branch no longer has
@@ -143,6 +148,11 @@ Finalize history sub-step 3 of `finish-work`. If the branch was already pushed, 
 - **WHEN** a resolution turns out wrong, during the rebase or before the re-check is finished and the Commands pass
 - **THEN** the skill restores the branch as it was before the rebase, deletes the backup, and asks the user how to
   proceed
+
+#### Scenario: Undo with uncommitted edits of the user
+- **WHEN** the skill is about to undo with `git rebase --abort` or `git reset --hard` and the working tree holds an
+  unstaged or untracked change outside the change's files that is not an unmerged path
+- **THEN** it asks the user to preserve or discard it and keeps the backup until the user decides
 
 #### Scenario: Push rejected
 - **WHEN** the next push with `--force-with-lease --force-if-includes` is rejected, for example because someone pushed
@@ -172,15 +182,15 @@ exception to their history rewrite and force push rules, also after the PR exist
   fix during review is still a fixup commit pushed normally
 
 ### Requirement: Every task is re-checked against the amended spec
-After the rebase, the change's files on the branch SHALL match the default branch's version, so every task is unticked.
+After the rebase, the change's files on the branch SHALL match their version at the rebase target, so every task is unticked.
 `implement-spec` SHALL then run the Commands of `AGENTS.md`, check every task against the code and its test assertions
 against the amended scenarios, tick only the tasks that are done, and remove code the amended change no longer calls
 for in its own commit.
 
 #### Scenario: Ticks reset
 - **WHEN** the rebase is done
-- **THEN** `git diff origin/<default-branch> -- openspec/changes/<change-name>/` is empty before any task is ticked
-  again
+- **THEN** the change's files equal their version at the merge base of `HEAD` and `origin/<default-branch>` before any
+  task is ticked again
 
 #### Scenario: Commands before the re-check
 - **WHEN** the rebase brought in other changes of the default branch
@@ -212,3 +222,12 @@ for in its own commit.
 #### Scenario: Obsolete code
 - **WHEN** the branch contains code that the amended change no longer calls for
 - **THEN** the skill removes it in its own commit and tells the user
+
+### Requirement: A resume with an open PR continues the review loop
+When the PR of `feature/<change-name>` is already open on resume, `implement-spec` SHALL NOT clean up the history or
+create a second PR. After the Review step it SHALL follow the review loop of `finish-work`.
+
+#### Scenario: Resume during PR review
+- **WHEN** the skill resumes after a spec fix and `gh pr list --head feature/<change-name> --state open` finds the PR
+- **THEN** it finishes the remaining tasks and the Review step, pushes with the guarded push, updates the PR description
+  if it is no longer accurate, waits for `ci`, and waits for the user's approval, without a second PR
