@@ -91,7 +91,7 @@ Runs on Sonnet 5.5.
 - Clean up the history, have the `reviewer` subagent review the cleaned-up commits, push the docs branch, create the PR, wait for `ci`, and handle CI failures and PR review
   findings with the `finish-work` skill (`.agents/skills/finish-work`, section "Create PR").
 - The PR refers to the Story and does not close it. In amend mode, its Description also names the amended change.
-- Fix CI failures and review findings in the artifacts of the change as the Review step says: a fixup commit only for wording, consistency or formatting that does not change meaning (a consistency fix only brings an artifact in line with what was approved; picking a side in a contradiction is a plan change), and step 4 and then step 5 for the user's approval for anything that changes a requirement, scenario, design decision or task. Run the Review step again. After approval, resume as step 5 says, without a second cleanup or PR.
+- Triage PR review findings with `finish-work` (section "Read review findings"), then fix CI failures and the valid findings as the Review step says (a consistency fix only brings an artifact in line with what was approved; picking a side in a contradiction is a plan change), and run the Review step again after a fix. After approval, resume as step 5 says, without a second cleanup or PR.
 - Do not finalize until the user approves.
 
 ## 7. Finalize
