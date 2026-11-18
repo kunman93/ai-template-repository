@@ -9,8 +9,7 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
   - `write-story`, `write-spec`, `implement-spec`, `implement-story`: workflow skills for Stories. By default a Story goes through `write-spec` (writes only the spec, reviewed and merged on its own) and then `implement-spec` (implements the merged spec, and its PR closes the Story); `implement-story` writes the spec and the code in one PR when you ask for it
   - `write-bug-report`, `fix-bug`: workflow skills for bug reports and bug fixes
   - `do-chore`: a workflow skill for maintenance you explicitly ask for (tooling, config, dependencies, docs, refactoring)
-  - `onboard-repository`: a workflow skill that onboards an existing repository: it copies the template files the repository lacks, asks keep, take or merge for every file that differs, commits on `chore/adopt-template` and runs `setup-repository`. Run it again to pull later template changes. You install it with `gh skill install`, see [Adopting the template](#adopting-the-template)
-  - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) after you adopt the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
+  - `setup-repository`: a workflow skill that applies the project-specific [Setup](#manual-setup) to a repository created from the template: default branch, Commands, `ci` steps, security link, stack skills and the `ci` ruleset. It asks before every change and keeps values that are already set
   - `finish-work`: has the cleaned-up commits checked mechanically and reviewed, creates the PR, finalizes the history (checking the commits again before each push) and merges. You don't call it directly; `implement-story`, `write-spec`, `implement-spec`, `fix-bug`, `do-chore` and `setup-repository` use it
   - `git-commit`: a skill for making atomic commits
 - `.github/agents/reviewer.agent.md`: an independent, read-only code reviewer.
@@ -35,84 +34,15 @@ A stack-agnostic template for AI-assisted development. It contains the workflow,
 
 ## Adopting the template
 
-Both a new and an existing repository follow the same list; only getting the files differs.
-
-1. Get the template files.
-   - **New repository:** create your repository from this template.
-   - **Existing repository:** install the `onboard-repository` skill in your repository, with no uncommitted work:
-
-     ```sh
-     gh skill install kunman93/ai-template-repository onboard-repository --allow-hidden-dirs --dir .agents/skills
-     ```
-
-     `gh` warns: "Skills in hidden directories (e.g. .claude/, .agents/) may be installed copies from another
-     publisher. Verify the skill's origin and check for a canonical source." That is expected,
-     because this template keeps its skills in `.agents/skills`; the canonical source is
-     `kunman93/ai-template-repository`. Then run the `onboard-repository` skill in Copilot CLI. It copies only the
-     template files your repository does not have, asks whether to keep yours, take the template's or merge both for every file that differs, commits
-     on `chore/adopt-template` and then runs `setup-repository` (item 2) on the same branch, so both end in one PR.
-     Your default branch keeps its name and is never changed.
-
-     To pull later template changes, run `gh skill update onboard-repository --dir .agents/skills` and then the skill
-     again. It offers only the files the template changed since your last run.
-
-     <details>
-     <summary>Manual onboarding, without the skill</summary>
-
-     Follow the steps below once, in your repository, with no uncommitted work. `<default-branch>` is your default
-     branch, for example `master`.
-
-     1. Add the template as a remote, fetch it and start a branch from your up-to-date default branch.
-
-        ```sh
-        git remote add template https://github.com/kunman93/ai-template-repository.git
-        git fetch template
-        git fetch origin
-        git switch -c chore/adopt-template origin/<default-branch>
-        ```
-
-     2. List the template files your repository already has. Nothing is copied yet.
-
-        ```sh
-        git ls-tree -r --name-only template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig | while read -r f; do if [ -e "$f" ]; then echo "$f"; fi; done
-        ```
-
-     3. Copy only the files that do not exist yet. Files from the previous step stay untouched. The template's
-        `README.md`, `openspec/specs/`, `openspec/changes/` and its other decision records describe the template
-        itself and are never copied.
-
-        ```sh
-        git ls-tree -r --name-only template/main -- AGENTS.md .agents .github docs/decisions/adr-template.md docs/decisions/README.md docs/decisions/0000-use-markdown-architectural-decision-records.md openspec/config.yaml .gitignore .editorconfig | while read -r f; do [ -e "$f" ] || git checkout template/main -- "$f"; done
-        ```
-
-        Copy the vendored skills (`.agents/skills/git-commit`) and the OpenSpec skills this way instead of
-        reinstalling them with `gh skill install` or `openspec init`. The copies match the versions this template
-        tested, and `gh skill update` and `openspec update` still work on them later.
-
-     4. Decide for each file listed in step 2:
-        - **Keep** yours: do nothing.
-        - **Take** the template's: `git checkout template/main -- <file>`.
-        - **Merge by hand**: compare with `git diff template/main -- <file>` (`-` lines are the template's, `+` lines
-          are yours) and edit the file. Do this for `AGENTS.md`, `.github/workflows/ci.yml` and
-          `.github/ISSUE_TEMPLATE/config.yml`, because they mix generic content with your project's.
-
-     5. Stage what you merged or took by hand (`git add`), review what came in with `git diff --staged`, then commit on
-        `chore/adopt-template`. Do not open the PR yet: the next item sets your default branch on this branch, so that
-        `ci` runs on the PR.
-
-     </details>
-
+1. Create your repository from this template.
 2. Run the `setup-repository` skill in Copilot CLI. It sets the default branch, Commands, `ci` steps, security link,
    stack skills and the ruleset (the [manual setup](#manual-setup) below lists the same steps), asks before every
-   change, keeps values that are already set and can be run again. On `chore/adopt-template` it adds its changes to the
-   same PR. The `onboard-repository` skill runs it for you, so on an existing repository you run it yourself only after
-   the manual onboarding.
+   change, keeps values that are already set and can be run again.
 3. Describe your project in this README.
 
 ### Manual setup
 
-The steps `setup-repository` applies, for when you do not use it. On an existing repository, do them on
-`chore/adopt-template` before you open the PR.
+The steps `setup-repository` applies, for when you do not use it.
 
 1. If your default branch is not `main`, set it in the Repository section of `AGENTS.md` and in both `branches` filters
    of `.github/workflows/ci.yml` (marked `TODO`). Skills and agents refer to `<default-branch>`, so those two files
