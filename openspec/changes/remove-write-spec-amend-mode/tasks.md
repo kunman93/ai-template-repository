@@ -2,7 +2,7 @@
 
 ## 1. write-spec
 
-- [ ] 1.1 Remove amend mode from `.agents/skills/write-spec/SKILL.md`: the description, the intro (branch, mode list
+- [x] 1.1 Remove amend mode from `.agents/skills/write-spec/SKILL.md`: the description, the intro (branch, mode list
   and "the Story or the change"), the amend-mode bullets of steps 0, 1, 3, 4 and 6, "or a change" in step 0's "Do not
   pick an issue or a change yourself", the "New spec:" label in step 4, "(or the amendment)" and the "Wrong Story
   (amend mode)" section. Keep everything else, including the PR #59 triage step. Verify that
