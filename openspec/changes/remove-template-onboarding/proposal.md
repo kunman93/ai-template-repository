@@ -100,8 +100,7 @@ None.
 - `AGENTS.md`: the Implementation Workflow.
 - `README.md`: the skill list, "Adopting the template" and "Manual setup".
 - `openspec/specs/template-onboarding/` and `openspec/specs/repository-setup/spec.md`, through this change's deltas.
-  `openspec archive` leaves the template-onboarding spec in place with no requirements, so the archive commit deletes
-  that directory.
+  The change declares `retire_capabilities: true`, so archiving deletes the template-onboarding spec.
 - Unchanged:
   - the other workflow skills, the reviewer, CI and `update-skills.yml`;
   - `openspec/changes/archive/2026-11-04-onboard-existing-repositories/`;

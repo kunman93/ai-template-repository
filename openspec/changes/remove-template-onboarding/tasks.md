@@ -81,7 +81,6 @@
 
 ## Workflow follow-up
 
-- Archive the change after the PR is approved.
-- In the same archive commit, delete `openspec/specs/template-onboarding/`, which archive leaves with no requirements.
-  Then verify that `test ! -e openspec/specs/template-onboarding` succeeds and that
-  `openspec validate --specs --strict` passes.
+- Archive the change after the PR is approved. The `retire_capabilities: true` marker in `.openspec.yaml` makes
+  archive delete `openspec/specs/template-onboarding/`. Then verify that `test ! -e openspec/specs/template-onboarding`
+  succeeds and that `openspec validate --specs --strict` passes.

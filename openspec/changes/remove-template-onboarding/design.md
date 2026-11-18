@@ -96,8 +96,8 @@ The skill reads three places:
 
 ### Spec mechanics
 
-- `template-onboarding`: every requirement is REMOVED. `openspec archive` then leaves `spec.md` with only its title and
-  Purpose, so the archive commit deletes `openspec/specs/template-onboarding/`.
+- `template-onboarding`: every requirement is REMOVED. `.openspec.yaml` declares `retire_capabilities: true`, so
+  archiving deletes `openspec/specs/template-onboarding/` instead of stopping on a spec with no requirements.
 - `repository-setup`: OpenSpec 2.0 rejects a MODIFIED block that drops a scenario. It also rejects REMOVED and ADDED
   under the same name. So the three requirements that lose scenarios are REMOVED and ADDED again under new names.
 
@@ -112,5 +112,5 @@ The skill reads three places:
 - [An existing repository that already onboarded can no longer pull template changes with the skill] → Accepted
   (Story). Its copy of `onboard-repository` keeps working until the maintainer deletes it. `gh skill update` has nothing to
   update it from once the template no longer has the skill.
-- [The empty `template-onboarding` spec could be left behind after archive] → The workflow follow-up in tasks.md names
-  its deletion, and the integration check verifies it.
+- [The empty `template-onboarding` spec could be left behind after archive] → The `retire_capabilities` marker makes
+  archive delete it, and the workflow follow-up in tasks.md verifies that it is gone.
