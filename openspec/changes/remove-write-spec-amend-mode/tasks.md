@@ -11,19 +11,19 @@
 
 ## 2. Reviewer, AGENTS.md and README
 
-- [ ] 2.1 In the Spec review section of `.github/agents/reviewer.agent.md`, drop "(including
+- [x] 2.1 In the Spec review section of `.github/agents/reviewer.agent.md`, drop "(including
   `docs/<change-name>-spec-fix`)" and the "Reported problem" check, and keep the ticked-task check. Verify that
   `grep -n -i -E "spec-fix|spec fix|amended" .github/agents/reviewer.agent.md` prints nothing and that
   `**Ticked tasks.**` is still there.
-- [ ] 2.2 In `AGENTS.md`, drop the `docs/<change-name>-spec-fix` part of the branch-naming rule and the Implementation
+- [x] 2.2 In `AGENTS.md`, drop the `docs/<change-name>-spec-fix` part of the branch-naming rule and the Implementation
   Workflow bullet for amending a merged spec. Verify that `grep -n -i -E "spec-fix|amend or fix|amend mode" AGENTS.md`
   prints nothing.
-- [ ] 2.3 In `README.md`, drop the amend-mode clause of the `write-spec` entry. Verify that
+- [x] 2.3 In `README.md`, drop the amend-mode clause of the `write-spec` entry. Verify that
   `grep -n -i "amend" README.md` prints nothing.
 
 ## 3. Integration check
 
-- [ ] 3.1 Verify that
+- [x] 3.1 Verify that
   `git grep -n -i -E "amend mode|amend or fix|spec-fix|spec fix|amendment|amended" -- . ':!openspec/'` prints
   nothing, that
   `git diff --stat origin/main...HEAD -- openspec/changes/archive/2026-11-15-amend-merged-spec-with-write-spec` is
