@@ -61,7 +61,7 @@
 - [x] 3.2 In the Commit check section of `.agents/skills/finish-work/SKILL.md`, change "(including `setup-repository`
   and `onboard-repository`)" to "(including `setup-repository`)". Verify that
   `grep -n "onboard" .agents/skills/finish-work/SKILL.md` prints nothing.
-- [ ] 3.3 In `README.md`:
+- [x] 3.3 In `README.md`:
   - Remove the `onboard-repository` entry from the skill list.
   - Rewrite "Adopting the template" as: 1. create your repository from this template; 2. run `setup-repository`;
     3. describe your project.
@@ -73,7 +73,7 @@
 
 ## 4. Integration check
 
-- [ ] 4.1 Verify that
+- [x] 4.1 Verify that
   `git grep -n -i -E "onboard-repository|adopt-template|onboarding" -- .agents .github AGENTS.md README.md` prints
   nothing. Verify that
   `git diff --stat origin/main...HEAD -- openspec/changes/archive/2026-11-04-onboard-existing-repositories openspec/changes/archive/2026-11-07-add-onboard-repository-skill`
