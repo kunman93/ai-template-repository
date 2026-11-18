@@ -56,7 +56,7 @@ user's explicit approval.
 
 #### Scenario: User requests changes
 - **WHEN** the user asks for changes to the plan
-- **THEN** the skill revises the change with `openspec-update-change` on Opus 5.5 and asks for approval again
+- **THEN** the skill revises the change with `openspec-update-change` on Opus 5.5, runs the plan review again and asks for approval again
 
 #### Scenario: No code on the branch
 - **WHEN** the docs branch is compared with the default branch
@@ -90,13 +90,16 @@ SHALL NOT run the Commands, and SHALL end with an explicit APPROVE or REQUEST CH
 - **THEN** its spec review mode names no `docs/<change-name>-spec-fix` branch and has no check for a problem a spec
   fix should solve
 
-### Requirement: write-spec reviews the spec before the PR
-Before the PR, `write-spec` SHALL have the `reviewer` subagent review the docs branch in spec review mode, and SHALL
-fix CRITICAL and MAJOR findings and repeat the review until the verdict is APPROVE.
+### Requirement: write-spec reviews the plan before the user approves it
+`write-spec` SHALL have a separate "Review plan" step, on Opus 5.5 between the Plan and Approve plan steps, in which
+the `reviewer` subagent reviews the docs branch in spec review mode. It SHALL fix CRITICAL and MAJOR findings by
+revising the proposal and repeat the review until the verdict is APPROVE, and only then ask the user to approve the
+plan. The Approve plan step SHALL be the user's approval only and run on Sonnet 5.5.
 
 #### Scenario: CRITICAL or MAJOR finding
-- **WHEN** the reviewer reports a CRITICAL or MAJOR finding in the artifacts
-- **THEN** the skill fixes it and runs the review again in spec review mode before going on
+- **WHEN** the reviewer reports a CRITICAL or MAJOR finding in the artifacts in the Review plan step
+- **THEN** the skill returns to the Plan step, fixes it and runs the review again in spec review mode before asking
+  the user for approval
 
 ### Requirement: Fixes that change the plan need approval
 `write-spec` SHALL revise the change on Opus 5.5 and get the user's approval again for any fix of a review, CI or PR
@@ -105,21 +108,22 @@ formatting that does not change meaning SHALL be committed as a plain fixup.
 
 #### Scenario: Contradiction between design and spec
 - **WHEN** a finding reports that a design decision contradicts a requirement
-- **THEN** the skill revises the change with `openspec-update-change` on Opus 5.5 and asks the user for approval before
-  reviewing again
+- **THEN** the skill revises the change with `openspec-update-change` on Opus 5.5, reviews it again and asks the user for
+  approval
 
 #### Scenario: Typo
 - **WHEN** a finding reports a typo in a scenario
-- **THEN** the skill fixes it with a fixup commit without asking for approval again
+- **THEN** the skill fixes it with a fixup commit and runs only the reviewer pass until APPROVE, without asking for approval again
 
-### Requirement: A plan revision after the PR resumes only the review
+### Requirement: A plan revision after the PR resumes at the push
 When the plan is revised after the PR exists, `write-spec` SHALL commit the revision as fixups or new atomic commits,
-get the user's approval, and resume at the review. It SHALL NOT clean up the history again or create a second PR.
+go through the plan review and get the user's approval, and resume at the push. It SHALL NOT clean up the history
+again or create a second PR.
 
 #### Scenario: PR review asks for a plan change
-- **WHEN** a PR finding needs a revision of the plan and the user approves the revised plan
-- **THEN** the skill runs the spec review, pushes normally, updates the existing PR and its description, and opens no
-  new PR
+- **WHEN** a PR finding needs a revision of the plan, the reviewer approves the revised plan in the plan review and the
+  user approves it
+- **THEN** the skill pushes normally, updates the existing PR and its description, and opens no new PR
 
 ### Requirement: The spec is merged without archiving
 `write-spec` SHALL create the PR, finalize the history and merge through `finish-work`, finalizing and merging only
