@@ -84,7 +84,7 @@ back the verdict, the ref compared against, the findings ordered by severity, an
 ## Spec review
 
 The caller asks for this mode on a branch that holds only an OpenSpec change: the `docs/` branch of `write-spec`
-or the `feature/` branch of `implement-story` before the plan is approved.
+or the `feature/` branch of `implement-story`, in both cases in the Review plan step before the user approves the plan, and in `write-spec` again on later passes once its PR exists.
 It reviews the OpenSpec change against its Story, not code, so skip checks 1 to 10, do
 not run the Commands, and do not report missing implementation or tests: they are pending until the spec is
 implemented.
