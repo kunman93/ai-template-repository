@@ -24,14 +24,16 @@ Runs on Sonnet 5.5. Read only; change nothing. If `git status` shows uncommitted
 stash them and stop.
 
 1. `gh repo view --json nameWithOwner,defaultBranchRef,viewerPermission`: the default branch (called `<gh-default>`
-   here), the repository and the user's permission. Then `git fetch origin <gh-default>`. When the fetch fails, report
-   the fetch error, change nothing and stop.
+   here), the repository and the user's permission. Then `git fetch origin +refs/heads/<gh-default>:refs/remotes/origin/<gh-default>` (the
+   explicit destination keeps `origin/<gh-default>` current even in a single-branch clone). When the fetch fails,
+   report the fetch error, change nothing and stop.
 2. Check the branch, so the working tree is the tree the skill commits from:
    - On `chore/setup-repository`: continue.
    - On `<gh-default>` with `HEAD` equal to `origin/<gh-default>`: continue, unless `chore/setup-repository` exists
      locally or on `origin` (`git ls-remote --heads origin chore/setup-repository`). Then stop and tell the user to
-     switch to it (fetching it first with `git fetch origin chore/setup-repository` when it exists only on `origin`)
-     or delete it.
+     switch to it (fetching it first with
+     `git fetch origin +refs/heads/chore/setup-repository:refs/remotes/origin/chore/setup-repository` when it exists only
+     on `origin`) or delete it.
    - On `<gh-default>` behind `origin`: stop and tell the user to fast-forward it from `origin`.
    - On `<gh-default>` ahead of or diverged from `origin`: stop and tell the user to move the local commits to another
      branch and reset `<gh-default>` to `origin/<gh-default>`. Never suggest pushing to the default branch.
