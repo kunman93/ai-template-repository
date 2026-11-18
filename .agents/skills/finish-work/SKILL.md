@@ -158,7 +158,7 @@ Verifies the commits mechanically, without a model, before a rewritten history i
 ```
 
 Pass the issue number of the Story or bug report on a `docs/`, `feature/` or `fix/` branch, so that every commit needs the
-trailer `Refs: #<issue>`. Pass none on a `chore/` branch (including `setup-repository` and `onboard-repository`),
+trailer `Refs: #<issue>`. Pass none on a `chore/` branch (including `setup-repository`),
 which has no issue. It exits non-zero and names each offending commit by short SHA and subject when a commit is a
 leftover `fixup!`, `squash!` or `amend!` commit, has a subject that is not a Conventional Commits subject or is longer
 than 72 characters, or lacks the trailer. It exits `2` on a usage error, which is not a clean history. After changing

@@ -126,12 +126,10 @@ Load the matching skill before starting any work, and follow it:
 - A merged spec the user names to implement (an OpenSpec change that `write-spec` merged into the default branch): `implement-spec` (`feature/` branch).
 - A bug report: `fix-bug` (`fix/` branch).
 - Maintenance the user explicitly asked for: `do-chore` (`chore/` branch).
-- Onboarding an existing repository to the template, or pulling later template changes into it: `onboard-repository` (`chore/adopt-template` branch; it hands over to `setup-repository`).
-- Applying the project-specific Setup of a repository that adopted the template (default branch, Commands, `ci` steps, security link, stack skills, `ci` ruleset): `setup-repository` (`chore/` branch).
+- Applying the project-specific Setup of a repository created from the template (default branch, Commands, `ci` steps, security link, stack skills, `ci` ruleset): `setup-repository` (`chore/setup-repository` branch).
 
 Before starting any of these workflows, sync the local OpenSpec CLI with the version stamped in the generated files
-(in the template repository, CI regenerates them with the latest CLI). Do not do this for `onboard-repository`
-(including the `setup-repository` it hands over to) or a chore that updates OpenSpec.
+(in the template repository, CI regenerates them with the latest CLI). Do not do this for a chore that updates OpenSpec.
 
 1. Run `git fetch origin <default-branch>`.
 2. Read the stamps from `origin/<default-branch>`, not from the working tree, which can be out of date:

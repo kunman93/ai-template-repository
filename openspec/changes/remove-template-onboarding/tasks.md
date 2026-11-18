@@ -55,10 +55,10 @@
 
 ## 3. AGENTS.md, finish-work and README
 
-- [ ] 3.1 In `AGENTS.md`, remove the `onboard-repository` routing bullet, and make the `setup-repository` bullet name
+- [x] 3.1 In `AGENTS.md`, remove the `onboard-repository` routing bullet, and make the `setup-repository` bullet name
   `chore/setup-repository` instead of "`chore/` branch". In the OpenSpec CLI sync, change the exception to "Do not do this for a chore that updates OpenSpec." Verify that
   `grep -n -i "onboard" AGENTS.md` prints nothing.
-- [ ] 3.2 In the Commit check section of `.agents/skills/finish-work/SKILL.md`, change "(including `setup-repository`
+- [x] 3.2 In the Commit check section of `.agents/skills/finish-work/SKILL.md`, change "(including `setup-repository`
   and `onboard-repository`)" to "(including `setup-repository`)". Verify that
   `grep -n "onboard" .agents/skills/finish-work/SKILL.md` prints nothing.
 - [ ] 3.3 In `README.md`:
