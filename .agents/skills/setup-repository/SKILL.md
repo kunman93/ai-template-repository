@@ -30,7 +30,8 @@ stash them and stop.
    - On `chore/setup-repository`: continue.
    - On `<gh-default>` with `HEAD` equal to `origin/<gh-default>`: continue, unless `chore/setup-repository` exists
      locally or on `origin` (`git ls-remote --heads origin chore/setup-repository`). Then stop and tell the user to
-     switch to it or delete it.
+     switch to it (fetching it first with `git fetch origin chore/setup-repository` when it exists only on `origin`)
+     or delete it.
    - On `<gh-default>` behind `origin`: stop and tell the user to fast-forward it from `origin`.
    - On `<gh-default>` ahead of or diverged from `origin`: stop and tell the user to move the local commits to another
      branch and reset `<gh-default>` to `origin/<gh-default>`. Never suggest pushing to the default branch.
@@ -87,9 +88,9 @@ only after the user confirms it. A declined change stays unchanged and is report
 - **Stack skills:** ask which stack skills to add; suggest none of your own. Install each named skill with
   `gh skill install <source> --dir .agents/skills` when given a GitHub source, or copy it from a path the user gives,
   and reference it in `AGENTS.md` next to the sentence about stack skills in Engineering Principles, or at the end of
-  the file's list of skills or instructions when it has no such sentence. Never change a skill that is already under
-  `.agents/skills/`: report a named skill whose directory already exists as already set and do not reinstall it. When
-  the user names none, report the step as not done.
+  the file's list of skills or instructions when it has no such sentence. Never change or reference a skill that is
+  already under `.agents/skills/`: report a named skill whose directory already exists as already set, and neither
+  reinstall nor reference it. When the user names none, report the step as not done.
 - **Ruleset:** decided here, created in step 7. Offer it only when all of these hold; otherwise report it as not done
   with the reason:
   - `viewerPermission` is `ADMIN`.
