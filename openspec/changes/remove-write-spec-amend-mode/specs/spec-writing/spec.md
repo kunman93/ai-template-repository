@@ -40,8 +40,9 @@ change or branch already exists. It SHALL then verify the clean state with the C
 
 ### Requirement: Research, plan and approval match implement-story
 `write-spec` SHALL research with `openspec-explore` and plan with `openspec-propose` on Opus 5.5, and get the plan
-approved on Sonnet 5.5, as steps 3–5 of `implement-story` do. It SHALL write `Story: #<n>` under the proposal's title,
-change only the files of the OpenSpec change and continue only after the user's explicit approval.
+approved on Sonnet 5.5, as the Research, Plan and Approve plan steps of `implement-story` do. It SHALL write
+`Story: #<n>` under the proposal's title, change only the files of the OpenSpec change and continue only after the
+user's explicit approval.
 
 #### Scenario: Proposal records the Story
 - **WHEN** `write-spec` creates the change for Story #47
@@ -90,7 +91,8 @@ explicit request for `implement-story`, for the spec and code in one PR, for the
 SHALL be routed as asked, without the lookup below. For any other Story request, `AGENTS.md` SHALL first look for an
 unarchived change on `origin/<default-branch>` whose `proposal.md` names the Story.
 `AGENTS.md`, `README.md`, `finish-work` and `setup-repository` SHALL name `implement-spec`. The skill descriptions of
-`write-spec` and `implement-story` SHALL match this routing.
+`write-spec` and `implement-story` SHALL match this routing. `README.md` SHALL describe `write-spec` without an amend
+mode.
 
 #### Scenario: User asks to implement a Story
 - **WHEN** the user asks to work on or implement a Story without asking for `implement-story` or for spec and code in
@@ -124,6 +126,21 @@ unarchived change on `origin/<default-branch>` whose `proposal.md` names the Sto
 - **WHEN** the user names a change that `write-spec` merged and asks to amend or fix it outside `implement-spec`
 - **THEN** `AGENTS.md` routes it nowhere and names no `docs/<change-name>-spec-fix` branch, so the agent asks the user
   which workflow to use instead of using `write-spec` in an amend mode
+
+#### Scenario: README names no amend mode
+- **WHEN** the `write-spec` entry of `README.md` is read
+- **THEN** it names no amend mode and no request to amend a merged spec
+
+## ADDED Requirements
+
+### Requirement: The amend-mode history stays archived
+The archived change `openspec/changes/archive/2026-11-15-amend-merged-spec-with-write-spec/` SHALL stay unchanged as
+the history of the removed amend mode.
+
+#### Scenario: Archive untouched
+- **WHEN** amend mode is removed from `write-spec`
+- **THEN** every file in `openspec/changes/archive/2026-11-15-amend-merged-spec-with-write-spec/` is unchanged against
+  `origin/<default-branch>`
 
 ## REMOVED Requirements
 

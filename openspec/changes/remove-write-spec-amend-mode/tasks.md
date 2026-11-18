@@ -2,11 +2,12 @@
 
 ## 1. write-spec
 
-- [ ] 1.1 Remove amend mode from `.agents/skills/write-spec/SKILL.md`: the description, the intro (branch and mode
-  list), the amend-mode bullets of steps 0, 1, 3, 4 and 6, "(or the amendment)" and the "Wrong Story (amend mode)"
-  section. Keep everything else, including the PR #59 triage step. Verify that
-  `grep -n -i -E "amend|spec-fix|spec fix" .agents/skills/write-spec/SKILL.md` prints nothing, and that the
-  description and step 0 name only a Story as input.
+- [ ] 1.1 Remove amend mode from `.agents/skills/write-spec/SKILL.md`: the description, the intro (branch, mode list
+  and "the Story or the change"), the amend-mode bullets of steps 0, 1, 3, 4 and 6, "or a change" in step 0's "Do not
+  pick an issue or a change yourself", the "New spec:" label in step 4, "(or the amendment)" and the "Wrong Story
+  (amend mode)" section. Keep everything else, including the PR #59 triage step. Verify that
+  `grep -n -i -E "amend|spec-fix|spec fix|New spec:|or the change|or a change" .agents/skills/write-spec/SKILL.md`
+  prints nothing, and that the description, the intro and step 0 name only a Story as input.
 
 ## 2. Reviewer, AGENTS.md and README
 
@@ -24,10 +25,12 @@
 
 - [ ] 3.1 Verify that
   `git grep -n -i -E "amend mode|amend or fix|spec-fix|spec fix|amendment|amended" -- . ':!openspec/'` prints
-  nothing, that `git diff --stat origin/main -- openspec/changes/archive` is empty, and that
+  nothing, that
+  `git diff --stat origin/main...HEAD -- openspec/changes/archive/2026-11-15-amend-merged-spec-with-write-spec` is
+  empty, and that
   `openspec validate remove-write-spec-amend-mode --strict` passes.
 
 ## Workflow follow-up
 
-- Archive the change after the PR is approved. Then `openspec/specs/spec-writing/spec.md` holds no amend-mode
-  requirement.
+- Archive the change after the PR is approved. Then `openspec/specs/spec-writing/spec.md` holds no requirement that
+  defines amend-mode behavior.

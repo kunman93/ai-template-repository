@@ -18,8 +18,10 @@ mode is an unused path that every reader of `write-spec`, `AGENTS.md` and the re
   - the mention of `docs/<change-name>-spec-fix`;
   - the "Reported problem" check, which only a spec fix triggers.
 - The ticked-task check of the spec review mode stays: it applies to every spec branch.
-- `README.md` no longer mentions amend mode in the `write-spec` entry.
-- The archived change `2026-11-15-amend-merged-spec-with-write-spec` stays as history.
+- `README.md` no longer mentions amend mode in the `write-spec` entry, and the spec requires that.
+- The archived change `2026-11-15-amend-merged-spec-with-write-spec` stays as history, and a new requirement pins it.
+- The `spec-writing` reference to "steps 3–5 of `implement-story`" names the steps instead. PR #63 added a Review plan
+  step to `implement-story`, so the numbers no longer point to Research, Plan and Approve plan.
 - Out of scope: any new wrong-Story handling for a new spec. `write-spec` had none before amend mode.
 
 ## Capabilities
@@ -32,7 +34,9 @@ None.
 
 - `spec-writing`: the four amend-mode requirements are removed. The requirements on the skill's input, the docs
   branch, research and plan, the reviewer's spec review mode and the routing lose their amend-mode text. Their other
-  behavior is unchanged.
+  behavior is unchanged, except that the routing requirement also covers `README.md` and the research-and-plan
+  requirement names the `implement-story` steps instead of numbering them. A new requirement keeps the archived
+  amend-mode change unchanged.
 
 ## Impact
 
