@@ -2,7 +2,7 @@
 
 ## 1. Remove the onboarding skill
 
-- [ ] 1.1 Delete `.agents/skills/onboard-repository/` with `git rm -r`. Verify that
+- [x] 1.1 Delete `.agents/skills/onboard-repository/` with `git rm -r`. Verify that
   `test ! -e .agents/skills/onboard-repository` succeeds.
 
 ## 2. setup-repository
