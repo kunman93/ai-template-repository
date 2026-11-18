@@ -7,10 +7,10 @@
 
 ## 2. setup-repository
 
-- [ ] 2.1 In the front-matter description and the intro of `.agents/skills/setup-repository/SKILL.md`, state that
+- [x] 2.1 In the front-matter description and the intro of `.agents/skills/setup-repository/SKILL.md`, state that
   the skill fills in the placeholders of a repository created from the template. Drop "adopted this template",
   "finish adopting the template" and the `onboard-repository` and manual-onboarding sentence.
-- [ ] 2.2 In step 1 (Gather):
+- [x] 2.2 In step 1 (Gather):
   - Start with `git fetch origin` plus GitHub's default branch, then the branch check of design.md ("Only
     `chore/setup-repository`"). When the fetch fails, change nothing and stop.
   - Use GitHub's default branch from `gh repo view` for every ref in the skill, including the rules API call, the
@@ -27,7 +27,7 @@
   Verify that `grep -n -i -E "template\` remote|kept|counts as unset|other than \`ci.yml\`|mismatch" .agents/skills/setup-repository/SKILL.md`
   prints nothing. Also verify that the overview labels are "to change", "already set", "not done" (which replaces
   "mismatch") and "cannot do" (kept for a ruleset GitHub refuses to read).
-- [ ] 2.3 In step 2 (Decide):
+- [x] 2.3 In step 2 (Decide):
   - Default branch: propose GitHub's branch for all three places as one change, confirmed or declined as a whole.
     When the step ends not done, stop before any other Setup step and give the final report (step 8), with every
     other step not done because the default branch is unsettled. The ruleset precondition checks `ci.yml`
@@ -39,14 +39,14 @@
 
   Verify that `grep -n -i -E "Existing workflows|workflow_call|unreferenced|template's wording" .agents/skills/setup-repository/SKILL.md`
   prints nothing.
-- [ ] 2.4 In step 3 (Branch and commit), keep only this branch rule: on `chore/setup-repository`, commit there;
+- [x] 2.4 In step 3 (Branch and commit), keep only this branch rule: on `chore/setup-repository`, commit there;
   on the default branch, create `chore/setup-repository` from `origin/` plus GitHub's default branch. Drop the
   template-file check, which now runs in step 1. In step 4 (Check for a PR), check whether `chore/setup-repository`
   has commits that are not on `origin/` plus GitHub's default branch. When it does not exist or has none, skip steps 5
   and 6. Verify that
   `grep -n -E "adopt-template|another \`chore/\`|current branch" .agents/skills/setup-repository/SKILL.md` prints
   nothing.
-- [ ] 2.5 Read the whole skill and check it against every requirement in
+- [x] 2.5 Read the whole skill and check it against every requirement in
   `specs/repository-setup/spec.md` of this change: the default-branch rule, the template-file check, only placeholder
   values changed, stack skills only added, the branch check and committing only on `chore/setup-repository`, step
   4's check of that branch, the stop on a not-done default branch, and the ruleset precondition against GitHub's
