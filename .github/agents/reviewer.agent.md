@@ -84,7 +84,7 @@ back the verdict, the ref compared against, the findings ordered by severity, an
 ## Spec review
 
 The caller asks for this mode on a branch that holds only an OpenSpec change: the `docs/` branch of `write-spec`
-(including `docs/<change-name>-spec-fix`) or the `feature/` branch of `implement-story` before the plan is approved.
+or the `feature/` branch of `implement-story` before the plan is approved.
 It reviews the OpenSpec change against its Story, not code, so skip checks 1 to 10, do
 not run the Commands, and do not report missing implementation or tests: they are pending until the spec is
 implemented.
@@ -105,8 +105,6 @@ the change under `openspec/changes/<change-name>/` and report:
   **MINOR**.
 - **Scope.** A changed file outside `openspec/changes/<change-name>/` is **MAJOR**.
 - **Ticked tasks.** A ticked task (`- [x]`) in the change's `tasks.md` is **MAJOR**: a spec branch ticks no task.
-- **Reported problem.** When the caller names the problem a spec fix should solve, check the amended artifacts against
-  it. A problem the change still contains is **MAJOR**.
 - **Spec quality.** A scenario that no outcome can fail (it states no observable result) or a requirement without a
   scenario is **MAJOR**.
 
