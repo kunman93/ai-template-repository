@@ -47,6 +47,10 @@ added skill from `AGENTS.md`. It SHALL NOT change or reference skills that are a
 - **WHEN** the maintainer names no stack skill
 - **THEN** no file under `.agents/skills/` is added and the final report lists stack skills as not done
 
+#### Scenario: Maintainer names a skill that is already installed
+- **WHEN** the maintainer names a stack skill whose directory already exists under `.agents/skills/`
+- **THEN** the skill reports it as already set and changes neither `.agents/skills/` nor `AGENTS.md`
+
 ### Requirement: The skill runs only on the default branch or chore/setup-repository
 The skill SHALL fetch GitHub's default branch and run only on `chore/setup-repository` or on GitHub's default branch
 at the tip of its `origin` counterpart. Otherwise it SHALL change nothing, stop and say how to get there. When the

@@ -67,7 +67,7 @@ The skill reads three places:
   - On `chore/setup-repository`: continue. Running the skill there means reusing the branch.
   - On `<gh-default>`, with `HEAD` equal to `origin/<gh-default>`: continue, unless `chore/setup-repository` exists
     locally or on `origin` (`git ls-remote --heads origin chore/setup-repository`). Then stop and tell the maintainer
-    to switch to it or delete it.
+    to switch to it (fetching it first when it exists only on `origin`) or delete it.
   - On `<gh-default>` behind `origin`: stop and tell the maintainer to fast-forward it from `origin`.
   - On `<gh-default>` ahead of or diverged from `origin`: stop and tell the maintainer to move the local commits to
     another branch and reset the default branch to `origin/<gh-default>`. Never suggest pushing to the default

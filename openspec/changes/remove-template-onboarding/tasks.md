@@ -83,4 +83,5 @@
 
 - Archive the change after the PR is approved. The `retire_capabilities: true` marker in `.openspec.yaml` makes
   archive delete `openspec/specs/template-onboarding/`. Then verify that `test ! -e openspec/specs/template-onboarding`
-  succeeds and that `openspec validate --specs --strict` passes.
+  succeeds and that `openspec validate repository-setup --type spec --strict` passes. Only the specs this change
+  touches are checked: `openspec validate --specs --strict` also fails on `spec-writing`, which #67 fixes.
